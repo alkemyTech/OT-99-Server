@@ -40,29 +40,5 @@ public class Member {
     private boolean deleted = Boolean.FALSE;
 
 
-
-    //--->Soft Delete en MySQL: deleted  bid(1)
-
-    //---> Para implementar Soft delete en MemberController
-
-    //***Se obtienen la lista de miembros que no han sido eliminados.
-    /*@GetMapping("/members")
-    public Iterable<Member> findAll(@RequestParam(value = "isDeleted", required = false, defaultValue = "false") boolean isDeleted) {
-        return service.findAll(isDeleted);
-    }*/
-
-
-    //---> Para implementar Soft delete en MemberService
-
-   /* public Iterable<Member> findAll(boolean isDeleted){
-        Session session = entityManager.unwrap(Session.class);
-        Filter filter = session.enableFilter("deletedMemberFilter");
-        filter.setParameter("isDeleted", isDeleted);
-        Iterable<Member> members =  repo.findAll();
-        session.disableFilter("deletedMemberstFilter");
-        return members;
-    }*/
-
-
     
 }
