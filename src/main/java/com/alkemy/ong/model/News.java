@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,43 +21,44 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name="news")
-@SQLDelete(sql="UPDATE news SET news_deleted=true WHERE news_id=?")
-@Where(clause="news_deleted=false")
+@Table(name = "news")
+@SQLDelete(sql = "UPDATE news SET news_deleted=true WHERE news_id=?")
+@Where(clause = "news_deleted=false")
 
 public class News {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="news_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "news_id")
 	private Long id;
-	
-	@Column(name="news_name",nullable=false)
+
+	@Column(name = "news_name", nullable = false)
 	private String name;
-	
-	@Column(name="news_content",nullable=false)
+
+	@Column(name = "news_content", nullable = false)
 	private String content;
-	
-	@Column(name="news_image",nullable=false)
+
+	@Column(name = "news_image", nullable = false)
 	private String image;
-	
-	@Column(name="news_category_id",nullable=false)
+
+	@Column(name = "news_category_id", nullable = false)
 	private Long categoryId;
-	
-	@Column(name="news_creation_date",nullable=false)
+
+	@Column(name = "news_creation_date", nullable = false)
 	private LocalDate creationDate;
-	
-	@Column(name="news_updated_date")
+
+	@Column(name = "news_updated_date")
 	private LocalDate updatedDate;
-	
-	@Column(name="news_deleted_date")
+
+	@Column(name = "news_deleted_date")
 	private LocalDate deletedDate;
-	
-	@Column(name="news_deleted",nullable=false)
-	private boolean deleted=Boolean.FALSE;
-	
-	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@JoinColumn(name="news_category_id", insertable=false,updatable=false)
+
+	@Column(name = "news_deleted", nullable = false)
+	private boolean deleted = Boolean.FALSE;
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH })
+	@JoinColumn(name = "news_category_id", insertable = false, updatable = false)
 	private Category category;
-	
+
 }
