@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author delam
  */
-public class CategoryRepository implements JpaRepository<Category , Long> {
+public interface CategoryRepository extends JpaRepository<Category , Long> {
 
 }
