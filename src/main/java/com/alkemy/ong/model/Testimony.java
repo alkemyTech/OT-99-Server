@@ -22,20 +22,18 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "testimonials")
-public class Testimonials {
+public class Testimony {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "testimonials_id")
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
 
-    @Column
     private String image;
 
-    @Column
     private String content;
 
     @Column(name = "creation_date")
@@ -46,7 +44,6 @@ public class Testimonials {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdated;
     
-    @Column
     private boolean deleted = Boolean.FALSE;
 
     @Column(name = "delete_date")
