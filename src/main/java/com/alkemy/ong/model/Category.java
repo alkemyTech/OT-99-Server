@@ -18,13 +18,16 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
 
-@SQLDelete(sql = "UPDATE categories SET DELETED = TRUE where id=?")
+@SQLDelete(sql = "UPDATE category SET DELETED = TRUE where id=?")
 @Where(clause = "deleted=false")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Category extends AbstractPersistable<Long> {
-
+public class Category  {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    private Long id;
     @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "description", nullable = true)
