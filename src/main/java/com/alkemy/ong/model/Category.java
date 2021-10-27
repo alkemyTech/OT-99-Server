@@ -17,7 +17,7 @@ import org.springframework.boot.context.properties.bind.Name;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
-@Table(name = "categories")
+
 @SQLDelete(sql = "UPDATE categories SET DELETED = TRUE where id=?")
 @Where(clause = "deleted=false")
 @Data
@@ -25,10 +25,6 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @NoArgsConstructor
 public class Category extends AbstractPersistable<Long> {
 
-    @Column(name = "id", nullable = false)
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
     @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "description", nullable = true)
@@ -36,14 +32,10 @@ public class Category extends AbstractPersistable<Long> {
     @Column(name = "image", nullable = true)
     private String image;
     @Column(name = "deleted")
-    private Boolean deleted;
+    private Boolean deleted = false;
     @Column(name = "creation_date")
     private Timestamp creationDate;
     @Column(name = "updated_at")
     private Timestamp updatedAt;
-
-    public Category(Boolean isDeleted) {
-        this.deleted = false;
-    }
 
 }
