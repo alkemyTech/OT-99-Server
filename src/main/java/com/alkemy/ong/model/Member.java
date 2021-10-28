@@ -19,7 +19,6 @@ import lombok.*;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "member")
 @SQLDelete(sql = "UPDATE member SET member_deleted = true WHERE member_id=?")
 @Where(clause = "member_deleted = false")
 
