@@ -1,12 +1,17 @@
 package com.alkemy.ong.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.alkemy.ong.model.User;
-import com.alkemy.ong.model.request.UserRequest;
+import com.alkemy.ong.controller.request.UserRequest;
 import com.alkemy.ong.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,19 +25,20 @@ public class AuthenticationController {
     UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody UserRequest userReq) {
+    public ResponseEntity<?> registerUser(@Validated @RequestBody UserRequest userReq, BindingResult results) {
 
-        if (userReq.getFirstName() == null || userReq.getLastName() == null || userReq.getEmail() == null
-                || userReq.getPassword() == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("firstname, lastname, password and email are required.");
+        if (results.hasErrors()) {                                      
+            List<String> errors = new ArrayList<>();                            // Si hay errores en la validacion,
+            results.getFieldErrors().stream().forEach(e -> {                    // se va a recorrer cada uno y se va agregar
+                errors.add(e.getDefaultMessage());                              // el mensaje del error a una lista
+            });
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);  // se devuelve esa lista de errores
         } else if (userService.findByEmail(userReq.getEmail()) != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("There is an account with that email adress:" + userReq.getEmail());
+                    .body("There is already an account with the email adress: " + userReq.getEmail());
         } else {
             User u = userService.register(UserRequest.mapToEntity(userReq));
             return ResponseEntity.status(HttpStatus.OK).body("User " + u.getEmail() + " generated with succes.");
-
         }
     }
 
