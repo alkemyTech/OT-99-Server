@@ -26,7 +26,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	private UserService userService;
 
 	@Autowired
-	private JwtTokenUtil jwtTokeUtil;
+	private JwtTokenUtil jwtTokenUtil;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -36,23 +36,20 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
 		String email = null;
 		String jwt = null;
-		Long id = null;
 
 		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 
 			jwt = authorizationHeader.substring(7);
 
-			email = jwtTokeUtil.extractUsername(jwt); 
+			email = jwtTokenUtil.extractUsername(jwt); 
 			
-			id = Long.valueOf(jwtTokeUtil.extractId(jwt));	
-
 		}
 
 		if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
 			Users user = userService.findByEmail(email);
-
-			if (id==user.getId() || user.getRol().getName().equalsIgnoreCase("ADMIN")) {
+			//coordinado con Santiago
+			if (jwtTokenUtil.validateToken(jwt,user)) {
 			
 				Collection<GrantedAuthority> roles=new ArrayList<>();
 				roles.add(new SimpleGrantedAuthority(user.getRol().getName()));
