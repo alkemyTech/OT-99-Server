@@ -1,8 +1,5 @@
 package com.alkemy.ong.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alkemy.ong.model.User;
 import com.alkemy.ong.controller.request.UserRequest;
 import com.alkemy.ong.service.UserService;
@@ -28,17 +25,13 @@ public class AuthenticationController {
     public ResponseEntity<?> registerUser(@Validated @RequestBody UserRequest userReq, BindingResult results) {
 
         if (results.hasErrors()) {
-            List<String> errors = new ArrayList<>();
-            results.getFieldErrors().stream().forEach(e -> {
-                errors.add(e.getDefaultMessage());
-            });
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(userService.showRegisterErrors(results));
         } else if (userService.findByEmail(userReq.getEmail()) != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("There is already an account with the email adress: " + userReq.getEmail());
         } else {
             User u = userService.register(UserRequest.mapToEntity(userReq));
-            return ResponseEntity.status(HttpStatus.OK).body("User " + u.getEmail() + " generated with succes.");
+            return ResponseEntity.status(HttpStatus.CREATED).body("User " + u.getEmail() + " generated with succes.");
         }
     }
 }
