@@ -17,8 +17,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@SQLDelete(sql = "UPDATE activity SET deleted = true WHERE id=?")
-@Where(clause = "deleted=false")
+@SQLDelete(sql = "UPDATE activity SET is_deleted = true WHERE id=?")
+@Where(clause = "is_deleted=false")
 @Getter
 @Setter
 public class Activity {
