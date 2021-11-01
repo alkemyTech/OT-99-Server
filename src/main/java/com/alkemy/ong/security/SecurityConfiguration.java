@@ -19,14 +19,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    String[] authorizedEndpoints = {"/auth/register", "/auth/log_in"};
-    String endpoint = String.join(", ", authorizedEndpoints);
+    String[] authorizedEndpoint = {"/auth/register",
+        "/auth/log_in"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers(endpoint).permitAll()
+                .antMatchers(authorizedEndpoint).permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
