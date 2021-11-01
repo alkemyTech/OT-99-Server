@@ -1,6 +1,5 @@
 package com.alkemy.ong.filter;
 
-import com.alkemy.ong.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -15,18 +14,17 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-/**
- *
- * @author delam
- */
 @Component
 public class JwtTokenUtil implements Serializable {
 
     @Autowired
     UserRepository userRepository;
 
-    @Value("secretpassword")
-    private String secret;
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+
+    @Value("${jwt.expiration}")
+    private Integer jwtExpiration;
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -42,7 +40,12 @@ public class JwtTokenUtil implements Serializable {
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+    }
+
+    public Long extractId(String token) {
+
+        return Long.valueOf(getClaimFromToken(token, Claims::getId));
     }
 
     private Boolean isTokenExpired(String token) {
@@ -63,13 +66,15 @@ public class JwtTokenUtil implements Serializable {
                 .setClaims(claims).setSubject(subject)
                 .setId(userRepository.findByEmail(subject).getId().toString())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-                .signWith(SignatureAlgorithm.HS256, secret).compact();
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
+                .signWith(SignatureAlgorithm.HS256, jwtSecret).compact();
     }
-///COORDINADO CON PABLO
 
-    public Boolean validateToken(String token, User user) {
-        final String username = getUsernameFromToken(token);
-        return (username.equals(user.getUsername()) && !isTokenExpired(token));
+    public Boolean validateToken(String token, Users user) {
+
+        final Long id = Long.valueOf(extractId(token));
+
+        return ((id == user.getId() && !isTokenExpired(token))
+                || (user.getRol().getName().equalsIgnoreCase("ADMIN") && !isTokenExpired(token)));
     }
 }
