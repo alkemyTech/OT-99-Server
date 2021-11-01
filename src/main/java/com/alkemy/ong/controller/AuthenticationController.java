@@ -1,8 +1,8 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.model.User;
+import com.alkemy.ong.service.impl.UserServiceImpl;
 import com.alkemy.ong.controller.request.UserRequest;
-import com.alkemy.ong.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
 
     @Autowired
-    UserService userService;
+    UserServiceImpl userService;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Validated @RequestBody UserRequest userReq, BindingResult results) {
