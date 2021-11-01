@@ -54,6 +54,7 @@ public class Member {
 
     @Column(name = "member_deleted_date")
     private LocalDate deletedDate;
+<<<<<<< HEAD
 
     @Column(name = "member_deleted", nullable = false)
     private boolean deleted = Boolean.FALSE;
@@ -63,3 +64,10 @@ public class Member {
 =======
 }
 >>>>>>> ff53f36 ( conflicts solved)
+=======
+
+    @Column(name = "member_deleted", nullable = false)
+    private boolean deleted = Boolean.FALSE;
+
+}
+>>>>>>>  conflicts solved
