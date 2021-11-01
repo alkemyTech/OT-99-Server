@@ -1,4 +1,4 @@
-package com.alkemy.ong.controller.request;
+package com.alkemy.ong.model.request;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class UserRequest {
+public class UserRegisterRequest {
 
     @NotBlank(message = "Name is mandatory.")
     private String firstName;
@@ -32,7 +32,7 @@ public class UserRequest {
 
     private String photo;
 
-    public static User mapToEntity(UserRequest req) {
+    public static User mapToEntity(UserRegisterRequest req) {
         User u = new User();
         u.setFirstName(req.firstName);
         u.setLastName(req.lastName);

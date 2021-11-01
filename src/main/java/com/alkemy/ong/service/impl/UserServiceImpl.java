@@ -1,18 +1,18 @@
 package com.alkemy.ong.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
+import com.alkemy.ong.exception.EmailAlreadyExistException;
 import com.alkemy.ong.model.Role;
 import com.alkemy.ong.model.User;
+import com.alkemy.ong.model.request.UserRegisterRequest;
+import com.alkemy.ong.model.response.UserRegisterResponse;
 import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -32,21 +32,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User register(User user) {
+    public UserRegisterResponse register(UserRegisterRequest userReq) throws EmailAlreadyExistException {
+
+        if (this.findByEmail(userReq.getEmail()) != null) {
+            throw new EmailAlreadyExistException();
+        }
+
+        User user = UserRegisterRequest.mapToEntity(userReq);
         Role role = new Role();
-        role = roleService.findByName("user");
+        role = roleService.findByName("USER");
         user.setRole(role);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreationDate(new Date());
-        return userRepo.save(user);
-    }
 
-    public List<String> showRegisterErrors(BindingResult results) {
-        List<String> errors = new ArrayList<>();
-        results.getFieldErrors().stream().forEach(e -> {
-            errors.add(e.getDefaultMessage());
-        });
-        return errors;
+        return UserRegisterResponse.mapToResponse(userRepo.save(user));
     }
 
 }

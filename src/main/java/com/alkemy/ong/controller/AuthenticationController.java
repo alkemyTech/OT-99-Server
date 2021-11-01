@@ -1,14 +1,14 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.model.User;
+import javax.validation.Valid;
+
+import com.alkemy.ong.exception.EmailAlreadyExistException;
+import com.alkemy.ong.model.request.UserRegisterRequest;
 import com.alkemy.ong.service.impl.UserServiceImpl;
-import com.alkemy.ong.controller.request.UserRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,16 +22,7 @@ public class AuthenticationController {
     UserServiceImpl userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Validated @RequestBody UserRequest userReq, BindingResult results) {
-
-        if (results.hasErrors()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(userService.showRegisterErrors(results));
-        } else if (userService.findByEmail(userReq.getEmail()) != null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("There is already an account with the email adress: " + userReq.getEmail());
-        } else {
-            User u = userService.register(UserRequest.mapToEntity(userReq));
-            return ResponseEntity.status(HttpStatus.CREATED).body("User " + u.getEmail() + " generated with succes.");
-        }
+    public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegisterRequest userReq) throws EmailAlreadyExistException {
+        return new ResponseEntity<>(userService.register(userReq), HttpStatus.CREATED);
     }
 }
