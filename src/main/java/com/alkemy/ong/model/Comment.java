@@ -25,7 +25,6 @@ public class Comment {
     @JoinColumn(name = "comment_user_id")
     private Users user;
     @Column(name = "content", nullable = false)
-    @Lob
     private String content;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_news_id")
