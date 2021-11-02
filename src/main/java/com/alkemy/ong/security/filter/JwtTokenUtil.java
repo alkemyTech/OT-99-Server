@@ -1,4 +1,4 @@
-package com.alkemy.ong.filter;
+package com.alkemy.ong.security.filter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
