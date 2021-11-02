@@ -58,4 +58,8 @@ public class Member {
     @Column(name = "member_deleted", nullable = false)
     private boolean deleted = Boolean.FALSE;
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ff53f36 ( conflicts solved)
