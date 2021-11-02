@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
@@ -18,7 +17,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@SQLDelete(sql = "UPDATE organizations SET is_deleted=true WHERE id=?")
+@SQLDelete(sql = "UPDATE organization SET is_deleted=true WHERE id=?")
 @Where(clause = "is_deleted=false")
 @Getter
 @Setter
