@@ -2,9 +2,9 @@ package com.alkemy.ong.controller;
 
 import javax.validation.Valid;
 
+import com.alkemy.ong.dto.UserRegisterRequest;
 import com.alkemy.ong.exception.EmailAlreadyExistException;
-import com.alkemy.ong.model.request.UserRegisterRequest;
-import com.alkemy.ong.service.impl.UserServiceImpl;
+import com.alkemy.ong.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
 
     @Autowired
-    UserServiceImpl userService;
+    UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegisterRequest userReq) throws EmailAlreadyExistException {

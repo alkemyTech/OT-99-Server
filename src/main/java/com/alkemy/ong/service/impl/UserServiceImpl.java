@@ -2,11 +2,11 @@ package com.alkemy.ong.service.impl;
 
 import java.util.Date;
 
+import com.alkemy.ong.dto.UserRegisterRequest;
+import com.alkemy.ong.dto.UserRegisterResponse;
 import com.alkemy.ong.exception.EmailAlreadyExistException;
 import com.alkemy.ong.model.Role;
 import com.alkemy.ong.model.User;
-import com.alkemy.ong.model.request.UserRegisterRequest;
-import com.alkemy.ong.model.response.UserRegisterResponse;
 import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.service.UserService;
 

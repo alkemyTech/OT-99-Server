@@ -1,4 +1,4 @@
-package com.alkemy.ong.model.response;
+package com.alkemy.ong.dto;
 
 import com.alkemy.ong.model.User;
 
