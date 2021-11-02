@@ -1,7 +1,7 @@
-package com.alkemy.ong.service;
+package com.alkemy.ong.service.impl;
 
 import org.springframework.stereotype.Service;
-import com.alkemy.ong.service.impl.CommentService;
+import com.alkemy.ong.service.CommentService;
 
 
 @Service

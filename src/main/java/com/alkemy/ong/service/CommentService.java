@@ -1,4 +1,4 @@
-package com.alkemy.ong.service.impl;
+package com.alkemy.ong.service;
 
 
 public interface CommentService {
