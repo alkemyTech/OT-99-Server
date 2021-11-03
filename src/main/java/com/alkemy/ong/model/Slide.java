@@ -25,14 +25,14 @@ public class Slide {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "image_url", nullable = false)
+    @Column(name = "IMAGE_URL", nullable = false)
     private String imageUrl;
-    @Column(name = "text", columnDefinition = "Text")
+    @Column(name = "TEXT", columnDefinition = "Text")
     private String text;
-    @Column(name = "slide_order", nullable = false)
+    @Column(name = "SLIDE_ORDER", nullable = false)
     private Integer slideOrder;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "slide_organization_id")
+    @JoinColumn(name = "SLIDE_ORGANIZATION_ID")
     private Organization organizationId;
 
 }
