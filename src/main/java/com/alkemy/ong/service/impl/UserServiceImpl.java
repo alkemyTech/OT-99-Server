@@ -8,6 +8,7 @@ import com.alkemy.ong.exception.EmailAlreadyExistException;
 import com.alkemy.ong.model.Role;
 import com.alkemy.ong.model.User;
 import com.alkemy.ong.repository.UserRepository;
+import com.alkemy.ong.service.RoleService;
 import com.alkemy.ong.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepo;
 
     @Autowired
-    RoleServiceImpl roleService;
+    RoleService roleService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
