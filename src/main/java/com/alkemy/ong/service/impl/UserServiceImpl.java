@@ -6,7 +6,7 @@ import com.alkemy.ong.dto.UserRegisterRequest;
 import com.alkemy.ong.dto.UserRegisterResponse;
 import com.alkemy.ong.exception.EmailAlreadyExistException;
 import com.alkemy.ong.model.Role;
-import com.alkemy.ong.model.User;
+import com.alkemy.ong.model.Users;
 import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.service.RoleService;
 import com.alkemy.ong.service.UserService;
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
 
     @Override
-    public User findByEmail(String email) {
+    public Users findByEmail(String email) {
         return userRepo.findByEmail(email);
     }
 
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
             throw new EmailAlreadyExistException();
         }
 
-        User user = UserRegisterRequest.mapToEntity(userReq);
+        Users user = UserRegisterRequest.mapToEntity(userReq);
         Role role = new Role();
         role = roleService.findByName("USER");
         user.setRole(role);
