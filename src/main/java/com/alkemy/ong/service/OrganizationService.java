@@ -1,11 +1,11 @@
 package com.alkemy.ong.service;
 
-import com.alkemy.ong.dto.OrganizationDetailsResponse;
+import java.util.List;
 
-import javax.persistence.EntityNotFoundException;
+import com.alkemy.ong.dto.OrganizationDetailsResponse;
 
 public interface OrganizationService {
 
-    OrganizationDetailsResponse getOrganizationDetails() throws EntityNotFoundException;
+    List<OrganizationDetailsResponse> getOrganizationDetails();
 
 }

@@ -1,7 +1,5 @@
 package com.alkemy.ong.controller;
 
-import javax.persistence.EntityNotFoundException;
-
 import com.alkemy.ong.service.OrganizationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,7 @@ public class OrganizationController {
     OrganizationService organizationService;
 
     @GetMapping("/public")
-    public ResponseEntity<?> getOrganizationDetails() throws EntityNotFoundException {
+    public ResponseEntity<?> getOrganizationDetails() {
         return new ResponseEntity<>(organizationService.getOrganizationDetails(), HttpStatus.OK);
     }
 

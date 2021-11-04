@@ -1,11 +1,9 @@
 package com.alkemy.ong.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityNotFoundException;
-
 import com.alkemy.ong.dto.OrganizationDetailsResponse;
-import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.repository.OrganizationRepository;
 import com.alkemy.ong.service.OrganizationService;
 
@@ -19,14 +17,13 @@ public class OrganizationServiceImp implements OrganizationService {
     OrganizationRepository organizationRepo;
 
     @Override
-    public OrganizationDetailsResponse getOrganizationDetails() throws EntityNotFoundException {
+    public List<OrganizationDetailsResponse> getOrganizationDetails() {
 
-        List<Organization> org = organizationRepo.findAll();
+        List<OrganizationDetailsResponse> organizations = new ArrayList<>();
+        organizationRepo.findAll().stream().forEach(o -> {
+            organizations.add(OrganizationDetailsResponse.mapToResponse(o));
+        });
 
-        if (org.isEmpty()) {
-            throw new EntityNotFoundException("Organization could not be found.");
-        }
-
-        return OrganizationDetailsResponse.mapToResponse(org.get(0));
+        return organizations;
     }
 }
