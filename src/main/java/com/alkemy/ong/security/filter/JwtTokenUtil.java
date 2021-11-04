@@ -1,5 +1,7 @@
 package com.alkemy.ong.security.filter;
 
+import com.alkemy.ong.model.Users;
+import com.alkemy.ong.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -74,6 +76,6 @@ public class JwtTokenUtil implements Serializable {
         final Long id = Long.valueOf(extractId(token));
 
         return ((id == user.getId() && !isTokenExpired(token))
-                || (user.getRol().getName().equalsIgnoreCase("ADMIN") && !isTokenExpired(token)));
+                || (user.getRole().getName().equalsIgnoreCase("ADMIN") && !isTokenExpired(token)));
     }
 }

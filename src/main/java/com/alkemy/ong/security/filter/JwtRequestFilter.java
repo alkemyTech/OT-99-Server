@@ -7,6 +7,8 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.alkemy.ong.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -51,7 +53,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             if (jwtTokenUtil.validateToken(jwt, user)) {
 
                 Collection<GrantedAuthority> roles = new ArrayList<>();
-                roles.add(new SimpleGrantedAuthority(user.getRol().getName()));
+                roles.add(new SimpleGrantedAuthority(user.getRole().getName()));
 
                 UsernamePasswordAuthenticationToken usernamePasswordAuthToken
                         = new UsernamePasswordAuthenticationToken(user, null, roles);

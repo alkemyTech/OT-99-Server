@@ -1,7 +1,6 @@
 package com.alkemy.ong.dto;
 
-import com.alkemy.ong.model.User;
-
+import com.alkemy.ong.model.Users;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +16,7 @@ public class UserRegisterResponse {
     private String lastName;
     private String email;
 
-    public static UserRegisterResponse mapToResponse(User user) {
+    public static UserRegisterResponse mapToResponse(Users user) {
         UserRegisterResponse userRegisterResponse = new UserRegisterResponse();
         userRegisterResponse.setId(user.getId());
         userRegisterResponse.setFirstName(user.getFirstName());
