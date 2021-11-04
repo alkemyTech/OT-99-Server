@@ -1,4 +1,3 @@
-
 package com.alkemy.ong.dto;
 
 import com.alkemy.ong.model.Role;
@@ -11,11 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsersDto {
-public String firstName;
-public String lastName;
-public String email;
-public String photo;
-public Long roleId;
+
+    public String firstName;
+    public String lastName;
+    public String email;
+    public String photo;
+    public Long roleId;
+    public Date creationDate;
 //public Role role; 
 //public Date creationDate;
 //public Date lastUpdate;
