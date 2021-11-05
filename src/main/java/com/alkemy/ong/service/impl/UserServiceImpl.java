@@ -7,8 +7,7 @@ import com.alkemy.ong.dto.UserLoginRequest;
 import com.alkemy.ong.dto.UserRegisterRequest;
 import com.alkemy.ong.dto.UserRegisterResponse;
 import com.alkemy.ong.exception.EmailAlreadyExistException;
-import com.alkemy.ong.exception.InvalidCredentialsException;
-import com.alkemy.ong.exception.NonExistingUser;
+import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.model.Role;
 import com.alkemy.ong.model.Users;
 import com.alkemy.ong.repository.UserRepository;
@@ -65,14 +64,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public JwtTokenDto authenticate(UserLoginRequest userReq) throws InvalidCredentialsException, NonExistingUser {
+    public JwtTokenDto authenticate(UserLoginRequest userReq) throws NotFoundException {
         Users user = findByEmail(userReq.getEmail());
         UserDetails userDetails;
         if(user == null){
-            throw new NonExistingUser();
+            throw new NotFoundException("The user is not registered.");
         }
         else if(!passwordEncoder.matches(userReq.getPassword(),user.getPassword())){
-            throw new InvalidCredentialsException();
+            throw new NotFoundException("The data entered are invalid.");
         }
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getEmail(),userReq.getPassword())
