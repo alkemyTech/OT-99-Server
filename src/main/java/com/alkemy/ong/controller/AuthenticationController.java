@@ -2,8 +2,11 @@ package com.alkemy.ong.controller;
 
 import javax.validation.Valid;
 
+import com.alkemy.ong.dto.UserLoginRequest;
 import com.alkemy.ong.dto.UserRegisterRequest;
 import com.alkemy.ong.exception.EmailAlreadyExistException;
+import com.alkemy.ong.exception.InvalidCredentialsException;
+import com.alkemy.ong.exception.NonExistingUser;
 import com.alkemy.ong.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +27,10 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegisterRequest userReq) throws EmailAlreadyExistException {
         return new ResponseEntity<>(userService.register(userReq), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> userAuthentication(@Valid @RequestBody UserLoginRequest userReq) throws InvalidCredentialsException, NonExistingUser {
+        return new ResponseEntity<>(userService.authenticate(userReq), HttpStatus.ACCEPTED);
     }
 }
