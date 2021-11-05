@@ -27,13 +27,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     String[] authorizedEndpoint = {"/auth/register",
         "/auth/log_in"};
-    String[] adminAuthorizedEndpoint = {};
+    String[] adminAuthorizedEndpoint = {"a/users"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers(adminAuthorizedEndpoint).hasAuthority("ROLE_ADMIN")
+                .antMatchers(adminAuthorizedEndpoint).hasRole("ADMIN")
                 .antMatchers(authorizedEndpoint).permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
