@@ -1,5 +1,8 @@
 package com.alkemy.ong.controller;
 
+import java.util.List;
+
+import com.alkemy.ong.dto.OrganizationDetailsResponse;
 import com.alkemy.ong.service.OrganizationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +20,7 @@ public class OrganizationController {
     OrganizationService organizationService;
 
     @GetMapping("/public")
-    public ResponseEntity<?> getOrganizationDetails() {
+    public ResponseEntity<List<OrganizationDetailsResponse>> getOrganizationDetails() {
         return new ResponseEntity<>(organizationService.getOrganizationDetails(), HttpStatus.OK);
     }
 

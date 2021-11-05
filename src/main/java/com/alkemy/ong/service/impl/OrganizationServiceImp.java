@@ -1,7 +1,7 @@
 package com.alkemy.ong.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.alkemy.ong.dto.OrganizationDetailsResponse;
 import com.alkemy.ong.repository.OrganizationRepository;
@@ -19,11 +19,8 @@ public class OrganizationServiceImp implements OrganizationService {
     @Override
     public List<OrganizationDetailsResponse> getOrganizationDetails() {
 
-        List<OrganizationDetailsResponse> organizations = new ArrayList<>();
-        organizationRepo.findAll().stream().forEach(o -> {
-            organizations.add(OrganizationDetailsResponse.mapToResponse(o));
-        });
-
+        List<OrganizationDetailsResponse> organizations = organizationRepo.findAll().stream()
+                .map(OrganizationDetailsResponse::mapToResponse).collect(Collectors.toList());
         return organizations;
     }
 }
