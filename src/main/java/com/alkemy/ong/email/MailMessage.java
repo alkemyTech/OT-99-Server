@@ -1,8 +1,5 @@
 package com.alkemy.ong.email;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public enum MailMessage {
 	
 	REGISTER_TITTLE (" Registro de Cuenta: "),
