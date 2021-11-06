@@ -1,4 +1,5 @@
 <!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
   xmlns:o="urn:schemas-microsoft-com:office:office">
 
@@ -278,10 +279,10 @@
 
                       <div
                         style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:11px;line-height:1.5;text-align:left;color:#000000;">
-                        <p style="text-align: center;"><span
-                            style="font-size: 24px;"><strong>${tittleContent}</strong></span></p>
+                        <p style="text-align: center;">
+                        <span style="font-size: 24px;" th:text="${tittleContent}"><strong></strong></span></p>
                         <p style="text-align: center;">&nbsp;</p>
-                        <p style="text-align: center;"><span style="font-size: 16px;">${textContent}</span></p>
+                        <p style="text-align: center;"><span style="font-size: 16px;" th:text="${textContent}"></span></p>
                       </div>
 
                     </td>
@@ -304,8 +305,8 @@
 
                       <div
                         style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:11px;line-height:1.5;text-align:left;color:#000000;">
-                        <p style="text-align: center;">${mailContact}</p>
-                        <p style="text-align: center;">${cellContact}</p>
+                        <p style="text-align: center;" th:text="${mailContact}"></p>
+                        <p style="text-align: center;" th:text="${cellContact}"></p>
                       </div>
 
                     </td>
