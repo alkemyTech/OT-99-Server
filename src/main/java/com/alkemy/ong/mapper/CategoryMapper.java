@@ -16,15 +16,9 @@ public class CategoryMapper {
 		List<CategoryDtoGetAll> categoriesDto=new ArrayList<>();
 		
 		if(categories!=null) {
+
+			categories.stream().map(Category::getName).toList().forEach(i -> categoriesDto.add(new CategoryDtoGetAll(i)));
 			
-			for(Category categ:categories) {
-				
-				CategoryDtoGetAll categoryDto=new CategoryDtoGetAll();
-				
-				categoryDto.setName(categ.getName());
-				
-				categoriesDto.add(categoryDto);
-			}
 		}
 		
 		return categoriesDto;
