@@ -22,9 +22,7 @@ public class CategoryController {
 	@GetMapping
 	public ResponseEntity<List<CategoryDtoGetAll>> getAllCategories(){
 		
-		List<CategoryDtoGetAll> categories=categoryService.getAllCategories();
-				
-		return ResponseEntity.status(HttpStatus.OK).body(categories);
+		return new ResponseEntity<>( categoryService.getAllCategories() , HttpStatus.OK );
 	}
 
 }
