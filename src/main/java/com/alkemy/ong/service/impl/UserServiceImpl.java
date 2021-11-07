@@ -1,5 +1,6 @@
 package com.alkemy.ong.service.impl;
 
+import java.io.IOException;
 import java.util.Date;
 
 import com.alkemy.ong.dto.UserRegisterRequest;
@@ -8,6 +9,7 @@ import com.alkemy.ong.exception.EmailAlreadyExistException;
 import com.alkemy.ong.model.Role;
 import com.alkemy.ong.model.Users;
 import com.alkemy.ong.repository.UserRepository;
+import com.alkemy.ong.service.EmailService;
 import com.alkemy.ong.service.RoleService;
 import com.alkemy.ong.service.UserService;
 import java.util.List;
@@ -26,6 +28,9 @@ public class UserServiceImpl implements UserService {
     RoleService roleService;
 
     @Autowired
+    EmailService emailService;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Override
@@ -34,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserRegisterResponse register(UserRegisterRequest userReq) throws EmailAlreadyExistException {
+    public UserRegisterResponse register(UserRegisterRequest userReq) throws EmailAlreadyExistException, IOException {
 
         if (this.findByEmail(userReq.getEmail()) != null) {
             throw new EmailAlreadyExistException();
@@ -46,6 +51,8 @@ public class UserServiceImpl implements UserService {
         user.setRole(role);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreationDate(new Date());
+
+        emailService.sendWelcomeEmail(userReq);
 
         return UserRegisterResponse.mapToResponse(userRepo.save(user));
     }
