@@ -1,6 +1,7 @@
 package com.alkemy.ong.security;
 
 import com.alkemy.ong.security.filter.JwtRequestFilter;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +35,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(adminAuthorizedEndpoint).hasAuthority("ROLE_ADMIN")
                 .antMatchers(authorizedEndpoint).permitAll()
-                .anyRequest().authenticated()
+                ///TODO change to .authenticated()
+                .anyRequest().permitAll()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -50,5 +52,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public ModelMapper modelMapper(){
+        return new ModelMapper();
+    }
 
 }
