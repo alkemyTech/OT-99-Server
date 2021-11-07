@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import java.util.Date;
+import java.util.Optional;
 
 import com.alkemy.ong.dto.UserRegisterRequest;
 import com.alkemy.ong.dto.UserRegisterResponse;
@@ -30,6 +31,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public Users findByEmail(String email) {
         return userRepo.findByEmail(email);
+    }
+
+    @Override
+    public void delete(Long id) {
+        Optional<Users> user = userRepo.findById(id);
+        if(user.isPresent()){
+            userRepo.deleteById(id);
+        }else{
+            throw new NotFoundException("The user is not registered.");
+        }
     }
 
     @Override
