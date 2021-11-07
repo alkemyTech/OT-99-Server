@@ -15,7 +15,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import com.alkemy.ong.dto.UserRegisterResponse;
+
+import com.alkemy.ong.dto.UserRegisterRequest;
 import com.alkemy.ong.email.MailMessage;
 
 @Service
@@ -54,7 +55,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
 	@Override
-	public Response sendWelcomeEmail(UserRegisterResponse user) throws IOException {
+	public Response sendWelcomeEmail(UserRegisterRequest user) throws IOException {
 		
 		String mailBody=preparedWelcomeBodyEmail(user);
 		
@@ -66,7 +67,7 @@ public class EmailServiceImpl implements EmailService {
 		
 	}
 	
-	private String preparedWelcomeBodyEmail(UserRegisterResponse user) {
+	private String preparedWelcomeBodyEmail(UserRegisterRequest user) {
 		
 		Context context=new Context();
 		context.setVariable("tittleContent", MailMessage.REGISTER_TITTLE.getValue());
