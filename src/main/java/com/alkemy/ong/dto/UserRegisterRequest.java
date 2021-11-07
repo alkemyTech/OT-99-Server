@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class UserRegisterRequest {
 
     @NotBlank(message = "Name is mandatory.")
