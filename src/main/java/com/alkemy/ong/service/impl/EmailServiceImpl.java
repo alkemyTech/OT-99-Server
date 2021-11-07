@@ -25,7 +25,7 @@ public class EmailServiceImpl implements EmailService {
     private final String endpoint = "mail/send";
     private static final String TEXT_HTML="text/html";
 
-//    @Value("${sendgrid.sender.email}")
+    @Value("${sendgrid.sender.email}")
     private String senderEmail;
 
     @Autowired

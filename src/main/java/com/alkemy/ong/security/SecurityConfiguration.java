@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -28,15 +27,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     String[] authorizedEndpoint = {"/auth/register",
         "/auth/log_in"};
     String[] adminAuthorizedEndpoint = {};
+    String[] adminPostAuthorizedEndpoint = {"/organization/public"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers(adminAuthorizedEndpoint).hasAuthority("ROLE_ADMIN")
+                  .antMatchers(HttpMethod.POST, adminPostAuthorizedEndpoint).hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers(authorizedEndpoint).permitAll()
-                ///TODO change to .authenticated()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 

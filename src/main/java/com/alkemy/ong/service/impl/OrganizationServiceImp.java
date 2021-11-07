@@ -9,6 +9,7 @@ import com.alkemy.ong.mapper.OrganizationMapper;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.repository.OrganizationRepository;
 import com.alkemy.ong.service.OrganizationService;
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class OrganizationServiceImp implements OrganizationService {
     }
 
     @Override
-    public Organization registerOrganization(OrganizationRequest orgRequest) {
+    public Organization registerOrganization(OrganizationRequest orgRequest) throws IOException {
         orgRequest.setUpdateDateTime(LocalDateTime.now());
         orgRequest.setCreationDateTime(LocalDateTime.now());
         Organization organization = organizationMapper.dtoToEntity(orgRequest);

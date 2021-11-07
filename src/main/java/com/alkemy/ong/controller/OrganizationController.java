@@ -6,6 +6,7 @@ import com.alkemy.ong.dto.OrganizationDetailsResponse;
 import com.alkemy.ong.dto.OrganizationRequest;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.service.OrganizationService;
+import java.io.IOException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,10 @@ public class OrganizationController {
     }
 
     @PostMapping("/public")
-    public ResponseEntity<Organization> postOrganization(@Valid @RequestBody OrganizationRequest orgRequest) {
+    public ResponseEntity<Organization> postOrganization(@Valid @RequestBody OrganizationRequest orgRequest) throws IOException {
+        
         Organization organization = organizationService.registerOrganization(orgRequest);
         return new ResponseEntity<>(organization, HttpStatus.CREATED);
+
     }
 }
