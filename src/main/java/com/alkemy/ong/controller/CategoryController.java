@@ -25,11 +25,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class CategoryController {
    
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
+
+    @GetMapping
+	public ResponseEntity<List<CategoryDtoGetAll>> getAllCategories(){
+
+		return new ResponseEntity<>( categoryService.getAllCategories() , HttpStatus.OK );
+	}
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@Valid @RequestBody CategoryDto categoryDto) throws DataAlreadyExistException {
-        categoryService.create(categoryDto);
+        categoryService.save(categoryDto);
         return new ResponseEntity<>(categoryDto, HttpStatus.CREATED);
     }
 
