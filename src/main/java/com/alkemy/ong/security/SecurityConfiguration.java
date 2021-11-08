@@ -29,7 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     UserDetailsService userDetailsService;
 
     String[] authorizedEndpoint = {"/auth/register",
-        "/auth/log_in"};
+        "/auth/login"};
     String[] adminAuthorizedEndpoint = {"/users"};
     String[] adminPostAuthorizedEndpoint = {"/organization/public"};
 
@@ -61,11 +61,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
-    @Bean
-    public ModelMapper modelMapper(){
-        return new ModelMapper();
-    }
-
-
 }
