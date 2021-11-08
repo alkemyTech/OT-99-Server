@@ -27,7 +27,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     String[] authorizedEndpoint = {"/auth/register",
         "/auth/log_in"};
-    String[] adminAuthorizedEndpoint = {"a/users"};
+    String[] adminAuthorizedEndpoint = {"/users"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

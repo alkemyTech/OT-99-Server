@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @RestController
-@RequestMapping("/a/users")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
