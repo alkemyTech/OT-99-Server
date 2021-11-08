@@ -2,6 +2,7 @@ package com.alkemy.ong.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -17,8 +18,7 @@ public class CategoryMapper {
 		
 		if(categories!=null) {
 
-			categories.stream().map(Category::getName).toList().forEach(i -> categoriesDto.add(new CategoryDtoGetAll(i)));
-			
+			categoriesDto = categories.stream().map(category -> { return new CategoryDtoGetAll(category.getName()); }).collect(Collectors.toList());
 		}
 		
 		return categoriesDto;
