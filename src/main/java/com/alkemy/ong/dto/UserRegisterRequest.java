@@ -39,4 +39,12 @@ public class UserRegisterRequest {
         u.setPhoto(req.photo);
         return u;
     }
+    public static Users updateEntity(Users u,UserRegisterRequest req){
+        u.setFirstName(req.firstName);
+        u.setLastName(req.lastName);
+        u.setEmail(req.email);
+        u.setPassword(req.password);
+        u.setPhoto(req.photo);
+        return u;
+    }
 }
