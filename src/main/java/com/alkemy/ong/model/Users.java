@@ -33,7 +33,7 @@ public class Users {
     private String photo;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name="id_role",insertable = false,updatable = false)
+    @JoinColumn(name="id_role")
     private Role role;
 
     @Column(name = "creation_date")
