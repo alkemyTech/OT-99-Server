@@ -1,6 +1,7 @@
 package com.alkemy.ong.security;
 
 import com.alkemy.ong.security.filter.JwtRequestFilter;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,14 +29,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     UserDetailsService userDetailsService;
 
     String[] authorizedEndpoint = {"/auth/register",
-        "/auth/login"};
-    String[] adminAuthorizedEndpoint = {};
+        "/auth/login","/users"};
+    String[] adminAuthorizedEndpoint = {"/users"};
+    String[] adminPostAuthorizedEndpoint = {"/organization/public"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                    .antMatchers(adminAuthorizedEndpoint).hasAuthority("ROLE_ADMIN")
+                .antMatchers(adminAuthorizedEndpoint).hasAuthority("ROLE_ADMIN")
+                  .antMatchers(HttpMethod.POST, adminPostAuthorizedEndpoint).hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers(authorizedEndpoint).permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -58,6 +61,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
 }
