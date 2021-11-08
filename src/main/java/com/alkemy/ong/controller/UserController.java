@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.UserRegisterRequest;
 import com.alkemy.ong.dto.UsersDto;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.UserMapper;
@@ -10,9 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -35,5 +36,10 @@ public class UserController {
         List<UsersDto> usersDto = users.stream().map(userMapper::convertToDto)
                 .collect(Collectors.toList());
         return new ResponseEntity<>(usersDto, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> upgradeUser(@PathVariable Long id,@Valid @RequestBody UserRegisterRequest user) throws NotFoundException {
+        return new ResponseEntity<>(userService.upgradeUser(id,user),HttpStatus.OK);
     }
 }

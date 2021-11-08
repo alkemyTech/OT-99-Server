@@ -2,8 +2,6 @@ package com.alkemy.ong.service.impl;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.Optional;
-
 import com.alkemy.ong.dto.JwtTokenDto;
 import com.alkemy.ong.dto.UserLoginRequest;
 import com.alkemy.ong.dto.UserRegisterRequest;
@@ -102,6 +100,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Users> getAllUsers() {
         return userRepo.findAll();
+    }
+
+    @Override
+    public UserRegisterResponse upgradeUser(Long id, UserRegisterRequest userJpa) throws NotFoundException {
+        Users userBd = userRepo.findById(id).orElseThrow( ()-> new NotFoundException("The user is not registered.") );
+        userBd.setPassword(userJpa.getPassword());
+        userBd.setFirstName(userJpa.getFirstName());
+        userBd.setLastName(userJpa.getLastName());
+        userBd.setPhoto(userJpa.getPhoto());
+        userBd.setEmail(userJpa.getEmail());
+        userBd.setPassword(passwordEncoder.encode(userBd.getPassword()));
+        return UserRegisterResponse.mapToResponse(userRepo.save(userBd));
     }
 
 }

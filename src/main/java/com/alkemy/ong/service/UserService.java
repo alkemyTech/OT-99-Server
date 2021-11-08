@@ -23,4 +23,5 @@ public interface UserService {
 
     List<Users> getAllUsers();
 
+    UserRegisterResponse upgradeUser(Long id, UserRegisterRequest user) throws NotFoundException;
 }
