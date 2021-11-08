@@ -2,6 +2,7 @@ package com.alkemy.ong.service.impl;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Optional;
 
 import com.alkemy.ong.dto.JwtTokenDto;
 import com.alkemy.ong.dto.UserLoginRequest;
@@ -54,8 +55,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserRegisterResponse register(UserRegisterRequest userReq) throws EmailAlreadyExistException, IOException {
+    public void delete(Long id) throws NotFoundException {
+        if(userRepo.existsById(id)){
+            userRepo.deleteById(id);
+        }else{
+            throw new NotFoundException("The user is not registered.");
+        }
+    }
 
+    @Override
+    public UserRegisterResponse register(UserRegisterRequest userReq) throws EmailAlreadyExistException, IOException {
         if (this.findByEmail(userReq.getEmail()) != null) {
             throw new EmailAlreadyExistException();
         }

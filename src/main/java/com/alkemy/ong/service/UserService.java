@@ -18,6 +18,7 @@ public interface UserService {
 
     Users findByEmail(String email);
 
+    void delete(Long id) throws NotFoundException;
     JwtTokenDto authenticate(UserLoginRequest userReq) throws NotFoundException, InvalidCredentialsException;
 
     List<Users> getAllUsers();
