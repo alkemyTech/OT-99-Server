@@ -1,5 +1,6 @@
 package com.alkemy.ong.service.impl;
 
+import java.io.IOException;
 import java.util.Date;
 
 import com.alkemy.ong.dto.JwtTokenDto;
@@ -13,8 +14,10 @@ import com.alkemy.ong.model.Role;
 import com.alkemy.ong.model.Users;
 import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.security.filter.JwtTokenUtil;
+import com.alkemy.ong.service.EmailService;
 import com.alkemy.ong.service.RoleService;
 import com.alkemy.ong.service.UserService;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,6 +37,9 @@ public class UserServiceImpl implements UserService {
     RoleService roleService;
 
     @Autowired
+    EmailService emailService;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -48,7 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserRegisterResponse register(UserRegisterRequest userReq) throws EmailAlreadyExistException {
+    public UserRegisterResponse register(UserRegisterRequest userReq) throws EmailAlreadyExistException, IOException {
 
         if (this.findByEmail(userReq.getEmail()) != null) {
             throw new EmailAlreadyExistException();
@@ -60,6 +66,8 @@ public class UserServiceImpl implements UserService {
         user.setRole(role);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreationDate(new Date());
+
+        emailService.sendWelcomeEmail(userReq);
 
         return UserRegisterResponse.mapToResponse(userRepo.save(user));
     }
@@ -80,6 +88,11 @@ public class UserServiceImpl implements UserService {
         userDetails = (UserDetails) auth.getPrincipal();
         final String jwt = jwtTokenUtil.generateToken(userDetails);
         return new JwtTokenDto(jwt);
+    }
+
+    @Override
+    public List<Users> getAllUsers() {
+        return userRepo.findAll();
     }
 
 }
