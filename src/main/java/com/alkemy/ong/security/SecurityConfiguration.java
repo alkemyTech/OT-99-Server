@@ -29,7 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     UserDetailsService userDetailsService;
 
     String[] authorizedEndpoint = {"/auth/register",
-        "/auth/login","/users"};
+        "/auth/login"};
     String[] adminAuthorizedEndpoint = {"/users"};
     String[] adminPostAuthorizedEndpoint = {"/organization/public"};
 
