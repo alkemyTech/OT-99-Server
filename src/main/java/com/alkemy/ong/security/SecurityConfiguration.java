@@ -1,6 +1,7 @@
 package com.alkemy.ong.security;
 
 import com.alkemy.ong.security.filter.JwtRequestFilter;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +27,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     String[] authorizedEndpoint = {"/auth/register",
         "/auth/log_in"};
-    String[] adminAuthorizedEndpoint = {};
+    String[] adminAuthorizedEndpoint = {"/users"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -48,6 +49,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+    
+    @Bean
+    public ModelMapper modelMapper(){
+        return new ModelMapper();
     }
 
 

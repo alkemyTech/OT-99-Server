@@ -12,6 +12,7 @@ import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.service.EmailService;
 import com.alkemy.ong.service.RoleService;
 import com.alkemy.ong.service.UserService;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,6 +55,11 @@ public class UserServiceImpl implements UserService {
         emailService.sendWelcomeEmail(userReq);
 
         return UserRegisterResponse.mapToResponse(userRepo.save(user));
+    }
+
+    @Override
+    public List<Users> getAllUsers() {
+        return userRepo.findAll();
     }
 
 }
