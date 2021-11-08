@@ -5,6 +5,7 @@ import com.alkemy.ong.dto.UserLoginRequest;
 import com.alkemy.ong.dto.UserRegisterRequest;
 import com.alkemy.ong.dto.UserRegisterResponse;
 import com.alkemy.ong.exception.EmailAlreadyExistException;
+import com.alkemy.ong.exception.InvalidCredentialsException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.model.Users;
 
@@ -14,6 +15,6 @@ public interface UserService {
 
     Users findByEmail(String email);
 
-    JwtTokenDto authenticate(UserLoginRequest userReq) throws NotFoundException;
+    JwtTokenDto authenticate(UserLoginRequest userReq) throws NotFoundException, InvalidCredentialsException;
 
 }

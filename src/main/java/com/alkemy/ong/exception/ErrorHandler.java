@@ -15,7 +15,12 @@ public class ErrorHandler {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<?> notFoundUser(NotFoundException e){
+    public ResponseEntity<?> notFoundException(NotFoundException e){
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<?> invalidCredentials(InvalidCredentialsException e){
+        return new ResponseEntity<>(e.getMessage(),HttpStatus.FORBIDDEN);
+    }
+
 }
