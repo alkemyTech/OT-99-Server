@@ -26,7 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     String[] authorizedEndpoint = {"/auth/register",
         "/auth/log_in"};
-    String[] adminAuthorizedEndpoint = {};
+    String[] adminAuthorizedEndpoint = {"/users"};
     String[] adminPostAuthorizedEndpoint = {"/organization/public"};
 
     @Override
@@ -50,6 +50,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+    
+    @Bean
+    public ModelMapper modelMapper(){
+        return new ModelMapper();
     }
 
 
