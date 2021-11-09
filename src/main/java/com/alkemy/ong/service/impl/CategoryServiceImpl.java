@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
     public Category save(CategoryDto categoryDto) throws DataAlreadyExistException {
 
         if ((categoryRepository.findByName(categoryDto.getName()).isPresent())) {
-            throw new DataAlreadyExistException();
+            throw new DataAlreadyExistException("Wrong!, name already exist.");
             }
         Category category = categoryMapper.dtoToEntity(categoryDto);
         categoryDto.setCreationDate(LocalDateTime.now());
