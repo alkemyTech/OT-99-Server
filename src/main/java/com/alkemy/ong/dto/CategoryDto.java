@@ -24,8 +24,8 @@ public class CategoryDto {
     private String name;
     private String description;
     private String image;
-    private LocalDateTime creationDateTime;
-    private LocalDateTime updateDateTime;
+    private LocalDateTime creationDate;
+    private LocalDateTime updatedAt;
 
 
 

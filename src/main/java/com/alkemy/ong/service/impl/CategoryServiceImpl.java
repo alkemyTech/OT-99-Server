@@ -25,15 +25,16 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     @Override
-    public void save(CategoryDto categoryDto) throws DataAlreadyExistException {
+    public Category save(CategoryDto categoryDto) throws DataAlreadyExistException {
 
         if ((categoryRepository.findByName(categoryDto.getName()).isPresent())) {
             throw new DataAlreadyExistException();
             }
         Category category = categoryMapper.dtoToEntity(categoryDto);
-        categoryDto.setCreationDateTime(LocalDateTime.now());
-        categoryDto.setUpdateDateTime(LocalDateTime.now());
+        categoryDto.setCreationDate(LocalDateTime.now());
+        categoryDto.setUpdatedAt(LocalDateTime.now());
         categoryRepository.save(category);
+        return category;
     }
 
 	@Override

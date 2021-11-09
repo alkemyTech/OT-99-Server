@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.dto.CategoryDtoGetAll;
 import com.alkemy.ong.exception.DataAlreadyExistException;
+import com.alkemy.ong.model.Category;
 import com.alkemy.ong.service.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,9 +35,9 @@ public class CategoryController {
 	}
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@Valid @RequestBody CategoryDto categoryDto) throws DataAlreadyExistException {
-        categoryService.save(categoryDto);
-        return new ResponseEntity<>(categoryDto, HttpStatus.CREATED);
+    public ResponseEntity<Category> create(@Valid @RequestBody CategoryDto categoryDto) throws DataAlreadyExistException {
+        Category category = categoryService.save(categoryDto);
+        return new ResponseEntity<>(category, HttpStatus.CREATED);
     }
 
 

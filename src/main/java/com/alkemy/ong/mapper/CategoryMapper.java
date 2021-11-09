@@ -1,13 +1,11 @@
 package com.alkemy.ong.mapper;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.dto.CategoryDtoGetAll;
 import com.alkemy.ong.model.Category;
@@ -33,7 +31,6 @@ public class CategoryMapper {
     public Category dtoToEntity(CategoryDto catDto){
     Category category = modelMapper.map(catDto, Category.class);
         return category;
-
     }
-
+    
 }

@@ -12,7 +12,7 @@ import com.alkemy.ong.model.Category;
 public interface CategoryService {
 
    List<CategoryDtoGetAll> getAllCategories();
-   void save(@Valid CategoryDto categoryDto) throws DataAlreadyExistException;
+   Category save(@Valid CategoryDto categoryDto) throws DataAlreadyExistException;
 
 
 
