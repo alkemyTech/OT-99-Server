@@ -28,10 +28,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsService userDetailsService;
 
-    String[] authorizedEndpoint = {"/auth/register",
+    String[] publicEndpoint = {"/auth/register",
         "/auth/login"};
     String[] adminAuthorizedEndpoint = {"/users"};
     String[] adminPostAuthorizedEndpoint = {"/organization/public"};
+    String[] adminPutAuthorizedEndpoint = {"/activities/{id}"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -39,7 +40,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(adminAuthorizedEndpoint).hasAuthority("ROLE_ADMIN")
                   .antMatchers(HttpMethod.POST, adminPostAuthorizedEndpoint).hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers(authorizedEndpoint).permitAll()
+                .antMatchers(HttpMethod.PUT, adminPutAuthorizedEndpoint).hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers(publicEndpoint).permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
