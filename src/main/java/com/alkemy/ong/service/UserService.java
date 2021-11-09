@@ -10,6 +10,9 @@ import com.alkemy.ong.exception.EmailAlreadyExistException;
 import com.alkemy.ong.exception.InvalidCredentialsException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.model.Users;
+
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import java.util.List;
 
 public interface UserService {
@@ -24,4 +27,6 @@ public interface UserService {
     List<Users> getAllUsers();
 
     UserRegisterResponse upgradeUser(Long id, UserRegisterRequest user) throws NotFoundException;
+
+    UserRegisterResponse getUserRegisterBy(String authorizationHeader) throws UsernameNotFoundException;
 }

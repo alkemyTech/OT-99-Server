@@ -14,6 +14,7 @@ public class UserRegisterResponse {
     private String firstName;
     private String lastName;
     private String email;
+    private String photo;
 
     public static UserRegisterResponse mapToResponse(Users user) {
         UserRegisterResponse userRegisterResponse = new UserRegisterResponse();
@@ -21,7 +22,7 @@ public class UserRegisterResponse {
         userRegisterResponse.setFirstName(user.getFirstName());
         userRegisterResponse.setLastName(user.getLastName());
         userRegisterResponse.setEmail(user.getEmail());
-
+        userRegisterResponse.setPhoto(user.getPhoto());
         return userRegisterResponse;
     }
 

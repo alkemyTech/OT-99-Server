@@ -16,6 +16,8 @@ import com.alkemy.ong.security.filter.JwtTokenUtil;
 import com.alkemy.ong.service.EmailService;
 import com.alkemy.ong.service.RoleService;
 import com.alkemy.ong.service.UserService;
+import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +25,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final String USER_NOT_FOUND_ERROR_MESSAGE = "User not found: {0}";
 
     @Autowired
     UserRepository userRepo;
@@ -113,5 +118,24 @@ public class UserServiceImpl implements UserService {
         userBd.setPassword(passwordEncoder.encode(userBd.getPassword()));
         return UserRegisterResponse.mapToResponse(userRepo.save(userBd));
     }
+
+    @Override
+    public UserRegisterResponse getUserRegisterBy(String authorizationHeader) throws UsernameNotFoundException {
+        String email = jwtTokenUtil.getUserEmail(authorizationHeader);
+         Users users = userRepo.findByEmail(email);
+        if (users == null){
+            throw new UsernameNotFoundException(email);
+        }
+        UserRegisterResponse userResponse = new UserRegisterResponse();
+        
+        userResponse.setFirstName(users.getFirstName());
+        userResponse.setLastName(users.getLastName());
+        userResponse.setEmail(users.getEmail());
+        userResponse.setPhoto(users.getPhoto());
+
+        return userResponse;
+    }
+
+
 
 }

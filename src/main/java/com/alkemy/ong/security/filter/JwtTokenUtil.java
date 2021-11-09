@@ -27,6 +27,9 @@ public class JwtTokenUtil implements Serializable {
     @Value("${jwt.expiration}")
     private Integer jwtExpiration;
 
+    private static final String BEARER_PART = "Bearer ";
+    private static final String EMPTY = "";
+
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
@@ -77,5 +80,10 @@ public class JwtTokenUtil implements Serializable {
 
         return ((id == user.getId() && !isTokenExpired(token))
                 || (user.getRole().getName().equalsIgnoreCase("ADMIN") && !isTokenExpired(token)));
+    }
+
+    public String getUserEmail(String authorizationHeader) {
+        String jwtToken = authorizationHeader.replace(BEARER_PART, EMPTY);
+        return getClaimFromToken(jwtToken, Claims::getSubject);
     }
 }
