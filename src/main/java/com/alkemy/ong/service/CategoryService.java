@@ -14,6 +14,4 @@ public interface CategoryService {
    List<CategoryDtoGetAll> getAllCategories();
    Category save(@Valid CategoryDto categoryDto) throws DataAlreadyExistException;
 
-
-
 }

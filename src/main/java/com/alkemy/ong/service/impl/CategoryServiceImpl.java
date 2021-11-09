@@ -6,12 +6,15 @@ import java.util.*;
 import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.dto.CategoryDtoGetAll;
 import com.alkemy.ong.exception.DataAlreadyExistException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.model.Category;
 import com.alkemy.ong.repository.CategoryRepository;
 import com.alkemy.ong.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 
 
 @Service
@@ -44,5 +47,5 @@ public class CategoryServiceImpl implements CategoryService {
 
 		return categoryMapper.toCategoryDtoGetAllList(categories);
 	}
-
+  
 }
