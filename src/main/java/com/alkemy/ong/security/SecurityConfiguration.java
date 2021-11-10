@@ -30,9 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     String[] publicEndpoint = {"/auth/register",
         "/auth/login"};
-    String[] adminAuthorizedEndpoint = {"/users","/news/**"};
-    String[] adminAuthorizedEndpoint = {"/users", 
-        "/activities/{id}"};
+    String[] adminAuthorizedEndpoint = {"/users","/news/{id}","/activities/{id}"};
     String[] adminPostAuthorizedEndpoint = {"/organization/public"};
     String[] adminPutAuthorizedEndpoint = {};
 
