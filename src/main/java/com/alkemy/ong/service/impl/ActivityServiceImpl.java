@@ -24,8 +24,7 @@ public class ActivityServiceImpl implements ActivityService {
         Activity activity = activityRepo.findById(id).get();
         activity.setUpdateDateTime(LocalDateTime.now());
         activityMapper.dtoToEntity(activityReq, activity);
-        activityRepo.save(activity);
-        return activity;
+        return activityRepo.save(activity);
 
     }
 
