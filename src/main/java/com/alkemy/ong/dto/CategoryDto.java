@@ -1,7 +1,5 @@
 package com.alkemy.ong.dto;
 
-import java.security.Timestamp;
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotBlank;
@@ -26,7 +24,6 @@ public class CategoryDto {
     private String image;
     private LocalDateTime creationDate;
     private LocalDateTime updatedAt;
-
 
     
 }

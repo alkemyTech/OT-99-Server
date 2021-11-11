@@ -10,12 +10,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-  
-
     Category save(CategoryDto cat);
 
     Optional<Category> findByName(String name);
 
     Category findById(Category category);
+
 
 }

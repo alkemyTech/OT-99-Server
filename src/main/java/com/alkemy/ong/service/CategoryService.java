@@ -13,11 +13,11 @@ import com.alkemy.ong.model.Category;
 
 public interface CategoryService {
 
+
 	 List<CategoryDtoGetAll> getAllCategories();
 
      Category getCategoryById(long id) throws NotFoundException;
 
     Category save(@Valid CategoryDto categoryDto) throws DataAlreadyExistException;
-
 
 }
