@@ -76,6 +76,6 @@ public class JwtTokenUtil implements Serializable {
         final Long id = Long.valueOf(extractId(token));
 
         return ((id == user.getId() && !isTokenExpired(token))
-                || (user.getRole().getName().equalsIgnoreCase("ADMIN") && !isTokenExpired(token)));
+                || (user.getRole().getName().equalsIgnoreCase("ROLE_ADMIN") && !isTokenExpired(token)));
     }
 }
