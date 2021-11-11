@@ -1,8 +1,11 @@
 package com.alkemy.ong.mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.alkemy.ong.dto.SlideDtoGet;
 import com.alkemy.ong.model.Slide;
 
+@Component
 public class SlideMapper {
 
 	public SlideDtoGet toSlideDtoGet(Slide slide) {
