@@ -1,6 +1,7 @@
 package com.alkemy.ong.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -15,4 +16,5 @@ public interface CategoryService {
    List<CategoryDtoGetAll> getAllCategories();
    Category save(@Valid CategoryDto categoryDto) throws DataAlreadyExistException;
    Category update(Long id,CategoryDto categoryDto) throws NotFoundException;
+   Category getCategoryById(long id) throws NotFoundException;
 }

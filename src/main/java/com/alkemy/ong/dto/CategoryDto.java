@@ -23,10 +23,5 @@ public class CategoryDto {
     private LocalDateTime creationDate;
     private LocalDateTime updatedAt;
 
-
-
- 
-
-
     
 }
