@@ -1,14 +1,13 @@
 package com.alkemy.ong.mapper;
 
-import com.alkemy.ong.dto.SlideDto;
+import com.alkemy.ong.dto.SlideDtoGet;
 import com.alkemy.ong.model.Slide;
 
 public class SlideMapper {
 
-	public SlideDto toSlideDto(Slide slide) {
+	public SlideDtoGet toSlideDtoGet(Slide slide) {
 		
-		SlideDto slideDto=new SlideDto();
-		slideDto.setId(slide.getId());
+		SlideDtoGet slideDto=new SlideDtoGet();
 		slideDto.setImageUrl(slide.getImageUrl());
 		slideDto.setText(slide.getText());
 		slideDto.setSlideOrder(slide.getSlideOrder());

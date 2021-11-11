@@ -3,9 +3,8 @@ package com.alkemy.ong.dto;
 import lombok.Data;
 
 @Data
-public class SlideDto {
+public class SlideDtoGet {
 
-	 private Long id;
 	 private String imageUrl;
 	 private String text;
 	 private Integer slideOrder;

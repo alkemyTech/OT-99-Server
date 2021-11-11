@@ -1,9 +1,8 @@
 package com.alkemy.ong.service;
 
-import com.alkemy.ong.dto.SlideDto;
+import com.alkemy.ong.dto.SlideDtoGet;
 
 public interface SlideService {
 
-	
-	SlideDto getSlide(Long id);
+	SlideDtoGet getSlide(Long id);
 }

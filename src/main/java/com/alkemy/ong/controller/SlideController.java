@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alkemy.ong.dto.SlideDto;
+import com.alkemy.ong.dto.SlideDtoGet;
 import com.alkemy.ong.service.SlideService;
 
 @RestController
@@ -19,7 +19,7 @@ public class SlideController {
 	SlideService slideService;
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<SlideDto> getSlide(@PathVariable Long id){
+	public ResponseEntity<SlideDtoGet> getSlide(@PathVariable Long id){
 		
 		return new ResponseEntity<>(slideService.getSlide(id),HttpStatus.OK);
 	}
