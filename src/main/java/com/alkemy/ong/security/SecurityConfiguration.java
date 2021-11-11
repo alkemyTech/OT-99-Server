@@ -30,8 +30,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     String[] publicEndpoint = {"/auth/register",
         "/auth/login"};
-    String[] adminAuthorizedEndpoint = {"/users", 
-        "/activities/{id}"};
+    String[] adminAuthorizedEndpoint = {"/users",
+        "/activities/{id}",
+        "slides/{id}"};
     String[] adminPostAuthorizedEndpoint = {"/organization/public"};
     String[] adminPutAuthorizedEndpoint = {};
 
@@ -40,7 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers(adminAuthorizedEndpoint).hasAuthority("ROLE_ADMIN")
-                  .antMatchers(HttpMethod.POST, adminPostAuthorizedEndpoint).hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers(HttpMethod.POST, adminPostAuthorizedEndpoint).hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers(HttpMethod.PUT, adminPutAuthorizedEndpoint).hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers(publicEndpoint).permitAll()
                 .anyRequest().authenticated()
