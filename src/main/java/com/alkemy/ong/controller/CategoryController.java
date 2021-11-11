@@ -2,7 +2,6 @@ package com.alkemy.ong.controller;
 
 import java.util.List;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 import com.alkemy.ong.dto.CategoryDto;
