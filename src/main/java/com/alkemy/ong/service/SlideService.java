@@ -2,11 +2,10 @@ package com.alkemy.ong.service;
 
 import java.util.List;
 
-import com.alkemy.ong.model.Slide;
-
+import com.alkemy.ong.dto.SlideDto;
 
 public interface SlideService {
 
-    List<Slide> getAllSlides();
+    List<SlideDto> getAllSlides();
 
 }
