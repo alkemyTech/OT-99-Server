@@ -1,20 +1,20 @@
+
 package com.alkemy.ong.model;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import org.springframework.boot.context.properties.bind.Name;
-import org.springframework.data.jpa.domain.AbstractPersistable;
+
 
 @Entity
 
@@ -37,8 +37,8 @@ public class Category  {
     @Column(name = "deleted")
     private Boolean deleted = false;
     @Column(name = "creation_date")
-    private Timestamp creationDate;
+    private LocalDateTime creationDate;
     @Column(name = "updated_at")
-    private Timestamp updatedAt;
+    private LocalDateTime updatedAt;
 
 }
