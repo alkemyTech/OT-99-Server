@@ -22,5 +22,9 @@ public class ErrorHandler {
     public ResponseEntity<?> invalidCredentials(InvalidCredentialsException e){
         return new ResponseEntity<>(e.getMessage(),HttpStatus.FORBIDDEN);
     }
+    @ExceptionHandler(DataAlreadyExistException.class)
+    public ResponseEntity<?> handleDataAlreadyExistException(HttpServletRequest request, DataAlreadyExistException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 
 }

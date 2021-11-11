@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alkemy.ong.dto.CategoryDtoGetAll;
 import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.model.Category;
-import com.alkemy.ong.dto.CategoryDetailsDto;
 
 
 @Component
@@ -36,15 +35,5 @@ public class CategoryMapper {
 		Category category = modelMapper.map(catDto, Category.class);
 		  return category;
 		}
-
-	public Category toCategoryDetailsDto(long id) {
-			Category category = modelMapper.map(id, Category.class);
-			return category;
-		}
-
-	public Category dtoToEntity(long id) {
-			Category category = modelMapper.map(id, Category.class);
-			return category;
-		  }
 
 }

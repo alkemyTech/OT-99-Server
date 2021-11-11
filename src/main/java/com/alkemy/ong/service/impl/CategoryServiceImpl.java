@@ -1,14 +1,12 @@
 package com.alkemy.ong.service.impl;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.alkemy.ong.dto.CategoryDto;
-import com.alkemy.ong.dto.CategoryDetailsDto;
 import com.alkemy.ong.dto.CategoryDtoGetAll;
 import com.alkemy.ong.exception.DataAlreadyExistException;
 import com.alkemy.ong.exception.NotFoundException;
@@ -24,7 +22,6 @@ public class CategoryServiceImpl implements CategoryService{
 	CategoryRepository categoryRepository;
 
 	@Autowired
-	
 	CategoryMapper categoryMapper;
 	
 	@Override
@@ -42,8 +39,8 @@ public class CategoryServiceImpl implements CategoryService{
             throw new DataAlreadyExistException("Wrong!, Name already Exist.");
             }
         Category category = categoryMapper.dtoToEntity(categoryDto);
-        categoryDto.setCreationDate(LocalDateTime.now());
-        categoryDto.setUpdatedAt(LocalDateTime.now());
+        category.setCreationDate(LocalDateTime.now());
+        category.setUpdatedAt(LocalDateTime.now());
 
         return categoryRepository.save(category);
     }
@@ -51,13 +48,10 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public Category getCategoryById(long id) throws NotFoundException {
-		if(categoryRepository.existsById(id)){
-			Category category = categoryMapper.dtoToEntity(id);
-
-		return categoryRepository.findById(id).get();
-		}else{
-		   throw new NotFoundException("Wrong!, Category doesn't exist.");
-		}
+			return categoryRepository.findById(id)
+			.orElseThrow(() -> new NotFoundException("Wrong!, Category doesn't exist."));
 	}
+
+
 
 }
