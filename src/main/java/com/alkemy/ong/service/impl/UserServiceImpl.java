@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     public Users findByEmail(String email) {
         Users user=userRepo.findByEmail(email);
         
-        user.getRole().getName();
+        if(user!=null) user.getRole().getName();
         
         return user;
     }
