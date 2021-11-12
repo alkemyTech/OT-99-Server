@@ -1,10 +1,13 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.ActivityRequest;
+import com.alkemy.ong.exception.DataAlreadyExistException;
 import com.alkemy.ong.model.Activity;
 import com.alkemy.ong.repository.ActivityRepository;
 import com.alkemy.ong.service.ActivityService;
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +33,11 @@ public class ActivityController {
         Activity activity = activityService.updateActivity(id, activityRequest);
         return new ResponseEntity<>(activity, HttpStatus.OK);
 
+    }
+
+    @PostMapping
+    public ResponseEntity<Activity> create(@Valid @RequestBody ActivityRequest ar) throws DataAlreadyExistException{
+        return new ResponseEntity<>(activityService.save(ar), HttpStatus.CREATED);
     }
 
 }
