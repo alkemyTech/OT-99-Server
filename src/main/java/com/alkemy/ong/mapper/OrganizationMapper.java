@@ -5,9 +5,10 @@ import com.alkemy.ong.dto.OrganizationRequest;
 import com.alkemy.ong.model.Organization;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 public class OrganizationMapper {
     
 @Autowired
