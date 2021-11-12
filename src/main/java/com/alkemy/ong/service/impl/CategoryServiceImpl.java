@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.dto.CategoryDtoGetAll;
 import com.alkemy.ong.exception.DataAlreadyExistException;
+
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.model.Category;
@@ -44,13 +45,20 @@ public class CategoryServiceImpl implements CategoryService{
         return categoryRepository.save(category);
     }
 
+    @Override
+    public Category update(Long id, CategoryDto categoryDto) throws NotFoundException {
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("The category is not registered."));
+        category.setUpdatedAt(LocalDateTime.now());
+        category.setImage(categoryDto.getImage());
+        category.setName(categoryDto.getName());
+        categoryDto.setDescription(categoryDto.getDescription());
+        return categoryRepository.save(category);
+    }
 
 	@Override
 	public Category getCategoryById(long id) throws NotFoundException {
 			return categoryRepository.findById(id)
 			.orElseThrow(() -> new NotFoundException("Wrong!, Category doesn't exist."));
 	}
-
-
 
 }
