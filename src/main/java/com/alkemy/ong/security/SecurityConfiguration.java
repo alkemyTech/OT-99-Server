@@ -1,7 +1,6 @@
 package com.alkemy.ong.security;
 
 import com.alkemy.ong.security.filter.JwtRequestFilter;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,8 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     String[] publicEndpoint = {"/auth/register",
         "/auth/login"};
-    String[] adminAuthorizedEndpoint = {"/users", 
-        "/activities/{id}","/slides/{id}","/categories"};
+    String[] adminAuthorizedEndpoint = {"/users","/news/{id}","/activities/{id}","/categories/{id}","/slides/{id}","/categories"};
     String[] adminPostAuthorizedEndpoint = {"/organization/public"};
     String[] adminPutAuthorizedEndpoint = {};
 

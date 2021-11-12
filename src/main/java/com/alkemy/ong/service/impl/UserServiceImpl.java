@@ -112,6 +112,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserRegisterResponse upgradeUser(Long id, UserRegisterRequest userJpa) throws NotFoundException {
         Users userBd = userRepo.findById(id).orElseThrow( ()-> new NotFoundException("The user is not registered.") );
+        userBd.setLastUpdate(new Date());
         userBd.setPassword(userJpa.getPassword());
         userBd.setFirstName(userJpa.getFirstName());
         userBd.setLastName(userJpa.getLastName());
