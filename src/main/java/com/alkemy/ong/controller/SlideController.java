@@ -23,15 +23,12 @@ public class SlideController {
 
     @Autowired
     SlideService slideService;
-    ///DELETE  
-    @Autowired 
-    SlideRepository sr;
 
     @GetMapping
 
     public ResponseEntity<List<SlideDto>> getAllCategories() {
         return new ResponseEntity<>(slideService.getAllSlides(), HttpStatus.OK);
-  
+
     }
 
     @DeleteMapping("/{id}")
@@ -40,9 +37,4 @@ public class SlideController {
         slideService.deleteSlide(id);
         return new ResponseEntity<>("Slide has been deleted", HttpStatus.OK);
     }
-    @PostMapping
-    public Slide post(@RequestBody Slide slide){
-        return sr.save(slide);
-    }
 }
-
