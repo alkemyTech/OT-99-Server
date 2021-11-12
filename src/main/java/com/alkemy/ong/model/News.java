@@ -41,9 +41,6 @@ public class News {
 	@Column(name = "news_image", nullable = false)
 	private String image;
 
-	@Column(name = "news_category_id", nullable = false)
-	private Long categoryId;
-
 	@Column(name = "news_creation_date", nullable = false)
 	private LocalDate creationDate;
 
