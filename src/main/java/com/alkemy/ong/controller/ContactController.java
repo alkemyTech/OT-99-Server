@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.alkemy.ong.dto.ContactDto;
+import com.alkemy.ong.model.Contact;
 import com.alkemy.ong.service.ContactService;
 
 @RestController
@@ -21,7 +21,7 @@ public class ContactController {
 	ContactService contactService;
 	
 	@PostMapping
-	public ResponseEntity<ContactDto> save(@Valid @RequestBody ContactDto contactDto){
+	public ResponseEntity<Contact> save(@Valid @RequestBody ContactDto contactDto){
 		
 		return new ResponseEntity<>(contactService.save(contactDto), HttpStatus.CREATED);
 	}
