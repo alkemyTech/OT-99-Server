@@ -1,5 +1,7 @@
 package com.alkemy.ong.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,7 @@ public class ContactController {
 	ContactService contactService;
 	
 	@PostMapping
-	public ResponseEntity<ContactDto> save(@RequestBody ContactDto contactDto){
+	public ResponseEntity<ContactDto> save(@Valid @RequestBody ContactDto contactDto){
 		
 		return new ResponseEntity<>(contactService.save(contactDto), HttpStatus.CREATED);
 	}
