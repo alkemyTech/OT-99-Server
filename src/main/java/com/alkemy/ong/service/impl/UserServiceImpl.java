@@ -68,18 +68,27 @@ public class UserServiceImpl implements UserService {
         if (this.findByEmail(userReq.getEmail()) != null) {
             throw new EmailAlreadyExistException();
         }
-
         Users user = UserRegisterRequest.mapToEntity(userReq);
         Role role = new Role();
         role = roleService.findByName("USER");
         user.setRole(role);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreationDate(new Date());
-
         emailService.sendWelcomeEmail(userReq);
-
-        return UserRegisterResponse.mapToResponse(userRepo.save(user));
+        return registerResponse(userRepo.save(user), getToken(userReq));
     }
+
+    private String getToken(UserRegisterRequest userReq) {
+        Authentication auth = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(userReq.getEmail(), userReq.getPassword()));
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        return jwtTokenUtil.generateToken(userDetails);
+    }
+
+    private UserRegisterResponse registerResponse(Users user, String jwt) {
+        return new UserRegisterResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), jwt);
+    }
+
 
     @Override
     public JwtTokenDto authenticate(UserLoginRequest userReq) throws NotFoundException, InvalidCredentialsException {
