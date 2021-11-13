@@ -22,7 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -115,4 +117,10 @@ public class UserServiceImpl implements UserService {
         return UserRegisterResponse.mapToResponse(userRepo.save(userBd));
     }
 
+    @Override
+    public Users getUserLogged(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();      
+              Users user = (Users)auth.getPrincipal();
+        return userRepo.findByEmail(user.getEmail());
+    }
 }
