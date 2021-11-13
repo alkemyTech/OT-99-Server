@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.NewsDtoPersist;
+import java.time.LocalDate;
 import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.NewsMapper;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class NewsServiceImpl implements NewsService {
+
 
 	@Autowired
 	private NewsRepository newsRepository;
@@ -56,4 +58,13 @@ public class NewsServiceImpl implements NewsService {
 		return newsMapper.toNewsDto(news);
 	}
 	
+    @Override
+    public void deleteNew(Long id) throws NotFoundException {
+        News news = newsRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("The new of id:" + id + " was not found"));
+        news.setDeletedDate(LocalDate.now());
+        news.setDeleted(true);
+        newsRepository.save(news);
+    }
+    
 }

@@ -32,7 +32,7 @@ public class Users {
     @Column(unique = true)
     private String photo;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="id_role")
     private Role role;
 

@@ -14,8 +14,8 @@ public class ContactMapper {
 		
 		contact.setEmail(contactDto.getEmail());
 		contact.setMessage(contactDto.getMessage());
-		contact.setName(contact.getName());
-		contact.setPhone(contact.getPhone());
+		contact.setName(contactDto.getName());
+		contact.setPhone(contactDto.getPhone());
 		
 		return contact;	
 	}

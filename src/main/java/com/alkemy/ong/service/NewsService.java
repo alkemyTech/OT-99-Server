@@ -5,10 +5,13 @@ import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.exception.NotFoundException;
 
 public interface NewsService {
-	
+
 	public NewsDto save(NewsDtoPersist newsDto) throws NotFoundException;
 	
 	public NewsDto update(NewsDtoPersist newsDto, Long id) throws NotFoundException;
 	
     public NewsDto getById(Long id) throws NotFoundException;
+
+    void deleteNew(Long id) throws NotFoundException;
+
 }
