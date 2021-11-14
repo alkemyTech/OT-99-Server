@@ -32,6 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     String[] adminAuthorizedEndpoint = {
     		"/users",
+        "testimonials/",
             "/news/{id}",
             "/activities/{id}",
             "/categories/{id}",                               
