@@ -2,6 +2,7 @@ package com.alkemy.ong.exception;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class ErrorHandler extends ResponseEntityExceptionHandler{
+public class ErrorHandler  extends ResponseEntityExceptionHandler{
+
 
     @ExceptionHandler(EmailAlreadyExistException.class)
     public ResponseEntity<?> handleEmailAlreadyExist(HttpServletRequest request, EmailAlreadyExistException e) {
@@ -53,4 +55,11 @@ public class ErrorHandler extends ResponseEntityExceptionHandler{
         return handleExceptionInternal(e,errors, headers, HttpStatus.BAD_REQUEST, webRequest);
     }
 
+    @ExceptionHandler(value= EntityNotFoundException.class)
+	protected ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException e, WebRequest webRequest){
+		
+		String message= "The entity does not exists:" + e.getMessage();
+		
+		return handleExceptionInternal(e, message, new HttpHeaders(), HttpStatus.NOT_FOUND, webRequest);
+	}
 }
