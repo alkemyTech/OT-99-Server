@@ -30,17 +30,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     String[] publicEndpoint = {"/auth/register",
         "/auth/login"};
  
-    String[] adminPostAuthorizedEndpoint  = {"/organization/public"};
-
     String[] adminAuthorizedEndpoint = {"/users",
     		"/news/{id}",
     		"/activities/{id}",
     		"/categories/{id}",
     		"/slides/{id}",
     		"/categories"};
- 
-    String[] adminPutAuthorizedEndpoint = {};
-
+  
+    String[] adminPostAuthorizedEndpoint = {"/organization/public","/news"};
+  
+    String[] adminPutAuthorizedEndpoint = {"/news/{id}"};
+    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();

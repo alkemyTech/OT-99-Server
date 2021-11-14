@@ -55,7 +55,7 @@ public class News {
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
 			CascadeType.REFRESH })
-	@JoinColumn(name = "news_category_id", insertable = false, updatable = false)
+	@JoinColumn(name = "news_category_id")
 	private Category category;
 
 }

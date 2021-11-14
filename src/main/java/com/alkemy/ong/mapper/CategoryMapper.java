@@ -37,4 +37,17 @@ public class CategoryMapper {
 		    return category;
 		}
 
+
+	public CategoryDto toCategoryDto(Category category) {
+		
+		CategoryDto categoryDto=new CategoryDto();
+		categoryDto.setName(category.getName());
+		categoryDto.setDescription(category.getDescription());
+		categoryDto.setImage(category.getImage());
+		categoryDto.setCreationDate(category.getCreationDate());
+		categoryDto.setUpdatedAt(category.getUpdatedAt());
+		
+		return categoryDto;
+	}
+
 }
