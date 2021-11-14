@@ -17,4 +17,5 @@ public interface CategoryService {
    Category save(@Valid CategoryDto categoryDto) throws DataAlreadyExistException;
    Category update(Long id,CategoryDto categoryDto) throws NotFoundException;
    Category getCategoryById(long id) throws NotFoundException;
+   void deleteById(Long id) throws NotFoundException;
 }

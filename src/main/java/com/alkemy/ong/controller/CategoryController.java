@@ -48,5 +48,11 @@ public class CategoryController {
     ResponseEntity<Category> updateCategory(@Valid @RequestBody CategoryDto categoryDto, @PathVariable Long id) throws NotFoundException {
         return new ResponseEntity<>(categoryService.update(id, categoryDto), HttpStatus.OK);
     }
+
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<?> delete(@PathVariable Long id) throws NotFoundException{
+			categoryService.deleteById(id);
+		return new ResponseEntity<>( HttpStatus.OK);
+	}
 }
 

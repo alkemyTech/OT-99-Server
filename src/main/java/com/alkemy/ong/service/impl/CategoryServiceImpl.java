@@ -61,4 +61,13 @@ public class CategoryServiceImpl implements CategoryService{
 			.orElseThrow(() -> new NotFoundException("Wrong!, Category doesn't exist."));
 	}
 
+	@Override
+	public void deleteById(Long id) throws NotFoundException{
+        if (categoryRepository.existsById(id)){
+           categoryRepository.deleteById(id);
+        } else{
+         throw new NotFoundException("Sorry!, Category doesn't exist.");   
+    	}
+    }
+
 }
