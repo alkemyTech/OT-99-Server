@@ -8,12 +8,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TestimonialMapper {
-
+    
     @Autowired
     ModelMapper modelMapper;
-
+    
     public Testimonial dtoToEntity(TestimonialRequest testimonialRequest) {
         Testimonial testimonial = modelMapper.map(testimonialRequest, Testimonial.class);
         return testimonial;
+    }
+    
+    public void updateEntity(TestimonialRequest testimonialRequest, Testimonial testimonial) {
+        modelMapper.map(testimonialRequest, testimonial);
     }
 }

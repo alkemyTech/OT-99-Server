@@ -18,7 +18,6 @@ public class TestimonialRequest {
 
     @NotBlank(message = "Content can't be blank")
     public String content;
-    public Date creationDate;
     public Date lastUpdated;
 
 }
