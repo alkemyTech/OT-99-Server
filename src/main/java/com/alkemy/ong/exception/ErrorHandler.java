@@ -16,13 +16,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class ErrorHandler  extends ResponseEntityExceptionHandler{
-
-
-    @ExceptionHandler(EmailAlreadyExistException.class)
-    public ResponseEntity<?> handleEmailAlreadyExist(HttpServletRequest request, EmailAlreadyExistException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
+public class ErrorHandler extends ResponseEntityExceptionHandler{
   
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<?> notFoundException(NotFoundException e){

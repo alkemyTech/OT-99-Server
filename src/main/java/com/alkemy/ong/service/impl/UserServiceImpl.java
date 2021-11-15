@@ -6,7 +6,7 @@ import com.alkemy.ong.dto.JwtTokenDto;
 import com.alkemy.ong.dto.UserLoginRequest;
 import com.alkemy.ong.dto.UserRegisterRequest;
 import com.alkemy.ong.dto.UserRegisterResponse;
-import com.alkemy.ong.exception.EmailAlreadyExistException;
+import com.alkemy.ong.exception.DataAlreadyExistException;
 import com.alkemy.ong.exception.InvalidCredentialsException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.model.Role;
@@ -66,9 +66,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserRegisterResponse register(UserRegisterRequest userReq) throws EmailAlreadyExistException, IOException {
+    public UserRegisterResponse register(UserRegisterRequest userReq) throws DataAlreadyExistException, IOException {
         if (this.findByEmail(userReq.getEmail()) != null) {
-            throw new EmailAlreadyExistException();
+            throw new DataAlreadyExistException("Email already exist.");
         }
         Users user = UserRegisterRequest.mapToEntity(userReq);
         Role role = new Role();
