@@ -2,6 +2,8 @@ package com.alkemy.ong.service.impl;
 
 import java.io.IOException;
 import com.alkemy.ong.config.SendGridConfig;
+import com.alkemy.ong.dto.ContactDto;
+import com.alkemy.ong.model.Contact;
 import com.alkemy.ong.service.EmailService;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
@@ -66,8 +68,16 @@ public class EmailServiceImpl implements EmailService {
 		return response;
 		
 	}
-	
-	private String preparedWelcomeBodyEmail(UserRegisterRequest user) {
+
+    @Override
+    public Response sendContactRegisterEmail(ContactDto user) throws IOException {
+        Content content = new Content("text/plain",MailMessage.getRegisterContactMsg(user.getName()));
+        Response response = sendEmail(user.getEmail(),"¡Gracias por tu registro!",content);
+        return response;
+    }
+
+
+    private String preparedWelcomeBodyEmail(UserRegisterRequest user) {
 		
 		Context context=new Context();
 		context.setVariable("tittleContent", MailMessage.REGISTER_TITTLE.getValue());

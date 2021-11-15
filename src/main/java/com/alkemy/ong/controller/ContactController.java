@@ -13,6 +13,8 @@ import com.alkemy.ong.dto.ContactDto;
 import com.alkemy.ong.model.Contact;
 import com.alkemy.ong.service.ContactService;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/contacts")
 public class ContactController {
@@ -21,7 +23,7 @@ public class ContactController {
 	ContactService contactService;
 	
 	@PostMapping
-	public ResponseEntity<Contact> save(@Valid @RequestBody ContactDto contactDto){
+	public ResponseEntity<Contact> save(@Valid @RequestBody ContactDto contactDto) throws IOException {
 		
 		return new ResponseEntity<>(contactService.save(contactDto), HttpStatus.CREATED);
 	}

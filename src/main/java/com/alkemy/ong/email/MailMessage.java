@@ -26,4 +26,8 @@ public enum MailMessage {
 		
 		return "Bienvenido/a " + firstname + " "+ lastname + " gracias por haberte registrado en nuestro sitio web.";
 	}
+
+	public static String getRegisterContactMsg(String firstname){
+		return "¡Hola " + firstname + "!\nGracias por tu registro en Somos Mas.";
+	}
 }
