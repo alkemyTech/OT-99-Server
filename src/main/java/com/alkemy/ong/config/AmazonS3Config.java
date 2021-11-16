@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AmazonS3Config {
-   
+
     @Value("${amazonProperties.endpointUrl}")
     private String endpointUrl;
     @Value("${amazonProperties.bucketName}")
@@ -23,17 +23,20 @@ public class AmazonS3Config {
     private String secretKey;
     @Value("${amazonProperties.region}")
     private String region;
-    
+
     @Bean
     public AmazonS3 initialize() {
         AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
-        return AmazonS3ClientBuilder.standard()
-                .withRegion(Regions.fromName(region))
+        return AmazonS3ClientBuilder.standard().withRegion(Regions.fromName(region))
                 .withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
     }
-    
+
     public String getBucketName() {
         return bucketName;
+    }
+
+    public String getEndpointUrl() {
+        return endpointUrl;
     }
 
 }
