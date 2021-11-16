@@ -7,4 +7,8 @@ public class CommentDto {
 
 	private String content;
 	
+	public CommentDto(String content) {
+		this.content=content;
+	}
+	
 }
