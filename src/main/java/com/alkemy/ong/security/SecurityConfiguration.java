@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     String[] adminAuthorizedEndpoint = {
     		"/users",
-        "testimonials/",
+        "testimonials/**",
             "/news/{id}",
             "/activities/{id}",
             "/categories/{id}",                               
@@ -42,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     String[] adminPostAuthorizedEndpoint = {"/organization/public","/news"};
   
-    String[] adminPutAuthorizedEndpoint = {"/news/{id}", "/testimonials/{id}"};
+    String[] adminPutAuthorizedEndpoint = {"/news/{id}"};
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
