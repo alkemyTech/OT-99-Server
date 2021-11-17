@@ -22,11 +22,11 @@ public class ImageServiceImpl implements ImageService {
     AmazonS3Config amazonS3Config;
 
     @Override
-    public String uploadFile(MultipartFile multipartFile) {
+    public String uploadFile(File file) {
         String fileUrl = "";
         try {
-            File file = convertMultiPartToFile(multipartFile);
-            String fileName = generateFileName(multipartFile);
+//            File file = convertMultiPartToFile(multipartFile);
+            String fileName = generateFileName(file);
             fileUrl = amazonS3Config.getEndpointUrl() + "/" + amazonS3Config.getBucketName() + "/" + fileName;
             uploadFileTos3bucket(fileName, file);
             file.delete();
@@ -36,16 +36,15 @@ public class ImageServiceImpl implements ImageService {
         return fileUrl;
     }
 
-    private File convertMultiPartToFile(MultipartFile file) throws IOException {
-        File convFile = new File(file.getOriginalFilename());
-        FileOutputStream fos = new FileOutputStream(convFile);
-        fos.write(file.getBytes());
-        fos.close();
-        return convFile;
-    }
-
-    private String generateFileName(MultipartFile multiPart) {
-        return new Date().getTime() + "-" + multiPart.getOriginalFilename().replace(" ", "_");
+//    private File convertMultiPartToFile(MultipartFile file) throws IOException {
+//        File convFile = new File(file.getOriginalFilename());
+//        FileOutputStream fos = new FileOutputStream(convFile);
+//        fos.write(file.getBytes());
+//        fos.close();
+//        return convFile;
+//    }
+    private String generateFileName(File file) {
+        return new Date().getTime() + "-" + file.getName().replace(" ", "_");
     }
 
     private void uploadFileTos3bucket(String fileName, File file) {

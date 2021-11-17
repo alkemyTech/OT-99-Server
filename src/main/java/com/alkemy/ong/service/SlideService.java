@@ -4,6 +4,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import com.alkemy.ong.dto.SlideDtoGet;
 import com.alkemy.ong.dto.SlideDto;
+import com.alkemy.ong.dto.SlideDtoPost;
 import com.alkemy.ong.model.Slide;
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +17,7 @@ public interface SlideService {
 
     SlideDtoGet getSlide(Long id);
     
-    Slide create(SlideDtoGet slideDtoGet);
+    Slide create(SlideDtoPost slideDtoPost);
 
     File convert(String image);
 

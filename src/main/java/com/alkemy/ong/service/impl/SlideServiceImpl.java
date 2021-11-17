@@ -5,6 +5,7 @@ import com.alkemy.ong.mapper.SlideMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.alkemy.ong.dto.SlideDto;
+import com.alkemy.ong.dto.SlideDtoPost;
 import com.alkemy.ong.model.Slide;
 import javax.persistence.EntityNotFoundException;
 import com.alkemy.ong.repository.SlideRepository;
@@ -12,14 +13,10 @@ import com.alkemy.ong.service.ImageService;
 import com.alkemy.ong.service.SlideService;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Base64;
-import javax.tools.FileObject;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class SlideServiceImpl implements SlideService {
@@ -29,16 +26,19 @@ public class SlideServiceImpl implements SlideService {
 
     @Autowired
     SlideMapper slideMapper;
-    
-    @Autowired 
+
+    @Autowired
     ImageService imageService;
 
     @Override
-    public Slide create(SlideDtoGet slideDtoGet) {
-       Slide slide = new Slide();
+    public Slide create(SlideDtoPost slideDtoPost) {
+        Slide slide = slideMapper.dtoToEntity(slideDtoPost);
+        File file = this.convert(slide.getImageUrl());
+        String image = imageService.uploadFile(file);
+        slide.setImageUrl(image);
+        return slideRepository.save(slide);
+
     }
-    
-    
 
     @Override
     public List<SlideDto> getAllSlides() {
@@ -69,6 +69,7 @@ public class SlideServiceImpl implements SlideService {
 
     }
 
+    @Override
     public File convert(String image) {
         byte[] result = Base64.getDecoder().decode(image);
         String filepath = "";
