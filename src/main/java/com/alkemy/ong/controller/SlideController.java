@@ -24,30 +24,30 @@ public class SlideController {
 
     @Autowired
     SlideService slideService;
-    
+
     @PostMapping
-    public ResponseEntity<Slide> postFile(@Valid @RequestBody SlideDtoPost slideDtoPost){
-        
-    } 
+    public ResponseEntity<Slide> postFile(@Valid @RequestBody SlideDtoPost slideDtoPost) {
+        return new ResponseEntity<>(slideService.create(slideDtoPost), HttpStatus.CREATED);
+    }
 
     @GetMapping
     public ResponseEntity<List<SlideDto>> getAllSlides() {
-    	
+
         return new ResponseEntity<>(slideService.getAllSlides(), HttpStatus.OK);
 
     }
-    
-	@GetMapping("/{id}")
-	public ResponseEntity<SlideDtoGet> getSlide(@PathVariable Long id){
-		
-		return new ResponseEntity<>(slideService.getSlide(id),HttpStatus.OK);
-	}
-  
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SlideDtoGet> getSlide(@PathVariable Long id) {
+
+        return new ResponseEntity<>(slideService.getSlide(id), HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-    	
+
         slideService.deleteSlide(id);
-        
+
         return new ResponseEntity<>("Slide has been deleted", HttpStatus.OK);
     }
 }
