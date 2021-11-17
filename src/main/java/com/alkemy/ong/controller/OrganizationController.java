@@ -1,6 +1,6 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.dto.OrganizationDetailsResponse;
+import com.alkemy.ong.dto.OrganizationResponse;
 import com.alkemy.ong.dto.OrganizationRequest;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.service.OrganizationService;
@@ -24,7 +24,7 @@ public class OrganizationController {
     OrganizationService organizationService;
 
     @GetMapping("/public/{id}")
-    public ResponseEntity<OrganizationDetailsResponse> getOrganizationDetails(@PathVariable Long id) {
+    public ResponseEntity<OrganizationResponse> getOrganizationDetails(@PathVariable Long id) {
     	
         return new ResponseEntity<>(organizationService.getOrganizationDetails(id), HttpStatus.OK);
     }

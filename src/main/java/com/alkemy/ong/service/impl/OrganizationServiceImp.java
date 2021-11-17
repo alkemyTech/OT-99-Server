@@ -1,7 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import java.util.List;
-import com.alkemy.ong.dto.OrganizationDetailsResponse;
+import com.alkemy.ong.dto.OrganizationResponse;
 import com.alkemy.ong.dto.OrganizationRequest;
 import com.alkemy.ong.dto.SlideDtoGet;
 import com.alkemy.ong.mapper.OrganizationMapper;
@@ -27,7 +27,7 @@ public class OrganizationServiceImp implements OrganizationService {
 	OrganizationMapper organizationMapper;
 
 	@Override
-	public OrganizationDetailsResponse getOrganizationDetails(Long id) {
+	public OrganizationResponse getOrganizationDetails(Long id) {
 		
 		Organization organization = organizationRepository.getById(id);
 

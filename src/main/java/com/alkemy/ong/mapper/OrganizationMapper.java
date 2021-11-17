@@ -1,6 +1,6 @@
 package com.alkemy.ong.mapper;
 
-import com.alkemy.ong.dto.OrganizationDetailsResponse;
+import com.alkemy.ong.dto.OrganizationResponse;
 import com.alkemy.ong.dto.OrganizationRequest;
 import com.alkemy.ong.dto.SlideDtoGet;
 import com.alkemy.ong.model.Organization;
@@ -22,10 +22,10 @@ public class OrganizationMapper {
 		return organization;
 	}
 
-	public OrganizationDetailsResponse toOrganizationResponse(Organization organization,
+	public OrganizationResponse toOrganizationResponse(Organization organization,
 			List<SlideDtoGet> organizationSlides) {
 
-		OrganizationDetailsResponse organizationResponse = new OrganizationDetailsResponse();
+		OrganizationResponse organizationResponse = new OrganizationResponse();
 		organizationResponse.setName(organization.getName());
 		organizationResponse.setImage(organization.getImage());
 		organizationResponse.setPhone(organization.getPhone());
