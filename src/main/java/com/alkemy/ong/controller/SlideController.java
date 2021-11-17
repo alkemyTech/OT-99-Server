@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import com.alkemy.ong.dto.SlideDtoGet;
+import com.alkemy.ong.model.Slide;
+import javax.validation.Valid;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/slides")
@@ -19,6 +23,11 @@ public class SlideController {
 
     @Autowired
     SlideService slideService;
+    
+    @PostMapping
+    public ResponseEntity<Slide> postFile(@Valid @RequestBody SlideDtoGet slideDtoGet){
+        
+    } 
 
     @GetMapping
     public ResponseEntity<List<SlideDto>> getAllSlides() {
