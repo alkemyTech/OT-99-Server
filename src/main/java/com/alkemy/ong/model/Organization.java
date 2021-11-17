@@ -33,6 +33,15 @@ public class Organization {
     @Column(name = "org_image_url", nullable = false)
     private String image;
 
+    @Column(name = "org_facebook_url")
+    private String facebook;
+
+    @Column(name = "org_instagram_url")
+    private String instagram;
+
+    @Column(name = "org_linkedin_url")
+    private String linkedin;
+
     @Column(name = "org_address")
     private String address;
 
@@ -44,7 +53,6 @@ public class Organization {
 
     @Column(name = "org_welcome_text", nullable = false, columnDefinition = "Text", length = 65535)
     private String welcomeText;
-
 
     @Column(name = "org_about_us_text", columnDefinition = "Text", length = 65535)
     private String aboutUsText;
