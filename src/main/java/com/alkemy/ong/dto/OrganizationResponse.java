@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class OrganizationDetailsResponse {
+public class OrganizationResponse {
     
     private String name;
     private String image;
