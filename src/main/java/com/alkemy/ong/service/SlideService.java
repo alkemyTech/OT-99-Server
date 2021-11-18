@@ -12,7 +12,7 @@ public interface SlideService {
 
     List<SlideDto> getAllSlides();
     
-    List<SlideDtoGet> getAllSlides(Organization org);
+    List<SlideDtoGet> getAllSlidesByOrganization(Organization org);
     
 	SlideDtoGet getSlide(Long id);
 

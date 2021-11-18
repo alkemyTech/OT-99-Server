@@ -52,7 +52,7 @@ public class SlideServiceImpl implements SlideService {
     }
 
 	@Override
-	public List<SlideDtoGet> getAllSlides(Organization org) {
+	public List<SlideDtoGet> getAllSlidesByOrganization(Organization org) {
 		
 		List<Slide> slides=slideRepository.findAllByOrganizationId(org);
 		

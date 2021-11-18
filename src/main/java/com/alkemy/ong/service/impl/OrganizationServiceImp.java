@@ -31,7 +31,7 @@ public class OrganizationServiceImp implements OrganizationService {
 		
 		Organization organization = organizationRepository.getById(id);
 
-		List<SlideDtoGet> organizationSlides = slideService.getAllSlides(organization);
+		List<SlideDtoGet> organizationSlides = slideService.getAllSlidesByOrganization(organization);
 
 		return organizationMapper.toOrganizationResponse(organization, organizationSlides);
 		
