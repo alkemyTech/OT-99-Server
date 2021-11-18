@@ -38,7 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/activities/{id}",
             "/categories/{id}",                               
             "slides/{id}",
-            "/members"
+            "/members",
             "/comments"
            };
 
