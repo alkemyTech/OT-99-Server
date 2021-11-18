@@ -21,7 +21,6 @@ import lombok.*;
 @Entity
 @SQLDelete(sql = "UPDATE member SET member_deleted = true WHERE member_id=?")
 @Where(clause = "member_deleted = false")
-
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
