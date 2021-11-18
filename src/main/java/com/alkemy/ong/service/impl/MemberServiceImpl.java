@@ -17,19 +17,19 @@ import org.springframework.stereotype.Service;
 public class MemberServiceImpl implements MemberService {
 
     @Autowired
-    MemberRepository repo;
+    MemberRepository memberRepository;
 
     @Autowired
     MemberMapper memberMapper;
 
     @Override
     public Member save(@Valid MemberDto mDto) throws DataAlreadyExistException {
-        if ((repo.findByName(mDto.getName()).isPresent())) {
+        if ((memberRepository.findByName(mDto.getName()).isPresent())) {
             throw new DataAlreadyExistException("Sorry!, Member already exists.");
         }
         Member member = memberMapper.dtoToEntity(mDto);
         member.setCreationDate(LocalDate.now());
         member.setUpdatedDate(LocalDate.now());
-        return repo.save(member);
+        return memberRepository.save(member);
     }
 }

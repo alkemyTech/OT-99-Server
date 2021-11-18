@@ -15,7 +15,6 @@ import java.time.LocalDate;
 public class MemberDto {
 
     @NotBlank(message = "Name is mandatory.")
-    @NotNull(message = "Name cannot be null.")
     public String name;
     public String facebook;
     public String instagram;

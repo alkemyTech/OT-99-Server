@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     @Autowired
-    private MemberService service;
+    private MemberService memberService;
 
     @PostMapping
     public ResponseEntity<Member> create(@Valid @RequestBody MemberDto mDto) throws DataAlreadyExistException {
-        return new ResponseEntity<>(service.save(mDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(memberService.save(mDto), HttpStatus.CREATED);
     }
 }
