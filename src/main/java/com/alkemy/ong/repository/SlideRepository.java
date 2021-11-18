@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SlideRepository extends JpaRepository<Slide, Long> {
 
-	@Query("SELECT s FROM Slide s WHERE s.organizationId = :id ORDER BY s.slideOrder")
-	List<Slide> findAllByOrganizationId(@Param("id") Organization org);
+	@Query("SELECT s FROM Slide s WHERE s.organizationId = :org ORDER BY s.slideOrder")
+	List<Slide> findAllByOrganizationId(@Param("org") Organization org);
 }
