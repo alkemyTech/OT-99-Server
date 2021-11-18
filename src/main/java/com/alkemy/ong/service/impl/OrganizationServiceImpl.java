@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OrganizationServiceImp implements OrganizationService {
+public class OrganizationServiceImpl implements OrganizationService {
 
 	@Autowired
 	OrganizationRepository organizationRepository;
