@@ -4,9 +4,12 @@ import javax.validation.Valid;
 
 import com.alkemy.ong.dto.MemberDto;
 import com.alkemy.ong.exception.DataAlreadyExistException;
+import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.model.Member;
 
 public interface MemberService {
+
+    void deleteMember(Long id) throws NotFoundException;
 
     Member save(@Valid MemberDto mDto) throws DataAlreadyExistException;
 
