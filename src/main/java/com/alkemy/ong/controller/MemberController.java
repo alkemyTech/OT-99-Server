@@ -14,6 +14,6 @@ public class MemberController {
 
     @PutMapping("/{id}")
     public ResponseEntity<MemberDto> updateMember(@PathVariable Long id, @RequestBody MemberDto memberDto) throws NotFoundException {
-        return new ResponseEntity<MemberDto>(memberService.updateMember(memberDto,id), HttpStatus.OK);
+        return new ResponseEntity<>(memberService.updateMember(memberDto,id), HttpStatus.OK);
     }
 }

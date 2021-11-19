@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.exception.NotFoundException;
+import com.alkemy.ong.mapper.MemberMapper;
 import com.alkemy.ong.model.Member;
 import com.alkemy.ong.repository.MemberRepository;
 import com.alkemy.ong.service.MemberService;
@@ -13,8 +14,7 @@ import java.time.LocalDate;
 public class MemberServiceImpl implements MemberService {
     @Autowired
     private MemberRepository memberRepository;
-    @Autowired
-    private MemberMapper memberMapper;
+
     @Override
     public MemberDto updateMember(MemberDto memberDto,Long id) throws NotFoundException {
         Member member = memberRepository.findById(id).orElseThrow(() -> new NotFoundException("The member don't exists."));
@@ -25,6 +25,6 @@ public class MemberServiceImpl implements MemberService {
         member.setImage(memberDto.getImage());
         member.setDescription(memberDto.getDescription());
         member.setUpdatedDate(LocalDate.now());
-        return memberMapper.dtoToEntity(memberRepository.save(member));
+        return MemberMapper.mapToDto(memberRepository.save(member));
     }
 }
