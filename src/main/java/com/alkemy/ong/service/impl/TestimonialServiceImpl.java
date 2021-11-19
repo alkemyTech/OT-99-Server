@@ -55,7 +55,10 @@ public class TestimonialServiceImpl implements TestimonialService {
 
     @Override
     public void delete(Long id) throws NotFoundException {
-        testimonialRepository.findById(id).orElseThrow(() -> new NotFoundException("Testimonial could not be found"));
+        if (!testimonialRepository.existsById(id)) {
+            throw new NotFoundException("Testimonial could not be found");
+        }
+        
         testimonialRepository.deleteById(id);
     }
 
