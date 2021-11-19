@@ -1,6 +1,11 @@
 package com.alkemy.ong.controller;
 
+import javax.validation.Valid;
+
+import com.alkemy.ong.dto.MemberDto;
+import com.alkemy.ong.exception.DataAlreadyExistException;
 import com.alkemy.ong.exception.NotFoundException;
+import com.alkemy.ong.model.Member;
 import com.alkemy.ong.service.MemberService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,4 +31,8 @@ public class MemberController {
         return new ResponseEntity<>("The member was deleted successfully.", HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<Member> create(@Valid @RequestBody MemberDto mDto) throws DataAlreadyExistException {
+        return new ResponseEntity<>(memberService.save(mDto), HttpStatus.CREATED);
+    }
 }
