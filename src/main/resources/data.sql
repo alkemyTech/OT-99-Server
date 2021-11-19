@@ -1,5 +1,5 @@
-INSERT INTO organization(ORG_NAME, ORG_IMAGE_URL, ORG_ADDRESS, ORG_PHONE, ORG_EMAIL, ORG_WELCOME_TEXT, ORG_ABOUT_US_TEXT, IS_DELETED, LAST_UPDATE_DATE, CREATION_DATE )
- VALUES('Somos Más',
+REPLACE INTO organization(id,ORG_NAME, ORG_IMAGE_URL, ORG_ADDRESS, ORG_PHONE, ORG_EMAIL, ORG_WELCOME_TEXT, ORG_ABOUT_US_TEXT, IS_DELETED, LAST_UPDATE_DATE, CREATION_DATE )
+ VALUES(1,'Somos Más',
  'https://drive.google.com/drive/u/2/folders/1q-t5pTX3FA7bf-2kDnGq-99EUfkUQ7iZ',
  'La Cava, San Isidro, Provincia de Buenos Aires', 
  1160112988, 
@@ -13,6 +13,6 @@ educación, salud, trabajo, deporte, responsabilidad y compromiso.
 generando espacios de desarrollo personal y familiar, brindando herramientas que
 logren mejorar la calidad de vida a través de su propio esfuerzo.',
 FALSE,
-current_timestamp(), 
-current_timestamp()
- );
+current_timestamp(),
+current_timestamp())
+;
