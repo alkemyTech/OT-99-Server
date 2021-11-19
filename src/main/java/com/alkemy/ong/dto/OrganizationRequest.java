@@ -18,6 +18,9 @@ public class OrganizationRequest {
     public String name;
     @NotBlank (message = "Must provide an image")
     public String image;
+    public String facebook;
+    public String instagram;
+    public String linkedin;
     public String address;
     public int phone;
     @NotBlank (message = "Must privide an email")

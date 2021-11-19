@@ -36,10 +36,10 @@ public class NewsController {
 		return new ResponseEntity<>(newsService.getById(id), HttpStatus.OK);
 	}
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteNew(@PathVariable Long id) throws NotFoundException {
-        newsService.deleteNew(id);
-        return new ResponseEntity<>("The new was deleted successfuly", HttpStatus.OK);
-    }
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteNew(@PathVariable Long id) throws NotFoundException {
+		newsService.deleteNew(id);
+		return new ResponseEntity<>("The new was deleted successfully", HttpStatus.OK);
+	}
 
 }
