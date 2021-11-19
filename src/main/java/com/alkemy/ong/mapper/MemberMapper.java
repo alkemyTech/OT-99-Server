@@ -1,5 +1,6 @@
 package com.alkemy.ong.mapper;
 
+import com.alkemy.ong.dto.MemberDto;
 import com.alkemy.ong.model.Member;
 
 import java.time.LocalDate;

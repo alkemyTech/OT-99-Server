@@ -1,5 +1,6 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.dto.MemberDto;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.MemberMapper;
 import com.alkemy.ong.model.Member;
@@ -16,7 +17,7 @@ public class MemberServiceImpl implements MemberService {
     private MemberRepository memberRepository;
 
     @Override
-    public MemberDto updateMember(MemberDto memberDto,Long id) throws NotFoundException {
+    public MemberDto updateMember(MemberDto memberDto, Long id) throws NotFoundException {
         Member member = memberRepository.findById(id).orElseThrow(() -> new NotFoundException("The member don't exists."));
         member.setName(memberDto.getName());
         member.setFacebookUrl(memberDto.getFacebook());
