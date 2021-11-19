@@ -27,14 +27,32 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsService userDetailsService;
 
-    String[] publicEndpoint = { "/auth/register", "/auth/login" };
+    String[] publicEndpoint = {
+        "/auth/register",
+        "/auth/login" 
+    };
 
-    String[] adminAuthorizedEndpoint = { "/users", "/testimonials", "/news/{id}", "/activities/{id}",
-            "/categories/{id}", "/slides/{id}", "/comments", "/members/{id}", "/contacts" };
+    String[] adminAuthorizedEndpoint = { 
+        "/users", 
+        "/testimonials", 
+        "/news/{id}", 
+        "/activities/{id}",
+        "/categories/{id}", 
+        "/slides/{id}", 
+        "/comments", 
+        "/members/{id}", 
+        "/contacts" 
+    };
 
-    String[] adminPostAuthorizedEndpoint = { "/organization/public", "/news" };
+    String[] adminPostAuthorizedEndpoint = { 
+        "/organization/public", 
+        "/news" 
+    };
 
-    String[] adminPutAuthorizedEndpoint = { "/news/{id}", "/testimonials/{id}" };
+    String[] adminPutAuthorizedEndpoint = { 
+        "/news/{id}", 
+        "/testimonials/{id}" 
+    };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -42,8 +60,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(adminAuthorizedEndpoint).hasAuthority("ROLE_ADMIN")
                 .antMatchers(HttpMethod.POST, adminPostAuthorizedEndpoint).hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers(HttpMethod.PUT, adminPutAuthorizedEndpoint).hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers(publicEndpoint).permitAll().anyRequest().authenticated().and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .antMatchers(publicEndpoint).permitAll().anyRequest().authenticated()
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
