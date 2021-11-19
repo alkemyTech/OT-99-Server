@@ -38,7 +38,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/activities/{id}",
             "/categories/{id}",                               
             "/slides/{id}",
-            "/comments"
+            "/comments",
+            "/members/{id}"
            };
 
     String[] adminPostAuthorizedEndpoint = {"/organization/public","/news"};
