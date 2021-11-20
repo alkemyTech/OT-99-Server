@@ -16,11 +16,10 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @SQLDelete(sql = "UPDATE member SET member_deleted = true WHERE member_id=?")
-@Where(clause = "member_deleted=false")
+@Where(clause = "member_deleted = false")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

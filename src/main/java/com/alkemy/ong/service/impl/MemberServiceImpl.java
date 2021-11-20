@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -43,4 +44,10 @@ public class MemberServiceImpl implements MemberService {
         member.setUpdatedDate(LocalDate.now());
         return memberRepository.save(member);
     }
+
+    @Override
+    public List<Member> findAll() {
+        return memberRepository.findAll();
+    }
 }
+
