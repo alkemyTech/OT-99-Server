@@ -7,20 +7,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import lombok.*;
-
-@Getter
-@Setter
-@NoArgsConstructor
+import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Entity
 @SQLDelete(sql = "UPDATE member SET member_deleted = true WHERE member_id=?")
-@Where(clause = "member_deleted = false")
+@Where(clause = "member_deleted=false")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class Member {
     @Id
@@ -31,14 +30,14 @@ public class Member {
     @Column(name = "member_name", nullable = false)
     private String name;
 
-    @Column(name = "member_facebook_URL")
-    private String facebookUrl;
+    @Column(name = "member_facebook_url")
+    private String facebook;
 
-    @Column(name = "member_instagram_URL")
-    private String instagramUrl;
+    @Column(name = "member_instagram_url")
+    private String instagram;
 
-    @Column(name = "member_linkedin_URL")
-    private String linkedinUrl;
+    @Column(name = "member_linkedin_url")
+    private String linkedin;
 
     @Column(name = "member_image", nullable = false)
     private String image;
