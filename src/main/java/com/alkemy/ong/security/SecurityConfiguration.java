@@ -31,12 +31,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         "/auth/register",
         "/auth/login", 
         "/auth/me"
-
     };
 
     private static final String[] SWAGGER = {
         "/swagger-resources/**",
-        "/swagger-ui/**", "/v2/api-docs",
+        "/swagger-ui/**", 
+        "/v2/api-docs",
         "/api/docs",
         "/api/docs/**",
         "/v3/api-docs/**",
@@ -64,8 +64,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         "/members/{id}",
         "/contacts",
         "/contacts/**",
-    
-
+        "/members"
     };
 
     String[] adminPostAuthorizedEndpoint = { 

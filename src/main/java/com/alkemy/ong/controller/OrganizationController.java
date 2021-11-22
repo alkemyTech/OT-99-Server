@@ -1,16 +1,14 @@
 package com.alkemy.ong.controller;
 
-import java.util.List;
-
-import com.alkemy.ong.dto.OrganizationDetailsResponse;
+import com.alkemy.ong.dto.OrganizationResponse;
 import com.alkemy.ong.dto.OrganizationRequest;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.service.OrganizationService;
 import java.io.IOException;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +23,10 @@ public class OrganizationController {
     @Autowired
     OrganizationService organizationService;
 
-    @GetMapping("/public")
-    public ResponseEntity<List<OrganizationDetailsResponse>> getOrganizationDetails() {
-        return new ResponseEntity<>(organizationService.getOrganizationDetails(), HttpStatus.OK);
+    @GetMapping("/public/{id}")
+    public ResponseEntity<OrganizationResponse> getOrganizationDetails(@PathVariable Long id) {
+    	
+        return new ResponseEntity<>(organizationService.getOrganizationDetails(id), HttpStatus.OK);
     }
 
     @PostMapping("/public")
