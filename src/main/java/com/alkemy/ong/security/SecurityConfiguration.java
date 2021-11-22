@@ -29,19 +29,43 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     String[] publicEndpoint = {
         "/auth/register",
-        "/auth/login" 
+        "/auth/login", 
+        "/auth/me"
+
+    };
+
+    private static final String[] SWAGGER = {
+        "/swagger-resources/**",
+        "/swagger-ui/**", "/v2/api-docs",
+        "/api/docs",
+        "/api/docs/**",
+        "/v3/api-docs/**",
+        "/api/docs/swagger-ui",
+        "/swagger-ui.html",
+        "/**/swagger-ui/**",
+        "/**"
     };
 
     String[] adminAuthorizedEndpoint = { 
         "/users", 
         "/testimonials", 
-        "/news/{id}", 
+        "/testimonials/**",
+        "/news/**",
+        "/news/{id}",
+        "/activities/**",
         "/activities/{id}",
-        "/categories/{id}", 
-        "/slides/{id}", 
+        "/categories/**",
+        "/categories/{id}",
+        "/slides/**",
+        "/slides/{id}",
+        "/comments/**",
         "/comments", 
-        "/members/{id}", 
-        "/contacts" 
+        "/members/**",
+        "/members/{id}",
+        "/contacts",
+        "/contacts/**",
+    
+
     };
 
     String[] adminPostAuthorizedEndpoint = { 
@@ -57,9 +81,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.authorizeRequests().antMatchers(adminAuthorizedEndpoint).hasAuthority("ROLE_ADMIN")
+        http.authorizeRequests().antMatchers(adminAuthorizedEndpoint).permitAll()
+                .antMatchers(SWAGGER).permitAll()
+                .antMatchers("/users/auth/login/**").permitAll()
+                .antMatchers("/users/auth/register/**").permitAll()
+                .antMatchers("/users/auth/me/**").permitAll()
                 .antMatchers(HttpMethod.POST, adminPostAuthorizedEndpoint).hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers(HttpMethod.PUT, adminPutAuthorizedEndpoint).hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers(HttpMethod.GET, adminPutAuthorizedEndpoint).hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers(publicEndpoint).permitAll().anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
