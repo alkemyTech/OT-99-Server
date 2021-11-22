@@ -32,11 +32,15 @@ public class MemberController {
     public ResponseEntity<Member> create(@Valid @RequestBody MemberDto mDto) throws DataAlreadyExistException {
         return new ResponseEntity<>(memberService.save(mDto), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MemberDto> updateMember(@PathVariable Long id, @RequestBody MemberDto memberDto) throws NotFoundException {
+        return new ResponseEntity<>(memberService.updateMember(memberDto,id), HttpStatus.OK);
+    }
     @GetMapping
     public ResponseEntity<List<Member>> getAllMembers() {
         return new ResponseEntity<>(memberService.findAll(), HttpStatus.OK);
     }
 
 }
-
 

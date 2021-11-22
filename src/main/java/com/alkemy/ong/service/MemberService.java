@@ -15,6 +15,8 @@ public interface MemberService {
 
     Member save(@Valid MemberDto mDto) throws DataAlreadyExistException;
 
+    public MemberDto updateMember(MemberDto memberDto, Long id) throws NotFoundException;
+
     public List<Member> findAll();
 
 }
