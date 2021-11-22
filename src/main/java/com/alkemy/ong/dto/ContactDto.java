@@ -3,9 +3,11 @@ package com.alkemy.ong.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class ContactDto {
 
 	@NotBlank(message = "Email is mandatory.")
@@ -15,7 +17,7 @@ public class ContactDto {
 	@NotBlank(message = "Name is mandatory.")
 	private String name;
 	
-	private Double phone; 
+	private long phone; 
 	
 	private String message;
 }
