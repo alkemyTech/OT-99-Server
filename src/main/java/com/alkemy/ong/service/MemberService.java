@@ -7,6 +7,8 @@ import com.alkemy.ong.exception.DataAlreadyExistException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.model.Member;
 
+import java.util.List;
+
 public interface MemberService {
 
     void deleteMember(Long id) throws NotFoundException;
@@ -14,6 +16,8 @@ public interface MemberService {
     Member save(@Valid MemberDto mDto) throws DataAlreadyExistException;
 
     public MemberDto updateMember(MemberDto memberDto, Long id) throws NotFoundException;
+
+    public List<Member> findAll();
 
 }
 

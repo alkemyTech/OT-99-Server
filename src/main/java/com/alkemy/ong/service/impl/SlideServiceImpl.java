@@ -5,6 +5,7 @@ import com.alkemy.ong.mapper.SlideMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.alkemy.ong.dto.SlideDto;
+import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.model.Slide;
 import javax.persistence.EntityNotFoundException;
 import com.alkemy.ong.repository.SlideRepository;
@@ -19,7 +20,7 @@ public class SlideServiceImpl implements SlideService {
     SlideRepository slideRepository;
 
     @Autowired
-	  SlideMapper slideMapper;
+	SlideMapper slideMapper;
 
     @Override
     public List<SlideDto> getAllSlides() {
@@ -49,4 +50,12 @@ public class SlideServiceImpl implements SlideService {
         }
 
     }
+
+	@Override
+	public List<SlideDtoGet> getAllSlidesByOrganization(Organization org) {
+		
+		List<Slide> slides=slideRepository.findAllByOrganizationId(org);
+		
+		return slideMapper.toSlideDtoGetList(slides);
+	}
 }
