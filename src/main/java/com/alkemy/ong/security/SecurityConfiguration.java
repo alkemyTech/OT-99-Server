@@ -35,15 +35,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private static final String[] SWAGGER = {
         "/swagger-resources/**",
-        "/swagger-ui/**", 
-        "/v2/api-docs",
+        "/swagger-ui/**", "/v2/api-docs",
         "/api/docs",
         "/api/docs/**",
-        "/v3/api-docs/**",
         "/api/docs/swagger-ui",
         "/swagger-ui.html",
-        "/**/swagger-ui/**",
-        "/**"
+        "/**/swagger-ui/**"  
     };
 
     String[] adminAuthorizedEndpoint = { 
@@ -63,36 +60,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         "/members/**",
         "/members/{id}",
         "/contacts",
-        "/contacts/**",
-        "/members"
+        "/contacts/**"
     };
 
-    String[] adminPostAuthorizedEndpoint = { 
-        "/organization/public", 
-        "/news" 
-    };
-
-    String[] adminPutAuthorizedEndpoint = { 
-        "/news/{id}", 
-        "/testimonials/{id}" 
-    };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.authorizeRequests().antMatchers(adminAuthorizedEndpoint).permitAll()
+        http.authorizeRequests()
                 .antMatchers(SWAGGER).permitAll()
-                .antMatchers("/users/auth/login/**").permitAll()
-                .antMatchers("/users/auth/register/**").permitAll()
-                .antMatchers("/users/auth/me/**").permitAll()
-                .antMatchers(HttpMethod.POST, adminPostAuthorizedEndpoint).hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers(HttpMethod.PUT, adminPutAuthorizedEndpoint).hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers(HttpMethod.GET, adminPutAuthorizedEndpoint).hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers(adminAuthorizedEndpoint).hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/news").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/organization/public").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/organization/public").permitAll()
+                .antMatchers(HttpMethod.PUT, "/news/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/testimonials/{id}").hasRole("ADMIN")
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers(publicEndpoint).permitAll().anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
     }
 
     @Bean
