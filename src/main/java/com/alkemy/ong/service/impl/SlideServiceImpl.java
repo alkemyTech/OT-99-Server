@@ -7,6 +7,7 @@ import com.alkemy.ong.mapper.SlideMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.alkemy.ong.dto.SlideDto;
+import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.model.Slide;
 import javax.persistence.EntityNotFoundException;
 
@@ -73,5 +74,13 @@ public class SlideServiceImpl implements SlideService {
         } else {
             throw new NotFoundException("Couldn't find organization with id: " + slideDto.getOrganizationId());
         }
+    }
+
+    @Override
+    public List<SlideDtoGet> getAllSlidesByOrganization(Organization org) {
+
+        List<Slide> slides = slideRepository.findAllByOrganizationId(org);
+
+        return slideMapper.toSlideDtoGetList(slides);
     }
 }

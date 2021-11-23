@@ -1,7 +1,16 @@
 package com.alkemy.ong.service.impl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import com.alkemy.ong.dto.CommentDtoResponse;
+import com.alkemy.ong.dto.CommentDtoSave;
+import com.alkemy.ong.exception.NotFoundException;
+import com.alkemy.ong.model.News;
+import com.alkemy.ong.model.Users;
+import com.alkemy.ong.repository.NewsRepository;
+import com.alkemy.ong.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -22,6 +31,12 @@ public class CommentServiceImpl implements CommentService{
 	
 	@Autowired
 	CommentMapper commentMapper;
+
+	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired
+	private NewsRepository newsRepository;
 	
 	@Override
 	public List<CommentDto> getAll() {
@@ -29,6 +44,18 @@ public class CommentServiceImpl implements CommentService{
 		List<Comment> comments=commentRepository.findAll(Sort.by(Direction.DESC,"creationDate"));
 		
 		return commentMapper.toCommentDtoList(comments) ;
+	}
+
+	@Override
+	public CommentDtoResponse save(CommentDtoSave commentDtoSave) throws NotFoundException {
+		Users users = userRepository.findById(commentDtoSave.getUserId()).orElseThrow(() -> new NotFoundException("The users don't exists"));
+		News news = newsRepository.findById(commentDtoSave.getPostId()).orElseThrow(() -> new NotFoundException("The post don't exists"));
+		Comment comment = new Comment();
+		comment.setContent(commentDtoSave.getBody());
+		comment.setNews(news);
+		comment.setUser(users);
+		comment.setCreationDate(LocalDateTime.now());
+		return CommentDtoResponse.mapToDto(commentRepository.save(comment));
 	}
 
 }

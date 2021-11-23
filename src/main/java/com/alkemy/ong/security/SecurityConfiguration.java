@@ -29,7 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     String[] publicEndpoint = {
         "/auth/register",
-        "/auth/login" 
+        "/auth/login",
     };
 
     String[] adminAuthorizedEndpoint = { 
@@ -40,7 +40,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         "/categories/{id}", 
         "/slides/{id}", 
         "/comments", 
-        "/members/{id}", 
+        "/members/{id}",
+         "/members",
         "/contacts" 
     };
 

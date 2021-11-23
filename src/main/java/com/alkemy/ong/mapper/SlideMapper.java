@@ -1,5 +1,9 @@
 package com.alkemy.ong.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 import com.alkemy.ong.dto.SlideDtoGet;
@@ -25,5 +29,17 @@ public class SlideMapper {
 		slide.setText(slideDto.getText());
 		slide.setSlideOrder(slideDto.getSlideOrder());
 		return slide;
+	}
+
+	public List<SlideDtoGet> toSlideDtoGetList(List<Slide> slides) {
+
+		List<SlideDtoGet> dtos = new ArrayList<>();
+
+		if (slides != null)
+			dtos = slides.stream().map(slide -> {
+				return new SlideDtoGet(slide.getImageUrl(), slide.getText(), slide.getSlideOrder());
+			}).collect(Collectors.toList());
+
+		return dtos;
 	}
 }
