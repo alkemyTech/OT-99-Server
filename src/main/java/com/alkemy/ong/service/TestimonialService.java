@@ -9,4 +9,6 @@ public interface TestimonialService {
 
     public Testimonial save(TestimonialRequest testimonialRequest) throws DataAlreadyExistException;
     public Testimonial updateTestimonial(Long id, TestimonialRequest testimonialRequest) throws NotFoundException, DataAlreadyExistException;
+
+    public void delete(Long id) throws NotFoundException;
 }
