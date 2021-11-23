@@ -29,6 +29,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     String[] publicEndpoint = {
         "/auth/register",
+        "/auth/login"};
+
+ 
+
+    String[] adminPostAuthorizedEndpoint = {
+        "/organization/public",
+        "/news"
+    };
+
+    String[] adminPutAuthorizedEndpoint = {
+        "/news/{id}",
+        "/testimonials/{id}",
         "/auth/login", 
         "/auth/me"
     };
@@ -64,9 +76,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     };
 
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+
         http.authorizeRequests()
                 .antMatchers(SWAGGER).permitAll()
                 .antMatchers(adminAuthorizedEndpoint).hasRole("ADMIN")

@@ -7,13 +7,21 @@ import com.alkemy.ong.mapper.SlideMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.alkemy.ong.dto.SlideDto;
+
+import com.alkemy.ong.dto.SlideDtoPost;
+import com.alkemy.ong.model.Base64DecodedMultipartFile;
 import com.alkemy.ong.model.Organization;
+
 import com.alkemy.ong.model.Slide;
 import javax.persistence.EntityNotFoundException;
 
 import com.alkemy.ong.repository.OrganizationRepository;
 import com.alkemy.ong.repository.SlideRepository;
+import com.alkemy.ong.service.ImageService;
 import com.alkemy.ong.service.SlideService;
+
+import java.util.Base64;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +36,22 @@ public class SlideServiceImpl implements SlideService {
     SlideMapper slideMapper;
 
     @Autowired
+    ImageService imageService;
+    @Autowired
     OrganizationRepository organizationRepository;
+
+    @Override
+    public Slide create(SlideDtoPost slideDtoPost) {
+        Slide slide = slideMapper.dtoToEntity(slideDtoPost);
+        Base64DecodedMultipartFile file = this.convert(slide.getImageUrl());
+        String name = UUID.randomUUID().toString();
+        String extension = ".jpg";
+        file.setName(name + extension);
+        String image = imageService.uploadFile(file);
+        slide.setImageUrl(image);
+        return slideRepository.save(slide);
+
+    }
 
     @Override
     public List<SlideDto> getAllSlides() {
@@ -60,6 +83,22 @@ public class SlideServiceImpl implements SlideService {
     }
 
     @Override
+
+    public Base64DecodedMultipartFile convert(String image) {
+        byte[] result = Base64.getDecoder().decode(image);
+        Base64DecodedMultipartFile file = new Base64DecodedMultipartFile(result);
+        return file;
+
+    }
+
+    @Override
+    public List<SlideDtoGet> getAllSlidesByOrganization(Organization org) {
+
+        List<Slide> slides = slideRepository.findAllByOrganizationId(org);
+
+        return slideMapper.toSlideDtoGetList(slides);
+    }
+
     public SlideDtoUpdate updateSlide(Long id, SlideDtoUpdate slideDto) throws NotFoundException {
         if (!slideRepository.existsById(id)) {
             throw new NotFoundException("Couldn't find slide with id : " + id);
@@ -76,11 +115,4 @@ public class SlideServiceImpl implements SlideService {
         }
     }
 
-    @Override
-    public List<SlideDtoGet> getAllSlidesByOrganization(Organization org) {
-
-        List<Slide> slides = slideRepository.findAllByOrganizationId(org);
-
-        return slideMapper.toSlideDtoGetList(slides);
-    }
 }

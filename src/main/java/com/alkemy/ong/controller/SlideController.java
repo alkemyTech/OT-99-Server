@@ -17,6 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import com.alkemy.ong.dto.SlideDtoGet;
+
+import com.alkemy.ong.dto.SlideDtoPost;
+import com.alkemy.ong.model.Slide;
+import javax.validation.Valid;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import com.alkemy.ong.dto.SlideDtoUpdate;
 import com.alkemy.ong.exception.NotFoundException;
 
@@ -26,6 +32,11 @@ public class SlideController {
 
     @Autowired
     SlideService slideService;
+
+    @PostMapping
+    public ResponseEntity<Slide> postSlide(@Valid @RequestBody SlideDtoPost slideDtoPost) {
+        return new ResponseEntity<>(slideService.create(slideDtoPost), HttpStatus.CREATED);
+    }
 
     @GetMapping
     public ResponseEntity<List<SlideDto>> getAllSlides() {
