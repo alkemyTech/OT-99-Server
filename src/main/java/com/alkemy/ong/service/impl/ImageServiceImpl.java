@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import com.alkemy.ong.config.AmazonS3Config;
+import com.alkemy.ong.model.BASE64DecodedMultipartFile;
 import com.alkemy.ong.service.ImageService;
 
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -22,11 +23,11 @@ public class ImageServiceImpl implements ImageService {
     AmazonS3Config amazonS3Config;
 
     @Override
-    public String uploadFile(File file) {
+    public String uploadFile(BASE64DecodedMultipartFile multipartFile) {
         String fileUrl = "";
         try {
-//            File file = convertMultiPartToFile(multipartFile);
-            String fileName = generateFileName(file);
+            File file = convertMultiPartToFile(multipartFile);
+            String fileName = generateFileName(multipartFile);
             fileUrl = amazonS3Config.getEndpointUrl() + "/" + amazonS3Config.getBucketName() + "/" + fileName;
             uploadFileTos3bucket(fileName, file);
             file.delete();
@@ -36,15 +37,16 @@ public class ImageServiceImpl implements ImageService {
         return fileUrl;
     }
 
-//    private File convertMultiPartToFile(MultipartFile file) throws IOException {
-//        File convFile = new File(file.getOriginalFilename());
-//        FileOutputStream fos = new FileOutputStream(convFile);
-//        fos.write(file.getBytes());
-//        fos.close();
-//        return convFile;
-//    }
-    private String generateFileName(File file) {
-        return new Date().getTime() + "-" + file.getName().replace(" ", "_");
+    private File convertMultiPartToFile(BASE64DecodedMultipartFile file) throws IOException {
+        File convFile = new File(file.getOriginalFilename());
+        FileOutputStream fos = new FileOutputStream(convFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convFile;
+    }
+
+    private String generateFileName(BASE64DecodedMultipartFile multiPart) {
+        return new Date().getTime() + "-" + multiPart.getOriginalFilename().replace(" ", "_");
     }
 
     private void uploadFileTos3bucket(String fileName, File file) {
