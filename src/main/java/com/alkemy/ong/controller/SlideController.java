@@ -26,7 +26,7 @@ public class SlideController {
     SlideService slideService;
 
     @PostMapping
-    public ResponseEntity<Slide> postFile(@Valid @RequestBody SlideDtoPost slideDtoPost) {
+    public ResponseEntity<Slide> postSlide(@Valid @RequestBody SlideDtoPost slideDtoPost) {
         return new ResponseEntity<>(slideService.create(slideDtoPost), HttpStatus.CREATED);
     }
 

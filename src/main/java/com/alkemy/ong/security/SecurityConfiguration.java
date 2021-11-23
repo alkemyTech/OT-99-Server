@@ -29,30 +29,30 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     String[] publicEndpoint = {
         "/auth/register",
-        "/auth/login",
-    };
+        "/auth/login",};
 
-    String[] adminAuthorizedEndpoint = { 
-        "/users", 
-        "/testimonials", 
-        "/news/{id}", 
+    String[] adminAuthorizedEndpoint = {
+        "/slides",
+        "/users",
+        "/testimonials",
+        "/news/{id}",
         "/activities/{id}",
-        "/categories/{id}", 
-        "/slides/{id}", 
-        "/comments", 
+        "/categories/{id}",
+        "/slides/{id}",
+        "/comments",
         "/members/{id}",
-         "/members",
-        "/contacts" 
+        "/members",
+        "/contacts"
     };
 
-    String[] adminPostAuthorizedEndpoint = { 
-        "/organization/public", 
-        "/news" 
+    String[] adminPostAuthorizedEndpoint = {
+        "/organization/public",
+        "/news"
     };
 
-    String[] adminPutAuthorizedEndpoint = { 
-        "/news/{id}", 
-        "/testimonials/{id}" 
+    String[] adminPutAuthorizedEndpoint = {
+        "/news/{id}",
+        "/testimonials/{id}"
     };
 
     @Override
@@ -62,9 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, adminPostAuthorizedEndpoint).hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers(HttpMethod.PUT, adminPutAuthorizedEndpoint).hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers(publicEndpoint).permitAll()
-                //CHANGE TO AUTHENTICATED
-                .anyRequest().permitAll()
-
+                .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 

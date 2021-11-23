@@ -1,11 +1,10 @@
 package com.alkemy.ong.service;
 
-import com.alkemy.ong.model.BASE64DecodedMultipartFile;
-import java.io.File;
-import org.springframework.web.multipart.MultipartFile;
+import com.alkemy.ong.model.Base64DecodedMultipartFile;
+
 
 public interface ImageService {
 
-    public String uploadFile(BASE64DecodedMultipartFile file);
+    public String uploadFile(Base64DecodedMultipartFile file);
 
 }

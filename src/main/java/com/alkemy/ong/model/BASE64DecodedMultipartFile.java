@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.springframework.web.multipart.MultipartFile;
 
-public class BASE64DecodedMultipartFile implements MultipartFile {
+public class Base64DecodedMultipartFile implements MultipartFile {
 
     private final byte[] imgContent;
     private String name;
@@ -17,7 +17,7 @@ public class BASE64DecodedMultipartFile implements MultipartFile {
     }
      
 
-    public BASE64DecodedMultipartFile(byte[] imgContent) {
+    public Base64DecodedMultipartFile(byte[] imgContent) {
         this.imgContent = imgContent;
     }
 
@@ -35,7 +35,6 @@ public class BASE64DecodedMultipartFile implements MultipartFile {
 
     @Override
     public String getContentType() {
-        // TODO - implementation depends on your requirements
         return null;
     }
 

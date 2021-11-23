@@ -6,10 +6,9 @@ import com.alkemy.ong.dto.SlideDtoGet;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.dto.SlideDto;
 import com.alkemy.ong.dto.SlideDtoPost;
-import com.alkemy.ong.model.BASE64DecodedMultipartFile;
+import com.alkemy.ong.model.Base64DecodedMultipartFile;
 import com.alkemy.ong.model.Slide;
-import java.io.File;
-import java.io.IOException;
+
 
 public interface SlideService {
 
@@ -18,13 +17,11 @@ public interface SlideService {
     List<SlideDto> getAllSlides();
 
     SlideDtoGet getSlide(Long id);
-    
 
     Slide create(SlideDtoPost slideDtoPost);
 
     List<SlideDtoGet> getAllSlidesByOrganization(Organization org);
-   
 
-    BASE64DecodedMultipartFile convert(String image);
+    Base64DecodedMultipartFile convert(String image);
 
 }
