@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -14,6 +15,9 @@ import com.alkemy.ong.repository.MemberRepository;
 import com.alkemy.ong.service.MemberService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -60,7 +64,23 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<Member> findAll() {
-        return memberRepository.findAll();
+        return (List<Member>) memberRepository.findAll();
     }
+
+    @Override
+    public List<Member> getAllMembers(Integer pageNo, Integer pageSize, String sortBy) {
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+ 
+        Page<Member> pagedResult = memberRepository.findAll(paging);
+         
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Member>();
+        }
+    }
+
+
+
 }
 

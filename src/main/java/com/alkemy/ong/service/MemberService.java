@@ -19,5 +19,7 @@ public interface MemberService {
 
     public List<Member> findAll();
 
+    List<Member> getAllMembers(Integer pageNo, Integer pageSize, String sortBy);
+
 }
 
