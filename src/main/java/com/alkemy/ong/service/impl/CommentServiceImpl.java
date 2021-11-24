@@ -21,6 +21,7 @@ import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.repository.CommentRepository;
 import com.alkemy.ong.service.CommentService;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -47,8 +48,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDtoResponse save(CommentDtoSave commentDtoSave) throws NotFoundException {
-        Users users = userRepository.findById(commentDtoSave.getUserId()).orElseThrow(() -> new NotFoundException("User doesn't exist"));
-        News news = newsRepository.findById(commentDtoSave.getPostId()).orElseThrow(() -> new NotFoundException("Post doesn't exist"));
+        Users users = userRepository.findById(commentDtoSave.getUserId()).orElseThrow(() -> new NotFoundException("User does not exist"));
+        News news = newsRepository.findById(commentDtoSave.getPostId()).orElseThrow(() -> new NotFoundException("Post does not exist"));
         Comment comment = new Comment();
         comment.setContent(commentDtoSave.getBody());
         comment.setNews(news);
@@ -63,6 +64,10 @@ public class CommentServiceImpl implements CommentService {
             throw new NotFoundException("News does not exist");
         }
         List<Comment> comment = commentRepository.getCommentbyNews(id);
+        List<CommentDtoResponse> commentDto
+                = comment.stream().map(CommentDtoResponse::mapToDto)
+                        .collect(Collectors.toList());
+        return commentDto;
 
     }
 
