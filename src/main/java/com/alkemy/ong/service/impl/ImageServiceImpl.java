@@ -11,6 +11,7 @@ import com.alkemy.ong.service.ImageService;
 
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,4 +54,12 @@ public class ImageServiceImpl implements ImageService {
                 .withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
+    @Override
+    public Base64DecodedMultipartFile convert(String image) {
+        byte[] result = Base64.getDecoder().decode(image);
+        Base64DecodedMultipartFile file = new Base64DecodedMultipartFile(result);
+        return file;
+    }
+
+    
 }
