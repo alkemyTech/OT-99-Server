@@ -32,4 +32,10 @@ public class CommentController {
 	public ResponseEntity<CommentDtoResponse> saveComment(@Valid @RequestBody CommentDtoSave commentDtoSave) throws NotFoundException {
 		return new ResponseEntity<>(commentService.save(commentDtoSave),HttpStatus.OK);
 	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<CommentDto> updateComment(@Valid @RequestBody CommentDto commentDto,@PathVariable Long id) throws NotFoundException {
+		return new ResponseEntity<>(commentService.update(commentDto,id),HttpStatus.OK);
+	}
+
 }

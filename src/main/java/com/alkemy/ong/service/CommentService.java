@@ -12,4 +12,6 @@ public interface CommentService {
 	List<CommentDto> getAll();
 
 	CommentDtoResponse save(CommentDtoSave commentDtoSave) throws NotFoundException;
+
+	CommentDto update(CommentDto commentDto, Long id) throws NotFoundException;
 }

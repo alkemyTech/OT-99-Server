@@ -1,6 +1,5 @@
 package com.alkemy.ong.service.impl;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -56,6 +55,13 @@ public class CommentServiceImpl implements CommentService{
 		comment.setUser(users);
 		comment.setCreationDate(LocalDateTime.now());
 		return CommentDtoResponse.mapToDto(commentRepository.save(comment));
+	}
+
+	@Override
+	public CommentDto update(CommentDto commentDto, Long id) throws NotFoundException {
+		Comment comment = commentRepository.findById(id).orElseThrow(() -> new NotFoundException("The comment don't exist"));
+		comment.setContent(commentDto.getContent());
+		return CommentMapper.mapToDto(commentRepository.save(comment));
 	}
 
 }
