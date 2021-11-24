@@ -22,40 +22,48 @@ import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.repository.CommentRepository;
 import com.alkemy.ong.service.CommentService;
 
-
 @Service
-public class CommentServiceImpl implements CommentService{
+public class CommentServiceImpl implements CommentService {
 
-	@Autowired
-	CommentRepository commentRepository;
-	
-	@Autowired
-	CommentMapper commentMapper;
+    @Autowired
+    CommentRepository commentRepository;
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    CommentMapper commentMapper;
 
-	@Autowired
-	private NewsRepository newsRepository;
-	
-	@Override
-	public List<CommentDto> getAll() {
-		
-		List<Comment> comments=commentRepository.findAll(Sort.by(Direction.DESC,"creationDate"));
-		
-		return commentMapper.toCommentDtoList(comments) ;
-	}
+    @Autowired
+    private UserRepository userRepository;
 
-	@Override
-	public CommentDtoResponse save(CommentDtoSave commentDtoSave) throws NotFoundException {
-		Users users = userRepository.findById(commentDtoSave.getUserId()).orElseThrow(() -> new NotFoundException("The users don't exists"));
-		News news = newsRepository.findById(commentDtoSave.getPostId()).orElseThrow(() -> new NotFoundException("The post don't exists"));
-		Comment comment = new Comment();
-		comment.setContent(commentDtoSave.getBody());
-		comment.setNews(news);
-		comment.setUser(users);
-		comment.setCreationDate(LocalDateTime.now());
-		return CommentDtoResponse.mapToDto(commentRepository.save(comment));
-	}
+    @Autowired
+    private NewsRepository newsRepository;
+
+    @Override
+    public List<CommentDto> getAll() {
+
+        List<Comment> comments = commentRepository.findAll(Sort.by(Direction.DESC, "creationDate"));
+
+        return commentMapper.toCommentDtoList(comments);
+    }
+
+    @Override
+    public CommentDtoResponse save(CommentDtoSave commentDtoSave) throws NotFoundException {
+        Users users = userRepository.findById(commentDtoSave.getUserId()).orElseThrow(() -> new NotFoundException("User doesn't exist"));
+        News news = newsRepository.findById(commentDtoSave.getPostId()).orElseThrow(() -> new NotFoundException("Post doesn't exist"));
+        Comment comment = new Comment();
+        comment.setContent(commentDtoSave.getBody());
+        comment.setNews(news);
+        comment.setUser(users);
+        comment.setCreationDate(LocalDateTime.now());
+        return CommentDtoResponse.mapToDto(commentRepository.save(comment));
+    }
+
+    @Override
+    public List<CommentDtoResponse> getCommentbyNewsId(Long id) throws NotFoundException {
+        if (!newsRepository.existsById(id)) {
+            throw new NotFoundException("News does not exist");
+        }
+        List<Comment> comment = commentRepository.getCommentbyNews(id);
+
+    }
 
 }

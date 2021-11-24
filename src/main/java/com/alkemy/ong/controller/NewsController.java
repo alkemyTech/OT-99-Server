@@ -41,5 +41,11 @@ public class NewsController {
 		newsService.deleteNew(id);
 		return new ResponseEntity<>("The new was deleted successfully", HttpStatus.OK);
 	}
+        
+        @GetMapping("/{id}/comments")
+        public ResponseEntity<?> getComment(@PathVariable Long id){
+            
+        }
+        
 
 }

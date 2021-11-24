@@ -37,7 +37,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member save(@Valid MemberDto mDto) throws DataAlreadyExistException {
         if ((memberRepository.findByName(mDto.getName()).isPresent())) {
-            throw new DataAlreadyExistException("Sorry!, Member already exists.");
+            throw new DataAlreadyExistException("Sorry! Member already exists.");
         }
         Member member = memberMapper.dtoToEntity(mDto);
         member.setCreationDate(LocalDate.now());
@@ -47,7 +47,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberDto updateMember(MemberDto memberDto, Long id) throws NotFoundException {
-        Member member = memberRepository.findById(id).orElseThrow(() -> new NotFoundException("The member don't exists."));
+        Member member = memberRepository.findById(id).orElseThrow(() -> new NotFoundException("Member does not exist."));
         member.setName(memberDto.getName());
         member.setFacebook(memberDto.getFacebook());
         member.setInstagram(memberDto.getInstagram());
