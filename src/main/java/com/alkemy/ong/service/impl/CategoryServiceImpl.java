@@ -36,7 +36,7 @@ public class CategoryServiceImpl implements CategoryService{
     public Category save(CategoryDto categoryDto) throws DataAlreadyExistException {
 
         if ((categoryRepository.findByName(categoryDto.getName()).isPresent())) {
-            throw new DataAlreadyExistException("Wrong!, Name already Exist.");
+            throw new DataAlreadyExistException("Wrong! Name already exists.");
             }
         Category category = categoryMapper.dtoToEntity(categoryDto);
         category.setCreationDate(LocalDateTime.now());
@@ -58,7 +58,7 @@ public class CategoryServiceImpl implements CategoryService{
 	@Override
 	public Category getCategoryById(long id) throws NotFoundException {
 			return categoryRepository.findById(id)
-			.orElseThrow(() -> new NotFoundException("Wrong!, Category doesn't exist."));
+			.orElseThrow(() -> new NotFoundException("Wrong! Category doesn't exist."));
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class CategoryServiceImpl implements CategoryService{
         if (categoryRepository.existsById(id)){
            categoryRepository.deleteById(id);
         } else{
-         throw new NotFoundException("Sorry!, Category doesn't exist.");   
+         throw new NotFoundException("Sorry! Category doesn't exist.");   
     	}
     }
 

@@ -6,11 +6,12 @@ import java.io.IOException;
 import java.util.Date;
 
 import com.alkemy.ong.config.AmazonS3Config;
-import com.alkemy.ong.model.BASE64DecodedMultipartFile;
+import com.alkemy.ong.model.Base64MultipartFile;
 import com.alkemy.ong.service.ImageService;
 
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class ImageServiceImpl implements ImageService {
     AmazonS3Config amazonS3Config;
 
     @Override
-    public String uploadFile(BASE64DecodedMultipartFile multipartFile) {
+    public String uploadFile(Base64MultipartFile multipartFile) {
         String fileUrl = "";
         try {
             File file = convertMultiPartToFile(multipartFile);
@@ -36,7 +37,7 @@ public class ImageServiceImpl implements ImageService {
         return fileUrl;
     }
 
-    private File convertMultiPartToFile(BASE64DecodedMultipartFile file) throws IOException {
+    private File convertMultiPartToFile(Base64MultipartFile file) throws IOException {
         File convFile = new File(file.getOriginalFilename());
         FileOutputStream fos = new FileOutputStream(convFile);
         fos.write(file.getBytes());
@@ -44,7 +45,7 @@ public class ImageServiceImpl implements ImageService {
         return convFile;
     }
 
-    private String generateFileName(BASE64DecodedMultipartFile multiPart) {
+    private String generateFileName(Base64MultipartFile multiPart) {
         return new Date().getTime() + "-" + multiPart.getOriginalFilename().replace(" ", "_");
     }
 
@@ -53,4 +54,12 @@ public class ImageServiceImpl implements ImageService {
                 .withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
+    @Override
+    public Base64MultipartFile convert(String image) {
+        byte[] result = Base64.getDecoder().decode(image);
+        Base64MultipartFile file = new Base64MultipartFile(result);
+        return file;
+    }
+
+    
 }

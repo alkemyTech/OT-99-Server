@@ -59,15 +59,15 @@ public class NewsServiceImpl implements NewsService {
 	@Override
 	public NewsDto getById(Long id) throws NotFoundException {
 
-		News news = newsRepository.findById(id).orElseThrow(() -> new NotFoundException("The news is not registered."));
+		News news = newsRepository.findById(id).orElseThrow(() -> new NotFoundException("This news is not registered."));
 
 		return newsMapper.toNewsDto(news);
 	}
 	
     @Override
-    public void deleteNew(Long id) throws NotFoundException {
+    public void deleteNews(Long id) throws NotFoundException {
         News news = newsRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("The new of id:" + id + " was not found"));
+                .orElseThrow(() -> new NotFoundException("News of id:" + id + " was not found"));
         news.setDeletedDate(LocalDate.now());
         news.setDeleted(true);
         newsRepository.save(news);

@@ -13,7 +13,7 @@ public interface NewsService {
 	
     public NewsDto getById(Long id) throws NotFoundException;
 
-    void deleteNew(Long id) throws NotFoundException;
+    void deleteNews(Long id) throws NotFoundException;
 
     public NewsPaginable getAllByPage(int page) throws NotFoundException;
 }
