@@ -8,9 +8,8 @@ import com.alkemy.ong.mapper.TestimonialMapper;
 import com.alkemy.ong.model.Testimonial;
 import com.alkemy.ong.repository.TestimonialRepository;
 import com.alkemy.ong.service.TestimonialService;
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,14 +31,9 @@ public class TestimonialServiceImpl implements TestimonialService {
 		if ((testimonialRepository.findByName(testimonialRequest.getName()).isPresent())) {
 
 			throw new DataAlreadyExistException("This testimonial's name has already been used");
-
 		}
 
 		Testimonial testimonial = testimonialMapper.dtoToEntity(testimonialRequest);
-
-		testimonial.setLastUpdated(Date.from(Instant.now()));
-		
-		testimonial.setCreationDate(Date.from(Instant.now()));
 
 		return testimonialRepository.save(testimonial);
 
@@ -49,22 +43,24 @@ public class TestimonialServiceImpl implements TestimonialService {
 	public Testimonial updateTestimonial(Long id, TestimonialRequest testimonialRequest)
 			throws NotFoundException, DataAlreadyExistException {
 
-		if (!testimonialRepository.findById(id).isPresent()) {
+		Optional<Testimonial> optTestimonial = testimonialRepository.findById(id);
+		
+		if (optTestimonial.isEmpty()) {
 
 			throw new NotFoundException("Testimonial could not be found");
-
 		}
+		
+		Testimonial testimonial=optTestimonial.get();
+		
+	
 		if ((testimonialRepository.findByName(testimonialRequest.getName()).isPresent())) {
-
-			throw new DataAlreadyExistException("This testimonial's name has already been used");
-
+			
+				testimonialMapper.updateEntityWithoutName(testimonialRequest, testimonial);	
+				
+		}else {
+			
+			testimonialMapper.updateEntity(testimonialRequest, testimonial);
 		}
-
-		Testimonial testimonial = testimonialRepository.findById(id).get();
-
-		testimonialMapper.updateEntity(testimonialRequest, testimonial);
-
-		testimonial.setLastUpdated(Date.from(Instant.now()));
 
 		return testimonialRepository.save(testimonial);
 
@@ -82,7 +78,7 @@ public class TestimonialServiceImpl implements TestimonialService {
 	}
 
 	@Override
-	public List<TestimonialDto> getPage(Integer page) throws NotFoundException {
+	public List<TestimonialDto> getPage(Integer page){
 
 		Pageable pageable = PageRequest.of(page, 10);
 		
