@@ -9,8 +9,9 @@ import java.io.InputStream;
 import org.springframework.web.multipart.MultipartFile;
 
 
-public class Base64DecodedMultipartFile implements MultipartFile {
+public class Base64MultipartFile implements MultipartFile {
 
+    
     private final byte[] imgContent;
     private String name;
 
@@ -19,7 +20,7 @@ public class Base64DecodedMultipartFile implements MultipartFile {
     }
      
 
-    public Base64DecodedMultipartFile(byte[] imgContent) {
+    public Base64MultipartFile(byte[] imgContent) {
         this.imgContent = imgContent;
     }
 
