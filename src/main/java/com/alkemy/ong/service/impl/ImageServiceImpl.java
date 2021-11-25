@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import com.alkemy.ong.config.AmazonS3Config;
-import com.alkemy.ong.model.Base64DecodedMultipartFile;
+import com.alkemy.ong.model.Base64MultipartFile;
 import com.alkemy.ong.service.ImageService;
 
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -23,7 +23,7 @@ public class ImageServiceImpl implements ImageService {
     AmazonS3Config amazonS3Config;
 
     @Override
-    public String uploadFile(Base64DecodedMultipartFile multipartFile) {
+    public String uploadFile(Base64MultipartFile multipartFile) {
         String fileUrl = "";
         try {
             File file = convertMultiPartToFile(multipartFile);
@@ -37,7 +37,7 @@ public class ImageServiceImpl implements ImageService {
         return fileUrl;
     }
 
-    private File convertMultiPartToFile(Base64DecodedMultipartFile file) throws IOException {
+    private File convertMultiPartToFile(Base64MultipartFile file) throws IOException {
         File convFile = new File(file.getOriginalFilename());
         FileOutputStream fos = new FileOutputStream(convFile);
         fos.write(file.getBytes());
@@ -45,7 +45,7 @@ public class ImageServiceImpl implements ImageService {
         return convFile;
     }
 
-    private String generateFileName(Base64DecodedMultipartFile multiPart) {
+    private String generateFileName(Base64MultipartFile multiPart) {
         return new Date().getTime() + "-" + multiPart.getOriginalFilename().replace(" ", "_");
     }
 
@@ -55,9 +55,9 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Base64DecodedMultipartFile convert(String image) {
+    public Base64MultipartFile convert(String image) {
         byte[] result = Base64.getDecoder().decode(image);
-        Base64DecodedMultipartFile file = new Base64DecodedMultipartFile(result);
+        Base64MultipartFile file = new Base64MultipartFile(result);
         return file;
     }
 
