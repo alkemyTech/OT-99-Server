@@ -2,6 +2,7 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.NewsDtoPersist;
 import com.alkemy.ong.dto.NewsDto;
+import com.alkemy.ong.dto.NewsPaginable;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.service.NewsService;
 import javax.validation.Valid;
@@ -43,7 +44,7 @@ public class NewsController {
 	}
 
 	@GetMapping
-	public ResponseEntity<?> getAllByPage(@RequestParam int page){
+	public ResponseEntity<NewsPaginable> getAllByPage(@RequestParam int page) throws NotFoundException {
 		return new ResponseEntity<>(newsService.getAllByPage(page),HttpStatus.OK);
 	}
 }

@@ -2,10 +2,8 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.NewsDtoPersist;
 import com.alkemy.ong.dto.NewsDto;
+import com.alkemy.ong.dto.NewsPaginable;
 import com.alkemy.ong.exception.NotFoundException;
-import com.alkemy.ong.model.News;
-
-import java.util.List;
 
 public interface NewsService {
 
@@ -17,5 +15,5 @@ public interface NewsService {
 
     void deleteNew(Long id) throws NotFoundException;
 
-    public List<News> getAllByPage(int page);
+    public NewsPaginable getAllByPage(int page) throws NotFoundException;
 }
