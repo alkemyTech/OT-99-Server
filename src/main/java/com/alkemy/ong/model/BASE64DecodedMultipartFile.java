@@ -1,3 +1,4 @@
+
 package com.alkemy.ong.model;
 
 import java.io.ByteArrayInputStream;
@@ -6,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import org.springframework.web.multipart.MultipartFile;
+
 
 public class Base64DecodedMultipartFile implements MultipartFile {
 
@@ -62,4 +64,5 @@ public class Base64DecodedMultipartFile implements MultipartFile {
     public void transferTo(File dest) throws IOException, IllegalStateException {
         new FileOutputStream(dest).write(imgContent);
     }
+
 }
