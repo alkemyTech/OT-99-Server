@@ -50,7 +50,7 @@ public class TestimonialController {
     }
     
     @GetMapping
-    public ResponseEntity<List<TestimonialDto>> getPage(@RequestParam (defaultValue = "0") Integer page ) throws NotFoundException{
+    public ResponseEntity<List<TestimonialDto>> getPage(@RequestParam (defaultValue = "0") Integer page ){
         
         return new ResponseEntity<>(testimonialService.getPage(page), HttpStatus.OK);
     }
