@@ -42,4 +42,8 @@ public class NewsController {
 		return new ResponseEntity<>("The new was deleted successfully", HttpStatus.OK);
 	}
 
+	@GetMapping
+	public ResponseEntity<?> getAllByPage(@RequestParam int page){
+		return new ResponseEntity<>(newsService.getAllByPage(page),HttpStatus.OK);
+	}
 }
