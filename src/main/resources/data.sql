@@ -1,4 +1,4 @@
-REPLACE INTO organization(id,
+INSERT IGNORE INTO organization(id,
 ORG_NAME, 
 ORG_IMAGE_URL, 
 ORG_ADDRESS, 
