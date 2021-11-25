@@ -78,7 +78,7 @@ public class TestimonialServiceImpl implements TestimonialService {
 	}
 
 	@Override
-	public List<TestimonialDto> getPage(Integer page){
+	public List<TestimonialDto> getPage(Integer page, Integer sizePage, String sortBy){
 
 		Pageable pageable = PageRequest.of(page, 10);
 		

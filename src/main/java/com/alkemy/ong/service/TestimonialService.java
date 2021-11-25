@@ -17,5 +17,5 @@ public interface TestimonialService {
 
     public void delete(Long id) throws NotFoundException;
     
-    public List<TestimonialDto> getPage (Integer page);
+    public List<TestimonialDto> getPage (Integer page,Integer sizePage,String sortBy);
 }

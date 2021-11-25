@@ -50,9 +50,10 @@ public class TestimonialController {
     }
     
     @GetMapping
-    public ResponseEntity<List<TestimonialDto>> getPage(@RequestParam (defaultValue = "0") Integer page ){
+    public ResponseEntity<List<TestimonialDto>> getPage(@RequestParam (defaultValue = "0") Integer page,
+    		@RequestParam (defaultValue = "10") Integer sizePage ,@RequestParam (defaultValue = "id") String sortBy){
         
-        return new ResponseEntity<>(testimonialService.getPage(page), HttpStatus.OK);
+        return new ResponseEntity<>(testimonialService.getPage(page,sizePage,sortBy), HttpStatus.OK);
     }
 
 }
