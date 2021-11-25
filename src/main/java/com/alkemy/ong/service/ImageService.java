@@ -6,5 +6,6 @@ import com.alkemy.ong.model.BASE64DecodedMultipartFile;
 public interface ImageService {
 
     public String uploadFile(BASE64DecodedMultipartFile file);
+    public Base64DecodedMultipartFile convert(String image);
 
 }

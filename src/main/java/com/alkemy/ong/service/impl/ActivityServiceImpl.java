@@ -32,7 +32,7 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public Activity save(@Valid ActivityRequest activityReq) throws DataAlreadyExistException{
-     if((activityRepo.findByName(activityReq.getName()).isPresent())){ throw new DataAlreadyExistException("Wrong!, the Activity already exist!.");
+     if((activityRepo.findByName(activityReq.getName()).isPresent())){ throw new DataAlreadyExistException("Wrong! the Activity already exist!.");
     }
      Activity activity = activityMapper.dtoToEntity(activityReq);
      activity.setCreateDateTime(LocalDateTime.now());
