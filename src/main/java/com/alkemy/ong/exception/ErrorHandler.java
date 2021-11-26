@@ -56,4 +56,12 @@ public class ErrorHandler extends ResponseEntityExceptionHandler{
 		
 		return handleExceptionInternal(e, message, new HttpHeaders(), HttpStatus.NOT_FOUND, webRequest);
 	}
+    
+    @ExceptionHandler(value= IllegalArgumentException.class)
+	protected ResponseEntity<?> illegalArgumentException(IllegalArgumentException e,WebRequest webRequest){
+		
+		String message= "An Exception ocurred: " + e.getMessage();
+		
+		return handleExceptionInternal(e, message, new HttpHeaders(), HttpStatus.NOT_FOUND, webRequest);
+	}
 }
