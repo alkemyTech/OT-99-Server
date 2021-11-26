@@ -1,5 +1,6 @@
 package com.alkemy.ong.mapper;
 
+import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.dto.TestimonialDto;
 import com.alkemy.ong.dto.TestimonialRequest;
 import com.alkemy.ong.model.Testimonial;
@@ -45,10 +46,10 @@ public class TestimonialMapper {
 		
 	}
     
-    public List<TestimonialDto> toTestimonialDtoList(Page<Testimonial> testimonialPage){
+    private List<TestimonialDto> toTestimonialDtoList(Page<Testimonial> testimonialPage){
     	
     	List<TestimonialDto> testimonialDtos=new ArrayList<>();
-    	
+    
     	if(testimonialPage.hasContent()) {
     			
     		testimonialDtos=testimonialPage.getContent().stream().map(testimonial -> { 
@@ -59,6 +60,29 @@ public class TestimonialMapper {
     	}
     	
 		return testimonialDtos;
+    	
+    }
+    
+    
+    public PageDto<TestimonialDto> toPageDto(Page<Testimonial> testimonialPage, Integer pageNumber,Integer totalPages){
+	 
+    	PageDto<TestimonialDto> pageDto=new PageDto<>();
+    	
+    	pageDto.setTotalPages(totalPages);
+    	
+		if(testimonialPage.hasNext()) {
+			
+			pageDto.setNextPage("localhost:8080/testimonials?page="+(pageNumber+1));
+		}
+		
+		if(testimonialPage.hasPrevious()) {
+			
+			pageDto.setPreviousPage("localhost:8080/testimonials?page="+(pageNumber-1));
+		}
+		
+    	pageDto.setList(toTestimonialDtoList(testimonialPage));
+    	
+    	return pageDto;
     	
     }
 
