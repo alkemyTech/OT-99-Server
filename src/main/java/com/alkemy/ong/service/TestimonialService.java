@@ -4,9 +4,7 @@ import com.alkemy.ong.dto.TestimonialRequest;
 import com.alkemy.ong.exception.DataAlreadyExistException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.model.Testimonial;
-
-import java.util.List;
-
+import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.dto.TestimonialDto;
 
 public interface TestimonialService {
@@ -17,5 +15,5 @@ public interface TestimonialService {
 
     public void delete(Long id) throws NotFoundException;
     
-    public List<TestimonialDto> getPage (Integer page,Integer sizePage,String sortBy);
+    public PageDto<TestimonialDto> getPage (Integer page,Integer sizePage,String sortBy)throws NotFoundException;
 }

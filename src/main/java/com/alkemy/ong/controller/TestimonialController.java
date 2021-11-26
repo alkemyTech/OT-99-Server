@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.dto.TestimonialDto;
 import com.alkemy.ong.dto.TestimonialRequest;
 import com.alkemy.ong.exception.DataAlreadyExistException;
@@ -9,7 +10,6 @@ import com.alkemy.ong.service.TestimonialService;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -50,8 +50,8 @@ public class TestimonialController {
     }
     
     @GetMapping
-    public ResponseEntity<List<TestimonialDto>> getPage(@RequestParam (defaultValue = "0") Integer page,
-    		@RequestParam (defaultValue = "10") Integer sizePage ,@RequestParam (defaultValue = "id") String sortBy){
+    public ResponseEntity<PageDto<TestimonialDto>> getPage(@RequestParam (defaultValue = "0") Integer page,
+    		@RequestParam (defaultValue = "10") Integer sizePage ,@RequestParam (defaultValue = "id") String sortBy) throws NotFoundException{
         
         return new ResponseEntity<>(testimonialService.getPage(page,sizePage,sortBy), HttpStatus.OK);
     }
