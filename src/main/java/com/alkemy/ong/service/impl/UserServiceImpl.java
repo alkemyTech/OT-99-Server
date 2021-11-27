@@ -6,9 +6,11 @@ import com.alkemy.ong.dto.JwtTokenDto;
 import com.alkemy.ong.dto.UserLoginRequest;
 import com.alkemy.ong.dto.UserRegisterRequest;
 import com.alkemy.ong.dto.UserRegisterResponse;
+import com.alkemy.ong.dto.UsersDto;
 import com.alkemy.ong.exception.DataAlreadyExistException;
 import com.alkemy.ong.exception.InvalidCredentialsException;
 import com.alkemy.ong.exception.NotFoundException;
+import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.model.Role;
 import com.alkemy.ong.model.Users;
 import com.alkemy.ong.repository.UserRepository;
@@ -17,6 +19,8 @@ import com.alkemy.ong.service.EmailService;
 import com.alkemy.ong.service.RoleService;
 import com.alkemy.ong.service.UserService;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,6 +51,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+    
+    @Autowired
+    UserMapper userMapper;
 
     @Override
     @Transactional
@@ -111,8 +118,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Users> getAllUsers() {
-        return userRepo.findAll();
+    public List<UsersDto> getAllUsers() {
+    	
+        return userRepo.findAll().stream().map(userMapper::convertToDto).collect(Collectors.toList());
+        
     }
 
     @Override
