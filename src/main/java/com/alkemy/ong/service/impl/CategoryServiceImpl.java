@@ -7,7 +7,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.alkemy.ong.dto.CategoryDto;
-import com.alkemy.ong.dto.CategoryPageDto;
+import com.alkemy.ong.dto.CategoryDtoGetAll;
+import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.exception.DataAlreadyExistException;
 
 import com.alkemy.ong.exception.NotFoundException;
@@ -26,8 +27,12 @@ public class CategoryServiceImpl implements CategoryService {
     CategoryMapper categoryMapper;
 
     @Override
-    public CategoryPageDto getAllCategories(int pageNumber) throws NotFoundException {
-        Pageable page = PageRequest.of(pageNumber, 10);
+    public PageDto<CategoryDtoGetAll> getAllCategories(int pageNumber, int size) throws NotFoundException {
+        if (size <= 0 || pageNumber < 0) {
+            throw new NotFoundException(
+                    "The size must be a positive integer. The page number must be a positive integer or zero.");
+        }
+        Pageable page = PageRequest.of(pageNumber, size);
         Page<Category> resultPage = categoryRepository.findAll(page);
         if (pageNumber + 1 > resultPage.getTotalPages()) {
             throw new NotFoundException("The page of number " + pageNumber + " doesn't exist");
@@ -35,8 +40,8 @@ public class CategoryServiceImpl implements CategoryService {
         return createCategoryPageDto(resultPage);
     }
 
-    private CategoryPageDto createCategoryPageDto(Page<Category> page) {
-        CategoryPageDto dto = new CategoryPageDto();
+    private PageDto<CategoryDtoGetAll> createCategoryPageDto(Page<Category> page) {
+        PageDto<CategoryDtoGetAll> dto = new PageDto<>();
         dto.setList(categoryMapper.toCategoryDtoGetAllList(page.getContent()));
         if (page.hasNext()) {
             dto.setNextPage("/categories?page=" + page.nextPageable().getPageNumber());
@@ -44,6 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (page.hasPrevious()) {
             dto.setPreviusPage("/categories?page=" + page.previousPageable().getPageNumber());
         }
+        dto.setTotalPages(page.getTotalPages());
         return dto;
     }
 

@@ -3,7 +3,8 @@ package com.alkemy.ong.controller;
 import javax.validation.Valid;
 
 import com.alkemy.ong.dto.CategoryDto;
-import com.alkemy.ong.dto.CategoryPageDto;
+import com.alkemy.ong.dto.CategoryDtoGetAll;
+import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.exception.DataAlreadyExistException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.model.Category;
@@ -26,9 +27,10 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 
-	@GetMapping(params = "page")
-	public ResponseEntity<CategoryPageDto> getAllCategories(@RequestParam int page) throws NotFoundException {
-		return new ResponseEntity<>(categoryService.getAllCategories(page), HttpStatus.OK);
+	@GetMapping(params = { "page", "size" })
+	public ResponseEntity<PageDto<CategoryDtoGetAll>> getAllCategories(@RequestParam int page, @RequestParam int size)
+			throws NotFoundException {
+		return new ResponseEntity<>(categoryService.getAllCategories(page, size), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")

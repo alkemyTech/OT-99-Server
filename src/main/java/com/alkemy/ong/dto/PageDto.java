@@ -11,10 +11,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonInclude(Include.NON_NULL)
-public class CategoryPageDto {
+public class PageDto<T> {
 
     private String previusPage;
-    private List<CategoryDtoGetAll> list;
+    private List<T> list;
     private String nextPage;
+    private Integer totalPages;
+    
 
 }

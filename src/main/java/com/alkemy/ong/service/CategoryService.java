@@ -3,14 +3,15 @@ package com.alkemy.ong.service;
 import javax.validation.Valid;
 
 import com.alkemy.ong.dto.CategoryDto;
-import com.alkemy.ong.dto.CategoryPageDto;
+import com.alkemy.ong.dto.CategoryDtoGetAll;
+import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.exception.DataAlreadyExistException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.model.Category;
 
 public interface CategoryService {
 
-   CategoryPageDto getAllCategories(int page) throws NotFoundException;
+   PageDto<CategoryDtoGetAll> getAllCategories(int page, int size) throws NotFoundException;
 
    Category save(@Valid CategoryDto categoryDto) throws DataAlreadyExistException;
 
