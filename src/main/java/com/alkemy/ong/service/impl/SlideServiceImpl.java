@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import com.alkemy.ong.dto.SlideDto;
 
 import com.alkemy.ong.dto.SlideDtoPost;
-import com.alkemy.ong.model.Base64DecodedMultipartFile;
+import com.alkemy.ong.model.Base64MultipartFile;
 import com.alkemy.ong.model.Organization;
 
 import com.alkemy.ong.model.Slide;
@@ -43,7 +43,7 @@ public class SlideServiceImpl implements SlideService {
     @Override
     public Slide create(SlideDtoPost slideDtoPost) {
         Slide slide = slideMapper.dtoToEntity(slideDtoPost);
-        Base64DecodedMultipartFile file = imageService.convert(slide.getImageUrl());
+        Base64MultipartFile file = imageService.convert(slide.getImageUrl());
         String name = UUID.randomUUID().toString();
         String extension = ".jpg";
         file.setName(name + extension);
