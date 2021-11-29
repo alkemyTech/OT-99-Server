@@ -13,8 +13,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.assertj.core.api.Assertions.*;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.junit4.SpringRunner;
 
-@DataJpaTest
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = Application.class)
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
+
 public class CategoryRepositoryTest {
 
     @Autowired
@@ -38,7 +45,6 @@ public class CategoryRepositoryTest {
 //    @AfterEach
 //    public void tearDown() {
 //    }
-
     /**
      * Test of save method, of class CategoryRepository.
      */
@@ -79,12 +85,12 @@ public class CategoryRepositoryTest {
         System.out.println("findById");
 
 //Given
-Category category = new Category();
-category.setCreationDate(LocalDateTime.now());
-category.setName("blabla");
-category.setImage("image");
-category.setDescription("description");
-category.setCreationDate(LocalDateTime.now());
+        Category category = new Category();
+        category.setCreationDate(LocalDateTime.now());
+        category.setName("blabla");
+        category.setImage("image");
+        category.setDescription("description");
+        category.setCreationDate(LocalDateTime.now());
 
 //        Category category = new Category(
 //                1L,
