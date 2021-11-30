@@ -6,11 +6,8 @@ import lombok.Data;
 public class TestimonialDto {
 
 	  	private Long id;
-
 	    private String name;
-
 	    private String image;
-
 	    private String content;
 	    
 	    public TestimonialDto(Long id,String name,String image,String content) {
@@ -19,6 +16,5 @@ public class TestimonialDto {
 	    	this.name=name;
 	    	this.image=image;
 	    	this.content=content;
-	    
 	    }
 }

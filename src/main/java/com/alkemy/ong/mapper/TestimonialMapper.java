@@ -17,74 +17,73 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TestimonialMapper {
-    
-    @Autowired
-    ModelMapper modelMapper;
-    
-    public Testimonial dtoToEntity(TestimonialRequest testimonialRequest) {
-    	
-        Testimonial testimonial = modelMapper.map(testimonialRequest, Testimonial.class);
-       	testimonial.setLastUpdated(Date.from(Instant.now()));
+
+	@Autowired
+	ModelMapper modelMapper;
+
+	public Testimonial dtoToEntity(TestimonialRequest testimonialRequest) {
+
+		Testimonial testimonial = modelMapper.map(testimonialRequest, Testimonial.class);
+		testimonial.setLastUpdated(Date.from(Instant.now()));
 		testimonial.setCreationDate(Date.from(Instant.now()));
-        
-        return testimonial;
-    }
-    
-    public void updateEntity(TestimonialRequest testimonialRequest, Testimonial testimonial) {
-    	
-    	testimonial.setName(testimonialRequest.getName());
-    	updateEntityWithoutName(testimonialRequest, testimonial);
-        
-    }
 
-	
-    public void updateEntityWithoutName(TestimonialRequest testimonialRequest, Testimonial testimonial) {
-		
-    	testimonial.setImage(testimonialRequest.getImage());
-        testimonial.setContent(testimonialRequest.getContent());
-        testimonial.setLastUpdated(Date.from(Instant.now()));
-		
+		return testimonial;
 	}
-    
-    private List<TestimonialDto> toTestimonialDtoList(Page<Testimonial> testimonialPage){
-    	
-    	List<TestimonialDto> testimonialDtos=new ArrayList<>();
-    
-    	if(testimonialPage.hasContent()) {
-    			
-    		testimonialDtos=testimonialPage.getContent().stream().map(testimonial -> { 
-    			
-    			return new TestimonialDto(testimonial.getId(),testimonial.getName(),testimonial.getImage(),testimonial.getContent());
-    			
-    			}).collect(Collectors.toList());
-    	}
-    	
-		return testimonialDtos;
-    	
-    }
-    
-    
-    public PageDto<TestimonialDto> toPageDto(Page<Testimonial> testimonialPage, Integer pageNumber,Integer totalPages){
-	 
-    	PageDto<TestimonialDto> pageDto=new PageDto<>();
-    	
-    	pageDto.setTotalPages(totalPages);
-    	
-		if(testimonialPage.hasNext()) {
-			
-			pageDto.setNextPage("localhost:8080/testimonials?page="+(pageNumber+1));
-		}
-		
-		if(testimonialPage.hasPrevious()) {
-			
-			pageDto.setPreviousPage("localhost:8080/testimonials?page="+(pageNumber-1));
-		}
-		
-    	pageDto.setList(toTestimonialDtoList(testimonialPage));
-    	
-    	return pageDto;
-    	
-    }
 
-	
+	public void updateEntity(TestimonialRequest testimonialRequest, Testimonial testimonial) {
+
+		testimonial.setName(testimonialRequest.getName());
+		updateEntityWithoutName(testimonialRequest, testimonial);
+
+	}
+
+	public void updateEntityWithoutName(TestimonialRequest testimonialRequest, Testimonial testimonial) {
+
+		testimonial.setImage(testimonialRequest.getImage());
+		testimonial.setContent(testimonialRequest.getContent());
+		testimonial.setLastUpdated(Date.from(Instant.now()));
+
+	}
+
+	private List<TestimonialDto> toTestimonialDtoList(Page<Testimonial> testimonialPage) {
+
+		List<TestimonialDto> testimonialDtos = new ArrayList<>();
+
+		if (testimonialPage.hasContent()) {
+
+			testimonialDtos = testimonialPage.getContent().stream().map(testimonial -> {
+
+				return new TestimonialDto(testimonial.getId(), testimonial.getName(), testimonial.getImage(),
+						testimonial.getContent());
+
+			}).collect(Collectors.toList());
+		}
+
+		return testimonialDtos;
+
+	}
+
+	public PageDto<TestimonialDto> toPageDto(Page<Testimonial> testimonialPage, Integer pageNumber,
+			Integer totalPages) {
+
+		PageDto<TestimonialDto> pageDto = new PageDto<>();
+
+		pageDto.setTotalPages(totalPages);
+
+		if (testimonialPage.hasNext()) {
+
+			pageDto.setNextPage("localhost:8080/testimonials?page=" + (pageNumber + 1));
+		}
+
+		if (testimonialPage.hasPrevious()) {
+
+			pageDto.setPreviousPage("localhost:8080/testimonials?page=" + (pageNumber - 1));
+		}
+
+		pageDto.setList(toTestimonialDtoList(testimonialPage));
+
+		return pageDto;
+
+	}
+
 }
