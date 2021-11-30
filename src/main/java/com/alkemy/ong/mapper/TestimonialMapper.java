@@ -4,7 +4,8 @@ import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.dto.TestimonialDto;
 import com.alkemy.ong.dto.TestimonialRequest;
 import com.alkemy.ong.model.Testimonial;
-
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +13,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +23,9 @@ public class TestimonialMapper {
 
 	@Autowired
 	ModelMapper modelMapper;
+	
+	@Autowired
+	private Environment enviroment;
 
 	public Testimonial dtoToEntity(TestimonialRequest testimonialRequest) {
 
@@ -67,17 +73,21 @@ public class TestimonialMapper {
 			Integer totalPages) {
 
 		PageDto<TestimonialDto> pageDto = new PageDto<>();
-
+		
+		String hostName=InetAddress.getLoopbackAddress().getHostName();
+		
+		String portNumber=enviroment.getProperty("local.server.port");
+		
 		pageDto.setTotalPages(totalPages);
 
 		if (testimonialPage.hasNext()) {
 
-			pageDto.setNextPage("localhost:8080/testimonials?page=" + (pageNumber + 1));
+			pageDto.setNextPage(hostName+":"+portNumber+"/testimonials?page=" + (pageNumber + 1));
 		}
 
 		if (testimonialPage.hasPrevious()) {
 
-			pageDto.setPreviousPage("localhost:8080/testimonials?page=" + (pageNumber - 1));
+			pageDto.setPreviousPage(hostName+":"+portNumber+"/testimonials?page=" + (pageNumber - 1));
 		}
 
 		pageDto.setList(toTestimonialDtoList(testimonialPage));
