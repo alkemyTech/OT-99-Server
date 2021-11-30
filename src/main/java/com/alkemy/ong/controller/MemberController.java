@@ -50,7 +50,6 @@ public class MemberController {
                         @RequestParam(defaultValue = "10") Integer pageSize,
                         @RequestParam(defaultValue = "id") String sortBy) 
     throws NotFoundException {
-       // List<Member> list = memberService.getAllMembers(pageNo, pageSize, sortBy);
         return new ResponseEntity<>(memberService.getAllMembers(pageNo, pageSize, sortBy), HttpStatus.OK); 
     }
 
