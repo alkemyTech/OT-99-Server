@@ -74,20 +74,18 @@ public class TestimonialMapper {
 
 		PageDto<TestimonialDto> pageDto = new PageDto<>();
 		
-		String hostName=InetAddress.getLoopbackAddress().getHostName();
-		
-		String portNumber=enviroment.getProperty("local.server.port");
+	
 		
 		pageDto.setTotalPages(totalPages);
 
 		if (testimonialPage.hasNext()) {
 
-			pageDto.setNextPage(hostName+":"+portNumber+"/testimonials?page=" + (pageNumber + 1));
+			pageDto.setNextPage("/testimonials?page=" + (pageNumber + 1));
 		}
 
 		if (testimonialPage.hasPrevious()) {
 
-			pageDto.setPreviousPage(hostName+":"+portNumber+"/testimonials?page=" + (pageNumber - 1));
+			pageDto.setPreviousPage("/testimonials?page=" + (pageNumber - 1));
 		}
 
 		pageDto.setList(toTestimonialDtoList(testimonialPage));
