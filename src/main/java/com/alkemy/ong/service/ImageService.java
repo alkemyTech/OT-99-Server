@@ -1,10 +1,11 @@
 package com.alkemy.ong.service;
 
-import com.alkemy.ong.model.Base64DecodedMultipartFile;
+import com.alkemy.ong.model.Base64MultipartFile;
 
 
 public interface ImageService {
 
-    public String uploadFile(Base64DecodedMultipartFile file);
+    public String uploadFile(Base64MultipartFile file);
+    public Base64MultipartFile convert(String image);
 
 }
