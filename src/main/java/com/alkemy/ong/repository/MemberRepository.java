@@ -11,9 +11,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MemberRepository extends PagingAndSortingRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    Optional<Member> findByName(String name);
-  
+    Optional<Member> findByName(String name);  
 
 }

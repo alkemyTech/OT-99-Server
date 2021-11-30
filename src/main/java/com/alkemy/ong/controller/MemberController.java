@@ -3,6 +3,7 @@ package com.alkemy.ong.controller;
 import javax.validation.Valid;
 
 import com.alkemy.ong.dto.MemberDto;
+import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.exception.DataAlreadyExistException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.model.Member;
@@ -44,14 +45,13 @@ public class MemberController {
     }
 
     @GetMapping("/paging")
-    public ResponseEntity<List<Member>> getAllMembers(
+    public ResponseEntity<PageDto<Member>> getAllMembers(
                         @RequestParam(defaultValue = "0") Integer pageNo, 
                         @RequestParam(defaultValue = "10") Integer pageSize,
                         @RequestParam(defaultValue = "id") String sortBy) 
-    {
-        List<Member> list = memberService.getAllMembers(pageNo, pageSize, sortBy);
- 
-        return new ResponseEntity<List<Member>>(list, new HttpHeaders(), HttpStatus.OK); 
+    throws NotFoundException {
+       // List<Member> list = memberService.getAllMembers(pageNo, pageSize, sortBy);
+        return new ResponseEntity<>(memberService.getAllMembers(pageNo, pageSize, sortBy), HttpStatus.OK); 
     }
 
 

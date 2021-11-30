@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import com.alkemy.ong.dto.PageDto;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -51,7 +52,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberDto updateMember(MemberDto memberDto, Long id) throws NotFoundException {
-        Member member = memberRepository.findById(id).orElseThrow(() -> new NotFoundException("The member don't exists."));
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("The member don't exists."));
         member.setName(memberDto.getName());
         member.setFacebook(memberDto.getFacebook());
         member.setInstagram(memberDto.getInstagram());
@@ -64,23 +66,34 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<Member> findAll() {
-        return (List<Member>) memberRepository.findAll();
+        return memberRepository.findAll();
     }
 
     @Override
-    public List<Member> getAllMembers(Integer pageNo, Integer pageSize, String sortBy) {
-        Pageable paging = PageRequest.of(pageNo, pageSize);
- 
-        Page<Member> pagedResult = memberRepository.findAll(paging);
-         
-        if(pagedResult.hasContent()) {
-            return pagedResult.getContent();
-        } else {
-            return new ArrayList<Member>();
+    public PageDto<Member> getAllMembers(Integer pageNo, Integer pageSize, String sortBy) throws NotFoundException {
+        if (pageSize <= 0 || pageNo < 0) {
+            throw new NotFoundException(
+                    "The size must be a positive integer. The page number must be a positive integer or zero.");
         }
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        Page<Member> pagedResult = memberRepository.findAll(paging);
+        if (pageNo + 1 > pagedResult.getTotalPages()) {
+            throw new NotFoundException("The page of number " + pageNo + " doesn't exist");
+        }
+        return createMemberPageDto(pagedResult);
     }
 
-
+    private PageDto<Member> createMemberPageDto(Page<Member> page) {
+        PageDto<Member> dto = new PageDto<>();
+        dto.setList((page.getContent()));
+        if (page.hasNext()) {
+            dto.setNextPage("/members?page=" + page.nextPageable().getPageNumber());
+        }
+        if (page.hasPrevious()) {
+            dto.setPreviousPage("/members?page=" + page.previousPageable().getPageNumber());
+        }
+        dto.setTotalPages(page.getTotalPages());
+        return dto;
+    }
 
 }
-

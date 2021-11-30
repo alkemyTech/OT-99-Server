@@ -3,6 +3,7 @@ package com.alkemy.ong.service;
 import javax.validation.Valid;
 
 import com.alkemy.ong.dto.MemberDto;
+import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.exception.DataAlreadyExistException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.model.Member;
@@ -19,7 +20,7 @@ public interface MemberService {
 
     public List<Member> findAll();
 
-    List<Member> getAllMembers(Integer pageNo, Integer pageSize, String sortBy);
+    PageDto<Member> getAllMembers(Integer pageNo, Integer pageSize, String sortBy)throws NotFoundException;
 
 }
 
