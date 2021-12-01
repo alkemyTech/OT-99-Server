@@ -42,11 +42,6 @@ public class CommentController {
 		return new ResponseEntity<>("The comment has been deleted", HttpStatus.OK);
 	}
 
-	@GetMapping("/get")
-	public String currentUserName(Authentication authentication) {
-        return authentication.getName();
-    }
-	
 	@PutMapping("/{id}")
 	public ResponseEntity<CommentDto> updateComment(@Valid @RequestBody CommentDto commentDto,@PathVariable Long id) throws NotFoundException {
 		return new ResponseEntity<>(commentService.update(commentDto,id),HttpStatus.OK);
