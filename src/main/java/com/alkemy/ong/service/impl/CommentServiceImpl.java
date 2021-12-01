@@ -1,16 +1,17 @@
 package com.alkemy.ong.service.impl;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import com.alkemy.ong.dto.CommentDtoResponse;
 import com.alkemy.ong.dto.CommentDtoSave;
+import com.alkemy.ong.exception.InvalidCredentialsException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.model.News;
 import com.alkemy.ong.model.Users;
 import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -21,6 +22,8 @@ import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.repository.CommentRepository;
 import com.alkemy.ong.service.CommentService;
+import com.alkemy.ong.service.UserService;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -38,6 +41,9 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private NewsRepository newsRepository;
 
+    @Autowired
+    UserService userService;
+
     @Override
     public List<CommentDto> getAll() {
 
@@ -48,8 +54,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDtoResponse save(CommentDtoSave commentDtoSave) throws NotFoundException {
-        Users users = userRepository.findById(commentDtoSave.getUserId()).orElseThrow(() -> new NotFoundException("User does not exist"));
-        News news = newsRepository.findById(commentDtoSave.getPostId()).orElseThrow(() -> new NotFoundException("Post does not exist"));
+        Users users = userRepository.findById(commentDtoSave.getUserId())
+                .orElseThrow(() -> new NotFoundException("User does not exist"));
+        News news = newsRepository.findById(commentDtoSave.getPostId())
+                .orElseThrow(() -> new NotFoundException("Post does not exist"));
         Comment comment = new Comment();
         comment.setContent(commentDtoSave.getBody());
         comment.setNews(news);
@@ -64,11 +72,25 @@ public class CommentServiceImpl implements CommentService {
             throw new NotFoundException("News does not exist");
         }
         List<Comment> comment = commentRepository.getCommentbyNews(id);
-        List<CommentDtoResponse> commentDto
-                = comment.stream().map(CommentDtoResponse::mapToDto)
-                        .collect(Collectors.toList());
+        List<CommentDtoResponse> commentDto = comment.stream().map(CommentDtoResponse::mapToDto)
+                .collect(Collectors.toList());
         return commentDto;
 
+    }
+
+    @Override
+    public void deleteComment(Long id) throws NotFoundException, InvalidCredentialsException {
+        Comment comment = commentRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("The comment of id:" + id + " wasn't found"));
+        Users user = userService.getUserLogged();
+        if (!user.getRole().getName().equals("ROLE_ADMIN")) {
+            if (user.getEmail() != comment.getUser().getEmail()) {
+                throw new InvalidCredentialsException("You don't have access to this action");
+            }
+        }
+        comment.setUpdateDateTime(LocalDateTime.now());
+        comment.setDeleted(true);
+        commentRepository.save(comment);
     }
 
 }
