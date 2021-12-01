@@ -92,5 +92,12 @@ public class CommentServiceImpl implements CommentService {
         comment.setDeleted(true);
         commentRepository.save(comment);
     }
+    
+	@Override
+	public CommentDto update(CommentDto commentDto, Long id) throws NotFoundException {
+		Comment comment = commentRepository.findById(id).orElseThrow(() -> new NotFoundException("The comment don't exist"));
+		comment.setContent(commentDto.getContent());
+		return CommentMapper.mapToDto(commentRepository.save(comment));
+	}
 
 }

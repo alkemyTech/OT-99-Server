@@ -46,4 +46,10 @@ public class CommentController {
 	public String currentUserName(Authentication authentication) {
         return authentication.getName();
     }
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<CommentDto> updateComment(@Valid @RequestBody CommentDto commentDto,@PathVariable Long id) throws NotFoundException {
+		return new ResponseEntity<>(commentService.update(commentDto,id),HttpStatus.OK);
+	}
+
 }

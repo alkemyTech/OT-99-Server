@@ -21,5 +21,8 @@ public class CommentMapper {
 		return dtos;
 	}
 	
-	
+	public static CommentDto mapToDto(Comment comment){
+		CommentDto commentDto = new CommentDto(comment.getContent());
+		return commentDto;
+	}
 }

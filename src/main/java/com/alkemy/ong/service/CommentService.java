@@ -17,4 +17,7 @@ public interface CommentService {
 	List<CommentDtoResponse> getCommentbyNewsId(Long id) throws NotFoundException;
 
 	void deleteComment(Long id) throws NotFoundException, InvalidCredentialsException;
+	
+	CommentDto update(CommentDto commentDto, Long id) throws NotFoundException;
+        
 }
