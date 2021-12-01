@@ -1,22 +1,14 @@
 package com.alkemy.ong.dto;
 
 import java.util.List;
+import lombok.Data;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
-@JsonInclude(Include.NON_NULL)
+@Data
 public class PageDto<T> {
 
-    private String previusPage;
-    private List<T> list;
-    private String nextPage;
-    private Integer totalPages;
-    
+	private Integer totalPages;
+	private String nextPage;
+	private String previousPage;
+	private List<T> list;
 
 }
