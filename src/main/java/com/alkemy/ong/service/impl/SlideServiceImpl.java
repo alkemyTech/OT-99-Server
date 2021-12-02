@@ -53,6 +53,8 @@ public class SlideServiceImpl implements SlideService {
 
     }
 
+
+
     @Override
     public List<SlideDto> getAllSlides() {
 

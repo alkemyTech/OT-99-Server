@@ -3,6 +3,7 @@ package com.alkemy.ong.controller;
 import com.alkemy.ong.dto.CommentDtoResponse;
 import com.alkemy.ong.dto.NewsDtoPersist;
 import com.alkemy.ong.dto.NewsDto;
+import com.alkemy.ong.dto.NewsPaginable;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.service.CommentService;
 import com.alkemy.ong.service.NewsService;
@@ -54,4 +55,8 @@ public class NewsController {
         return new ResponseEntity<>(commentService.getCommentbyNewsId(id), HttpStatus.OK);
     }
 
+	@GetMapping
+	public ResponseEntity<NewsPaginable> getAllByPage(@RequestParam int page) throws NotFoundException {
+		return new ResponseEntity<>(newsService.getAllByPage(page),HttpStatus.OK);
+	}
 }
