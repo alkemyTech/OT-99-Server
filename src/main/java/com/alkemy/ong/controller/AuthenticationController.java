@@ -4,8 +4,10 @@ import java.io.IOException;
 
 import javax.validation.Valid;
 
+import com.alkemy.ong.dto.JwtTokenDto;
 import com.alkemy.ong.dto.UserLoginRequest;
 import com.alkemy.ong.dto.UserRegisterRequest;
+import com.alkemy.ong.dto.UserRegisterResponse;
 import com.alkemy.ong.exception.DataAlreadyExistException;
 import com.alkemy.ong.exception.InvalidCredentialsException;
 import com.alkemy.ong.exception.NotFoundException;
@@ -29,12 +31,12 @@ public class AuthenticationController {
     UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegisterRequest userReq) throws DataAlreadyExistException, IOException {
+    public ResponseEntity<UserRegisterResponse> registerUser(@Valid @RequestBody UserRegisterRequest userReq) throws DataAlreadyExistException, IOException {
         return new ResponseEntity<>(userService.register(userReq), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> userAuthentication(@Valid @RequestBody UserLoginRequest userReq) throws NotFoundException, InvalidCredentialsException {
+    public ResponseEntity<JwtTokenDto> userAuthentication(@Valid @RequestBody UserLoginRequest userReq) throws NotFoundException, InvalidCredentialsException {
         return new ResponseEntity<>(userService.authenticate(userReq), HttpStatus.OK);
     }
 
