@@ -47,7 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
             dto.setNextPage("/categories?page=" + page.nextPageable().getPageNumber());
         }
         if (page.hasPrevious()) {
-            dto.setPreviusPage("/categories?page=" + page.previousPageable().getPageNumber());
+            dto.setPreviousPage("/categories?page=" + page.previousPageable().getPageNumber());
         }
         dto.setTotalPages(page.getTotalPages());
         return dto;
