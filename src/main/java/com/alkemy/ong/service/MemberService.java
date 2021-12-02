@@ -3,6 +3,7 @@ package com.alkemy.ong.service;
 import javax.validation.Valid;
 
 import com.alkemy.ong.dto.MemberDto;
+import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.exception.DataAlreadyExistException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.model.Member;
@@ -13,8 +14,6 @@ import java.util.Optional;
 public interface MemberService {
 
     Optional<Long> deleteMember(Long id) throws NotFoundException;
-
-    //Optional<Long> save(@Valid MemberDto mDto) throws DataAlreadyExistException;
 
     public MemberDto updateMember(MemberDto memberDto, Long id) throws NotFoundException;
 
@@ -27,8 +26,7 @@ public interface MemberService {
 
     Member save(@Valid MemberDto mDto) throws DataAlreadyExistException;
 
-    Object save(Member memberMock4WithOutName);
-
+    PageDto<Member> getAllMembers(Integer pageNo, Integer pageSize, String sortBy)throws NotFoundException;
 
 }
 

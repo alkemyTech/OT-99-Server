@@ -29,7 +29,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     String[] publicEndpoint = {
         "/auth/register",
-        "/auth/login"};
+        "/auth/login"
+    };
 
  
 
@@ -42,7 +43,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         "/news/{id}",
         "/testimonials/{id}",
         "/auth/login", 
-        "/auth/me"
+        "/auth/me",
+        "/comments/{id}"
     };
 
     private static final String[] SWAGGER = {
@@ -68,7 +70,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         "/slides/**",
         "/slides/{id}",
         "/comments/**",
-        "/comments", 
+        "/comments",
         "/members/**",
         "/members/{id}",
         "/contacts",
