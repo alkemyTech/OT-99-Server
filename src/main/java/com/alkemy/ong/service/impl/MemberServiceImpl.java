@@ -2,6 +2,7 @@ package com.alkemy.ong.service.impl;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -25,13 +26,17 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     MemberMapper memberMapper;
 
-    @Override
-    public void deleteMember(Long id) throws NotFoundException {
+    public MemberServiceImpl(MemberRepository memberRepositoryMock) {
+	}
+
+	@Override
+    public Optional<Long> deleteMember(Long id) throws NotFoundException {
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("The member of id:" + id + " was not found."));
         member.setDeletedDate(LocalDate.now());
         member.setDeleted(true);
         memberRepository.save(member);
+        return null;
     }
 
     @Override
@@ -61,6 +66,27 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public List<Member> findAll() {
         return memberRepository.findAll();
+    }
+
+
+
+    @Override
+    public Optional<Member> updateMember(Long id, String name, String facebook, String instagram, String linkedin,
+            String image, String description) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Member> getMembers() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Object save(Member memberMock4WithOutName) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
 
