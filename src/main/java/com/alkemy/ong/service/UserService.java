@@ -3,9 +3,9 @@ package com.alkemy.ong.service;
 import com.alkemy.ong.dto.JwtTokenDto;
 import com.alkemy.ong.dto.UserLoginRequest;
 import java.io.IOException;
-
 import com.alkemy.ong.dto.UserRegisterRequest;
 import com.alkemy.ong.dto.UserRegisterResponse;
+import com.alkemy.ong.dto.UsersDto;
 import com.alkemy.ong.exception.DataAlreadyExistException;
 import com.alkemy.ong.exception.InvalidCredentialsException;
 import com.alkemy.ong.exception.NotFoundException;
@@ -21,7 +21,7 @@ public interface UserService {
     void delete(Long id) throws NotFoundException;
     JwtTokenDto authenticate(UserLoginRequest userReq) throws NotFoundException, InvalidCredentialsException;
 
-    List<Users> getAllUsers();
+    List<UsersDto> getAllUsers();
 
     UserRegisterResponse upgradeUser(Long id, UserRegisterRequest user) throws NotFoundException;
 
