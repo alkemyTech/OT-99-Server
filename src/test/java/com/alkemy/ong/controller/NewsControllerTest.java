@@ -114,6 +114,7 @@ public class NewsControllerTest {
         Mockito.when(newsService.save(newsDtoPersist)).thenReturn(newsDto);
         
     }
+    
 
     @Test
     @WithAnonymousUser
