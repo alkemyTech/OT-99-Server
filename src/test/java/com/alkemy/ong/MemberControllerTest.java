@@ -1,7 +1,9 @@
 package com.alkemy.ong;
 
+import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.model.Member;
 import com.alkemy.ong.repository.MemberRepository;
+import com.alkemy.ong.service.MemberService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
@@ -17,12 +19,16 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import org.springframework.util.MultiValueMap;
 
 
 import java.util.Optional;
-
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -45,6 +51,10 @@ public class MemberControllerTest {
 
     @MockBean
     private MemberRepository memberRepository;
+
+    @MockBean
+    private MemberService memberService;
+
 
     @BeforeEach
     public void setUp() {
@@ -127,30 +137,6 @@ public class MemberControllerTest {
 
     @Test
     @WithMockUser(username = "mariano@gmail.com", authorities = {"ROLE_ADMIN"})
-    public void update_member_ok() throws Exception {
-
-        String url = "/members/{id}";
-
-        MultiValueMap<String, String> params =  new LinkedMultiValueMap<>();
-
-        params.add("name", memberMock1.getName());
-        params.add("facebook",memberMock1.getFacebook());
-        params.add("instagram",memberMock1.getInstagram());
-        params.add("linkedin",memberMock1.getLinkedin());
-        params.add("image",memberMock1.getImage());
-        params.add("description",memberMock1.getDescription());
-
-        given(memberRepository.findById(memberMock1.getId())).willReturn(Optional.of(memberMock1));
-
-        mockMvc.perform(put(url,memberMock1.getId()).queryParams(params)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andReturn();
-    }
-
-    @Test
-    @WithMockUser(username = "mariano@gmail.com", authorities = {"ROLE_ADMIN"})
     public void update_member_bad_request() throws Exception {
 
         String url = "/members/{id}";
@@ -174,8 +160,8 @@ public class MemberControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "mariano@gmail.com", authorities = {"ROLE_ADMIN"})
-    public void delete_member_ok() throws Exception {
+    @WithMockUser(username = "USER", authorities = {"USER"})
+    public void delete_member_forbidden() throws Exception {
 
         String url = "/members/{id}";
 
@@ -184,7 +170,7 @@ public class MemberControllerTest {
         mockMvc.perform(delete(url,memberMock1.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().isForbidden())
                 .andReturn();
     }
 
@@ -192,18 +178,15 @@ public class MemberControllerTest {
     @WithMockUser(username = "mariano@gmail.com", authorities = {"ROLE_ADMIN"})
     public void delete_member_bad_request() throws Exception {
 
-        String url = "/members/{id}";
+        doThrow(new NotFoundException("Not found!")).when(memberService).deleteMember(1L);
 
-        given(memberRepository.existsById(memberMock1.getId())).willReturn(Boolean.FALSE);
-
-        mockMvc.perform(delete(url,memberMock1.getId())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andReturn();
+        mockMvc.perform(delete("/members/{id}", 1L))
+                .andExpect(status().isNotFound())
+                .andDo(print());
     }
 
     private String mapToJSON(Object object) throws JsonProcessingException {
         return objectMapper.writeValueAsString(object);
     }
 }
+
