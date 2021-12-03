@@ -5,20 +5,14 @@ import com.alkemy.ong.dto.ActivityRequest;
 import com.alkemy.ong.exception.DataAlreadyExistException;
 import com.alkemy.ong.model.Activity;
 import com.alkemy.ong.service.ActivityService;
-import com.amazonaws.services.codebuild.model.SourceType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
-import org.assertj.core.api.Assert;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -31,143 +25,175 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import lombok.extern.slf4j.Slf4j;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import javax.validation.constraints.AssertTrue;
+import javax.persistence.EntityNotFoundException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
-@Slf4j
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 public class ActivityControllerTests {
 
-    Logger logger = LoggerFactory.getLogger(ActivityControllerTests.class);
+        @InjectMocks
+        ActivityController activityController;
+        
+        @MockBean
+        ActivityService activityService;
 
-    @InjectMocks
-    ActivityController activityController;
+        @Autowired
+        ObjectMapper mapper;
 
-    @Autowired
-    WebApplicationContext context;
+        @Autowired
+        WebApplicationContext context;
 
-    @Autowired
-    ObjectMapper mapper;
+        private MockMvc mockMvc;
+        
+        private Activity response;
 
-    private MockMvc mockMvc;
-    private Activity response;
-    private ActivityRequest request;
-    private String jsonActivity;
+        private ActivityRequest request;
 
-    @MockBean
-    ActivityService activityService;
+        @BeforeEach
+        void setUp() throws Exception {
 
-    ObjectMapper objectMapper;
+                mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
 
-    @BeforeEach
-    void setUp() throws Exception {
-        mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+                this.request = new ActivityRequest();
+                request.setContent("La actividad se desarrollo con normalidad");
+                request.setImage("com/imgres?imgurl=ht");
+                request.setName("Primera actividad");
+                request.setUpdateDateTime(null);
 
-        this.request = new ActivityRequest();
-        request.setContent("La actividad se desarrollo con normalidad");
-        request.setImage("com/imgres?imgurl=ht");
-        request.setName("Primera actividad");
-        request.setUpdateDateTime(null);
+                this.response = new Activity();
+                response.setContent("La actividad se desarrollo con normalidad");
+                response.setDeleted(false);
+                response.setId(1L);
+                response.setImage("com/imgres?imgurl=ht");
+                response.setName("Primera actividad");
+                response.setUpdateDateTime(null);
 
-        this.response = new Activity();
-        response.setContent("La actividad se desarrollo con normalidad");
-        response.setDeleted(false);
-        response.setId(1L);
-        response.setImage("com/imgres?imgurl=ht");
-        response.setName("Primera actividad");
-        response.setUpdateDateTime(null);
+        }
 
-        this.jsonActivity = "{\"name\":\"Primera Actividad\",\"content\":\"La actividad se desarrollo con normalidad\",\"image\":\"com/imgres?imgurl=ht\",\"updateDateTime\":null}";
+        @Test
+        @WithMockUser(username = "admin", roles = { "ADMIN" })
+        public void createActivity_Success() throws Exception {
 
-    }
+                Mockito.when(activityService.save(request)).thenReturn(response);
 
-    @Test
-    @WithMockUser(username = "admin", roles = { "ADMIN" })
-    public void createActivity_Success() throws Exception {
+                String requestJson = mapper.writeValueAsString(request);
 
-        Mockito.when(activityService.save(request)).thenReturn(response);
-        String requestJson = mapper.writeValueAsString(request);
+                MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/activities")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content(requestJson);
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/activities")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(requestJson);
+                mockMvc.perform(mockRequest)
+                                .andExpect(MockMvcResultMatchers.status().isCreated())
+                                .andExpect(jsonPath("$.name", CoreMatchers.is(response.getName())))
+                                .andExpect(jsonPath("$.content", CoreMatchers.is(response.getContent())))
+                                .andExpect(jsonPath("$.image", CoreMatchers.is(response.getImage())))
+                                .andExpect(jsonPath("$.updateDateTime", CoreMatchers.is(response.getCreateDateTime())));
 
-        mockMvc.perform(mockRequest)
-                .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(jsonPath("$.name", CoreMatchers.is(response.getName())))
-                .andExpect(jsonPath("$.content", CoreMatchers.is(response.getContent())))
-                .andExpect(jsonPath("$.image", CoreMatchers.is(response.getImage())))
-                .andExpect(jsonPath("$.updateDateTime", CoreMatchers.is(response.getCreateDateTime())));
+        }
 
-    }
+        @Test
+        @WithMockUser(username = "user", roles = { "USER" })
+        public void createActivity_WrongRole() throws Exception {
 
-    @Test
-    @WithMockUser(username = "user", roles = { "USER" })
-    public void createActivity_WrongRole() throws Exception {
+                Mockito.when(activityService.save(request)).thenReturn(response);
 
-        Mockito.when(activityService.save(request)).thenReturn(response);
-        String requestJson = mapper.writeValueAsString(request);
+                String requestJson = mapper.writeValueAsString(request);
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/activities")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(requestJson);
+                MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/activities")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content(requestJson);
 
-        mockMvc.perform(mockRequest)
-                .andExpect(MockMvcResultMatchers.status().isForbidden()).andExpect(jsonPath("$").doesNotExist());
+                mockMvc.perform(mockRequest)
+                                .andExpect(MockMvcResultMatchers.status().isForbidden())
+                                .andExpect(jsonPath("$").doesNotExist());
 
-    }
+        }
 
-    @Test
-    @WithMockUser(username = "admin", roles = { "ADMIN" })
-    public void createActivity_dataAlreadyExist() throws Exception {
+        @Test
+        @WithMockUser(username = "admin", roles = { "ADMIN" })
+        public void createActivity_dataAlreadyExist() throws Exception {
 
-        Mockito.when(activityService.save(request)).thenThrow(new DataAlreadyExistException("Wrong! the Activity already exist!."));
-        String requestJson = mapper.writeValueAsString(request);
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/activities")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(requestJson);
-        mockMvc.perform(mockRequest)
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(result ->new AssertTrue(result.getResolvedException() instanceof DataAlreadyExistException))
-		.andExpect(result -> assertEquals("The user is not registered.", result.getResolvedException().getMessage()));
-;
-    }
+                Mockito.when(activityService.save(request))
+                                .thenThrow(new DataAlreadyExistException("Wrong! the Activity already exist!."));
+
+                String requestJson = mapper.writeValueAsString(request);
+
+                MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/activities")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content(requestJson);
+
+                mockMvc.perform(mockRequest)
+                                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                                .andExpect(result -> assertTrue(result.getResolvedException() instanceof DataAlreadyExistException))
+                                .andExpect(result -> assertEquals("Wrong! the Activity already exist!.", result.getResolvedException().getMessage()));
+        }
+
+        @Test
+        @WithMockUser(username = "admin", roles = { "ADMIN" })
+        public void updateActivity_Success() throws Exception {
+
+                Mockito.when(activityService.updateActivity(1L, request)).thenReturn(response);
+
+                String requestJson = mapper.writeValueAsString(request);
+
+                MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/activities/{id}", 1L)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content(requestJson);
+
+                mockMvc.perform(mockRequest)
+                                .andExpect(MockMvcResultMatchers.status().isOk())
+                                .andExpect(jsonPath("$.name", CoreMatchers.is(response.getName())))
+                                .andExpect(jsonPath("$.content", CoreMatchers.is(response.getContent())))
+                                .andExpect(jsonPath("$.image", CoreMatchers.is(response.getImage())))
+                                .andExpect(jsonPath("$.updateDateTime", CoreMatchers.is(response.getCreateDateTime())));
+        }
+
+        @Test
+        @WithMockUser(username = "admin", roles = { "ADMIN" })
+        public void updateActivity_NotFound() throws Exception {
+
+                Mockito.when(activityService.updateActivity(1L, request)).thenThrow(new EntityNotFoundException());
+
+                String requestJson = mapper.writeValueAsString(request);
+
+                MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/activities/{id}", 1L)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content(requestJson);
+
+                mockMvc.perform(mockRequest)
+                                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                                .andExpect(result -> assertTrue(result.getResolvedException() instanceof EntityNotFoundException))
+                                .andExpect(result -> assertEquals(null, result.getResolvedException().getMessage()));
+
+        }
+
+        @Test
+        @WithMockUser(username = "admin", roles = { "ADMIN" })
+        public void updateActivity_WrongInput() throws Exception {
+
+                String requestJson = "";
+
+                MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/activities/{id}", 1L)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content(requestJson);
+
+                mockMvc.perform(mockRequest)
+                                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+        }
+
 }
-
-
-    /*
-     * 
-     * 
-     * @Test
-     * 
-     * @WithMockUser(username = "admin", roles = { "ADMIN" })
-     * public void validCreateRequest() throws Exception {
-     * Mockito.when(activityService.save(request)).thenReturn(response);
-     * MockHttpServletRequestBuilder mockRequest =
-     * MockMvcRequestBuilders.post("/activities")
-     * .contentType(MediaType.APPLICATION_JSON)
-     * .accept(MediaType.APPLICATION_JSON)
-     * .content(jsonActivity);
-     * 
-     * mockMvc.perform(mockRequest)
-     * .andExpect(status().isCreated())
-     * .andExpect(jsonPath("$.name", CoreMatchers.is(response.getName())))
-     * .andExpect(jsonPath("$.content", CoreMatchers.is(response.getContent())))
-     * .andExpect(jsonPath("$.image", CoreMatchers.is(response.getImage())))
-     * .andExpect(jsonPath("$.updateDateTime",
-     * CoreMatchers.is(response.getCreateDateTime())));
-     * 
-     * 
-     * }
-     */
-
