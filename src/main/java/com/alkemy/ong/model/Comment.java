@@ -10,12 +10,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Where;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
+@Where(clause = "is_deleted=false")
 public class Comment {
 
     @Id
@@ -34,5 +38,9 @@ public class Comment {
     private News news;
     
     private LocalDateTime creationDate;
+
+    private LocalDateTime updateDateTime;
+
+    private boolean isDeleted = Boolean.FALSE;
 
 }
