@@ -82,7 +82,6 @@ public class NewsControllerTest {
 
     private static News news;
     private static NewsDto newsDto;
-    private static NewsDto badNewsDto;
     private static NewsDtoPersist newsDtoPersist;
     private static News news2;
     private static NewsDto newsDto2;
