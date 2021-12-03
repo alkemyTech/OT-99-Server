@@ -87,10 +87,6 @@ public class NewsControllerTest {
     private static News news2;
     private static NewsDto newsDto2;
 
-    private ResultActions andDo;
-
-    private ResultActions andDo2;
-
     @BeforeEach
     void setUp() throws Exception {
         mockMvc = MockMvcBuilders.
