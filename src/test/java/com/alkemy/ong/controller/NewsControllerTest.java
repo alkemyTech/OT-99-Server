@@ -159,7 +159,6 @@ public class NewsControllerTest {
                 .andExpect(status().isForbidden());
     }
 
-
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void testUpdate() throws Exception{
