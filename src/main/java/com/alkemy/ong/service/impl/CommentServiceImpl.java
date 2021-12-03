@@ -83,10 +83,8 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("The comment of id:" + id + " wasn't found"));
         Users user = userService.getUserLogged();
-        if (!user.getRole().getName().equals("ROLE_ADMIN")) {
-            if (user.getEmail() != comment.getUser().getEmail()) {
-                throw new InvalidCredentialsException("You don't have access to this action");
-            }
+        if (!user.getRole().getName().equals("ROLE_ADMIN") && user.getEmail() != comment.getUser().getEmail()) {        
+                throw new InvalidCredentialsException("You don't have access to this action"); 
         }
         comment.setUpdateDateTime(LocalDateTime.now());
         comment.setDeleted(true);
