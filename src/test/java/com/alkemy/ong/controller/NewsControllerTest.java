@@ -55,7 +55,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 
-
 public class NewsControllerTest {
 
     @Autowired
@@ -128,8 +127,6 @@ public class NewsControllerTest {
                 .contentType(TEXT_PLAIN))
                 .andExpect(status().isForbidden())
                 .andDo(print());
-
-
     }
 
     @Test
@@ -160,9 +157,8 @@ public class NewsControllerTest {
         mockMvc.perform(post("/news")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
-}
+    }
 
-    
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
